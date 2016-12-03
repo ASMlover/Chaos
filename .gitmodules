@@ -1,0 +1,3 @@
+[submodule "Tools/Surtr"]
+  path = Tools/Surtr
+  url = https://github.com/ASMlover/Surtr.git

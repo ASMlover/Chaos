@@ -112,7 +112,7 @@ inline int kern_thread_atfork(void (*prepare)(void), void (*parent)(void), void 
 // Windows thread local methods wrapper
 typedef DWORD _Tls_t;
 
-inline int kern_tls_create(_Tls_t* tls, void (*destructor)(void)) {
+inline int kern_tls_create(_Tls_t* tls, void (*destructor)(void*)) {
   return *tls = FlsAlloc((PFLS_CALLBACK_FUNCTION)destructor), 0;
 }
 

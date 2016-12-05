@@ -77,7 +77,7 @@ inline int kern_thread_atfork(void (*prepare)(void), void (*parent)(void), void 
 // Posix thread local methods wrapper
 typedef pthread_key_t _Tls_t;
 
-inline int kern_tls_create(_Tls_t* tls, void (*destructor)(void)) {
+inline int kern_tls_create(_Tls_t* tls, void (*destructor)(void*)) {
   return pthread_key_create(tls, destructor);
 }
 

@@ -145,7 +145,7 @@ _Exit:
   return result;
 }
 
-static BOOL CALLBACK kern_once_callback(PINIT_ONCE /*once_control*/, PVOID* arg, PVOID* /*context*/) {
+static BOOL CALLBACK kern_once_callback(PINIT_ONCE /*once_control*/, PVOID arg, PVOID* /*context*/) {
   typedef void (*_InitCallback)(void);
   _InitCallback init_routine = (_InitCallback)arg;
 

@@ -145,4 +145,18 @@ _Exit:
   return result;
 }
 
+static BOOL CALLBACK kern_once_callback(PINIT_ONCE /*once_control*/, PVOID* arg, PVOID* /*context*/) {
+  typedef void (*_InitCallback)(void);
+  _InitCallback init_routine = (_InitCallback)arg;
+
+  if (nullptr != init_routine)
+    init_routine();
+
+  return TRUE;
+}
+
+int kern_once(_Once_t* once_control, void (*init_routine)(void)) {
+  return TRUE == InitOnceExecuteOnce(once_control, kern_once_callback, (PVOID)init_routine, nullptr);
+}
+
 }

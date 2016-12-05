@@ -93,6 +93,14 @@ inline void* kern_tls_getspecific(_Tls_t tls) {
   return pthread_getspecific(tls);
 }
 
+// Posix init once methods wrapper
+typedef pthread_once_t _Once_t;
+const _Once_t kInitOnceValue = PTHREAD_ONCE_INIT;
+
+inline int kern_once(_Once_t* once_control, void (*init_routine)(void)) {
+  return pthread_once(once_control, init_routine);
+}
+
 }
 
 #endif // CHAOS_OS_POSIX_OS_H

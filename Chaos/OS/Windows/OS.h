@@ -128,6 +128,12 @@ inline void* kern_tls_getspecific(_Tls_t tls) {
   return FlsGetValue(tls);
 }
 
+// Windows execute once methods wrapper
+typedef INIT_ONCE _Once_t;
+const _Once_t kInitOnceValue = INIT_ONCE_STATIC_INIT;
+
+int kern_once(_Once_t* once_control, void (*init_routine)(void));
+
 }
 
 #endif // CHAOS_OS_WINDOWS_OS_H

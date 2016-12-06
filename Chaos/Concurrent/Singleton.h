@@ -28,6 +28,10 @@
 #define CHAOS_CONCURRENT_SINGLETON_H
 
 #include <stdlib.h>
+#include <Chaos/Platform.h>
+#if defined(CHAOS_IMPL_WITH_STD)
+# include <mutex>
+#endif
 #include <Chaos/Types.h>
 #include <Chaos/OS/OS.h>
 
@@ -49,10 +53,23 @@ class Singleton : private UnCopyable {
 public:
   static Object& get_instance(void) {
     Chaos::kern_once(&once_, &Singleton::init_routine);
-    CHAOS_CHECK(nullptr != value_, "singleton init must be success");
+    CHAOS_CHECK(nullptr != value_, "Singleton(default) init must be success");
 
     return *value_;
   }
+
+#if defined(CHAOS_IMPL_WITH_STD)
+  template <typename... Args>
+  static Object& get_instance(Args&&... args) {
+    static std::once_flag s_once;
+    std::call_once(s_once, [](Args&&... args) {
+          value_ = new Object(std::forward<Args>(args)...);
+        }, std::forward<Args>(args)...);
+    CHAOS_CHECK(nullptr != value_, "Singleton(Args...) init must be success");
+
+    return *value_;
+  }
+#endif
 private:
   Singleton(void) = delete;
   ~Singleton(void) = delete;

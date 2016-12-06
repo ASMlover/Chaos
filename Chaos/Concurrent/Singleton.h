@@ -64,6 +64,8 @@ public:
     static std::once_flag s_once;
     std::call_once(s_once, [](Args&&... args) {
           value_ = new Object(std::forward<Args>(args)...);
+          if (!Unexposed::has_no_destroy<Object>::value)
+            atexit(destroy_routine);
         }, std::forward<Args>(args)...);
     CHAOS_CHECK(nullptr != value_, "Singleton(Args...) init must be success");
 

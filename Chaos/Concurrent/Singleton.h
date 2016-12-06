@@ -42,12 +42,12 @@ namespace Unexposed {
   };
 }
 
-template <typename T>
+template <typename Object>
 class Singleton : private UnCopyable {
   static Chaos::_Once_t once_;
-  static T* value_;
+  static Object* value_;
 public:
-  static T& get_instance(void) {
+  static Object& get_instance(void) {
     Chaos::kern_once(&once_, &Singleton::init_routine);
     CHAOS_CHECK(nullptr != value_, "singleton init must be success");
 
@@ -58,24 +58,24 @@ private:
   ~Singleton(void) = delete;
 
   static void init_routine(void) {
-    value_ = new T();
-    if (!Unexposed::has_no_destroy<T>::value)
+    value_ = new Object();
+    if (!Unexposed::has_no_destroy<Object>::value)
       atexit(destroy_routine);
   }
 
   static void destroy_routine(void) {
-    static_assert(sizeof(T) != 0, "size of `T` must not be zero");
+    static_assert(sizeof(Object) != 0, "size of `Object` must not be zero");
 
     delete value_;
     value_ = nullptr;
   }
 };
 
-template <typename T>
-Chaos::_Once_t Singleton<T>::once_ = Chaos::kInitOnceValue;
+template <typename Object>
+Chaos::_Once_t Singleton<Object>::once_ = Chaos::kInitOnceValue;
 
-template <typename T>
-T* Singleton<T>::value_ = nullptr;
+template <typename Object>
+Object* Singleton<Object>::value_ = nullptr;
 
 }
 

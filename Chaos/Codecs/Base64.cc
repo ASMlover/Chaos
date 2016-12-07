@@ -55,8 +55,8 @@ namespace Base64 {
       }
       else {
         r.push_back(kEncode64[(b[i] & 0x03) << 4]);
-        r.push_back('=');
-        r.push_back('=');
+        r.append("==");
+        break;
       }
 
       if (i + 2 < n) {
@@ -65,6 +65,7 @@ namespace Base64 {
       else {
         r.push_back(kEncode64[(b[i + 1] & 0x0f) << 2]);
         r.push_back('=');
+        break;
       }
     }
 

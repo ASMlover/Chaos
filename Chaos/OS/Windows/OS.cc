@@ -29,7 +29,7 @@
 #include <process.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <memory>
+#include <Chaos/Utility/Memory.h>
 #include <Chaos/OS/Windows/OS.h>
 
 namespace Chaos {
@@ -106,7 +106,7 @@ int kern_backtrace(std::string& bt) {
 }
 
 static UINT WINAPI kern_thread_start_routine(void* arg) {
-  std::unique_ptr<_ThreadBinder_t> params(static_cast<_ThreadBinder_t*>(arg));
+  std::unique_ptr<_ThreadBinder_t> params = Chaos::to_unique(arg);
   if (!params)
     return 0;
 
@@ -123,7 +123,7 @@ int kern_thread_create(_Thread_t* thread, void* (*start_routine)(void*), void* a
     return -1;
 
   int result = -1;
-  std::unique_ptr<_ThreadBinder_t> params(new _ThreadBinder_t);
+  std::unique_ptr<_ThreadBinder_t> params = Chaos::make_unique<_ThreadBinder_t>();
   if (!params)
     goto _Exit;
   params->thread = thread;

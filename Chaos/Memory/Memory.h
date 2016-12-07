@@ -65,11 +65,11 @@ class ScopedPtr : private UnCopyable {
 public:
   ScopedPtr(void) = default;
 
-  explicit ScopedPtr(T* p = nullptr)
+  explicit ScopedPtr(T* p = nullptr) noexcept
     : px_(p) {
   }
 
-  ScopedPtr(std::nullptr_t)
+  ScopedPtr(std::nullptr_t) noexcept
     : px_(nullptr) {
   }
 
@@ -78,17 +78,17 @@ public:
       delete px_;
   }
 
-  ScopedPtr(ScopedPtr&& r)
+  ScopedPtr(ScopedPtr&& r) noexcept
     : px_(r.px_) {
     r.px_ = nullptr;
   }
 
-  ScopedPtr& operator=(std::nullptr_t) {
+  ScopedPtr& operator=(std::nullptr_t) noexcept {
     reset();
     return *this;
   }
 
-  ScopedPtr& operator=(ScopedPtr&& r) {
+  ScopedPtr& operator=(ScopedPtr&& r) noexcept {
     if (&r != this) {
       if (nullptr != px_)
         delete px_;
@@ -118,7 +118,7 @@ public:
     SelfType(p).swap(*this);
   }
 
-  void swap(ScopedPtr& r) {
+  void swap(ScopedPtr& r) noexcept {
     std::swap(px_, r.px_);
   }
 };
@@ -151,11 +151,11 @@ class ScopedArray : private UnCopyable {
 public:
   ScopedArray(void) = default;
 
-  ScopedArray(std::nullptr_t)
+  ScopedArray(std::nullptr_t) noexcept
     : px_(nullptr) {
   }
 
-  explicit ScopedArray(T* p = nullptr)
+  explicit ScopedArray(T* p = nullptr) noexcept
     : px_(p) {
   }
 
@@ -164,17 +164,17 @@ public:
       delete [] px_;
   }
 
-  ScopedArray(ScopedArray&& r)
+  ScopedArray(ScopedArray&& r) noexcept
     : px_(r.px_) {
     r.px_ = nullptr;
   }
 
-  ScopedArray& operator=(std::nullptr_t) {
+  ScopedArray& operator=(std::nullptr_t) noexcept {
     reset();
     return *this;
   }
 
-  ScopedArray& operator=(ScopedArray&& r) {
+  ScopedArray& operator=(ScopedArray&& r) noexcept {
     if (&r != this) {
       if (nullptr != px_)
         delete [] px_;
@@ -200,7 +200,7 @@ public:
     SelfType(p).swap(*this)
   }
 
-  void swap(ScopedArray& r) {
+  void swap(ScopedArray& r) noexcept {
     std::swap(px_, r.px_);
   }
 };
@@ -269,7 +269,7 @@ public:
     , pn_(r.pn_) {
   }
 
-  SharedPtr(SharedPtr&& r)
+  SharedPtr(SharedPtr&& r) noexcept
     : px_(r.px_)
     , pn_() {
     pn_.swap(r.pn_);
@@ -283,7 +283,7 @@ public:
   }
 
   template <typename Y>
-  SharedPtr(SharedPtr<Y>&& r)
+  SharedPtr(SharedPtr<Y>&& r) noexcept
     : px_(r.px_)
     , pn_() {
     pn_.swap(r.pn_);
@@ -295,7 +295,7 @@ public:
     return *this;
   }
 
-  SharedPtr& operator=(SharedPtr&& r) {
+  SharedPtr& operator=(SharedPtr&& r) noexcept {
     SelfType(static_cast<SharedPtr&&>(r)).swap(*this);
     return *this;
   }
@@ -307,7 +307,7 @@ public:
   }
 
   template <typename Y>
-  SharedPtr& operator=(SharedPtr<Y>&& r) {
+  SharedPtr& operator=(SharedPtr<Y>&& r) noexcept {
     SelfType(static_cast<SharedPtr<Y>&&>(r)).swap(*this);
     return *this;
   }
@@ -317,12 +317,12 @@ public:
     return *this;
   }
 
-  void swap(SharedPtr& r) {
+  void swap(SharedPtr& r) noexcept {
     std::swap(px_, r.px_);
     pn_.swap(r.pn_);
   }
 
-  void reset(void) {
+  void reset(void) noexcept {
     SelfType().swap(*this);
   }
 
@@ -459,14 +459,14 @@ public:
     , pn_(r.pn_) {
   }
 
-  WeakPtr(WeakPtr&& r)
+  WeakPtr(WeakPtr&& r) noexcept
     : px_(r.px_)
     , pn_(std::move(r.pn_)) {
     r.px_ = nullptr;
   }
 
   template <typename Y>
-  WeakPtr(WeakPtr<Y>&& r)
+  WeakPtr(WeakPtr<Y>&& r) noexcept
     : px_(r.px_)
     , pn_(std::move(r.pn_)) {
     r.px_ = nullptr;
@@ -485,13 +485,13 @@ public:
     return *this;
   }
 
-  WeakPtr& operator=(WeakPtr&& r) {
+  WeakPtr& operator=(WeakPtr&& r) noexcept {
     SelfType(static_cast<WeakPtr&&>(r)).swap(*this);
     return *this;
   }
 
   template <typename Y>
-  WeakPtr& operator=(WeakPtr<Y>&& r) {
+  WeakPtr& operator=(WeakPtr<Y>&& r) noexcept {
     SelfType(static_cast<WeakPtr<Y>&&>(r)).swap(*this);
     return *this;
   }
@@ -507,12 +507,11 @@ public:
     return SharedPtr<T>(*this);
   }
 
-  void reset(void) {
+  void reset(void) noexcept {
     SelfType().swap(*this);
-    return *this;
   }
 
-  void swap(WeakPtr& r) {
+  void swap(WeakPtr& r) noexcept {
     std::swap(px_, r.px_);
     pn_.swap(r.pn_);
   }
@@ -552,7 +551,7 @@ public:
   SharedArray(void) = default;
   ~SharedArray(void) = default;
 
-  SharedArray(std::nullptr_t) {
+  SharedArray(std::nullptr_t) noexcept {
   }
 
   template <typename Y>
@@ -578,7 +577,7 @@ public:
     , pn_(r.pn_) {
   }
 
-  SharedArray(SharedArray&& r)
+  SharedArray(SharedArray&& r) noexcept
     : px_(r.px_)
     , pn_() {
     pn_.swap(r.pn_);
@@ -586,7 +585,7 @@ public:
   }
 
   template <typename Y>
-  SharedArray(SharedArray<Y>&& r)
+  SharedArray(SharedArray<Y>&& r) noexcept
     : px_(r.px_)
     , pn_() {
     pn_.swap(r.pn_);
@@ -604,23 +603,23 @@ public:
     return *this;
   }
 
-  SharedArray& operator=(SharedArray&& r) {
+  SharedArray& operator=(SharedArray&& r) noexcept {
     SelfType(static_cast<SharedArray&&>(r)).swap(*this);
     return *this;
   }
 
   template <typename Y>
-  SharedArray& operator=(SharedArray<Y>&& r) {
+  SharedArray& operator=(SharedArray<Y>&& r) noexcept {
     SelfType(static_cast<SharedArray<Y>&&>(r)).swap(*this);
     return *this;
   }
 
-  void swap(SharedArray& r) {
+  void swap(SharedArray& r) noexcept {
     std::swap(px_, r.px_);
     pn_.swap(r.pn_);
   }
 
-  void reset(void) {
+  void reset(void) noexcept {
     SelfType().swap(*this);
   }
 

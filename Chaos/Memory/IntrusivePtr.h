@@ -63,13 +63,13 @@ public:
       intrusive_ptr_add_ref(px_);
   }
 
-  IntrusivePtr(IntrusivePtr&& r)
+  IntrusivePtr(IntrusivePtr&& r) noexcept
     : px_(r.px_) {
     r.px_ = nullptr;
   }
 
   template <typename U>
-  IntrusivePtr(IntrusivePtr<U>&& r)
+  IntrusivePtr(IntrusivePtr<U>&& r) noexcept
     : px_(r.px_) {
     r.px_ = nullptr;
   }
@@ -85,13 +85,13 @@ public:
     return *this;
   }
 
-  IntrusivePtr& operator=(IntrusivePtr&& r) {
+  IntrusivePtr& operator=(IntrusivePtr&& r) noexcept {
     SelfType(static_cast<IntrusivePtr&&>(r)).swap(*this);
     return *this;
   }
 
   template <typename U>
-  IntrusivePtr& operator=(IntrusivePtr<U>&& r) {
+  IntrusivePtr& operator=(IntrusivePtr<U>&& r) noexcept {
     SelfType(static_cast<IntrusivePtr<U>&&>(r)).swap(*this);
     return *this;
   }
@@ -101,11 +101,11 @@ public:
     return *this;
   }
 
-  void swap(IntrusivePtr& r) {
+  void swap(IntrusivePtr& r) noexcept {
     std::swap(px_, r.px_);
   }
 
-  void reset(void) {
+  void reset(void) noexcept {
     SelfType().swap(*this);
   }
 
@@ -117,13 +117,13 @@ public:
     SelfType(p, add_ref).swap(*this);
   }
 
-  T* detach(void) {
+  T* detach(void) noexcept {
     T* p = px_;
     px_ = nullptr;
     return p;
   }
 
-  T* get(void) const {
+  T* get(void) const noexcept {
     return px_;
   }
 

@@ -106,7 +106,7 @@ int kern_backtrace(std::string& bt) {
 }
 
 static UINT WINAPI kern_thread_start_routine(void* arg) {
-  std::unique_ptr<_ThreadBinder_t> params = Chaos::to_unique(arg);
+  std::unique_ptr<_ThreadBinder_t> params = Chaos::to_unique(static_cast<_ThreadBinder_t*>(arg));
   if (!params)
     return 0;
 

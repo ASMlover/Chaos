@@ -38,7 +38,7 @@ inline std::unique_ptr<T, std::default_delete<T>> make_unique(Args&&... args) {
 }
 
 template <typename T>
-inline std::unique_ptr<T, std::default_delete<T>> to_unique(T* p) noexcept {
+inline std::unique_ptr<T, std::default_delete<T>> as_unique(T* p) noexcept {
   return std::unique_ptr<T>(p);
 }
 
@@ -50,12 +50,12 @@ inline T* move_ptr(T*& p) noexcept {
 }
 
 template <typename T, typename... Args>
-inline ScopedPtr<T> make_scoped_ptr(Args&&... args) {
+inline ScopedPtr<T> make_scoped(Args&&... args) {
   return ScopedPtr<T>(new T(std::forward<Args>(args)...));
 }
 
 template <typename T>
-inline ScopedPtr<T> to_scoped_ptr(T* p) noexcept {
+inline ScopedPtr<T> as_scoped(T* p) noexcept {
   return ScopedPtr<T>(p);
 }
 

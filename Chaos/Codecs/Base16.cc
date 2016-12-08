@@ -24,7 +24,6 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <string.h>
 #include <Chaos/Types.h>
 #include <Chaos/Codecs/Base16.h>
 
@@ -63,22 +62,6 @@ namespace Base16 {
       r.push_back((kDecode16[b[i]] << 4) | (kDecode16[b[i + 1]] & 0x0F));
 
     return r;
-  }
-
-  std::string encode(const char* s) {
-    return encode(s, strlen(s));
-  }
-
-  std::string decode(const char* s) {
-    return decode(s, strlen(s));
-  }
-
-  std::string encode(const std::string& s) {
-    return encode(s.data(), s.size());
-  }
-
-  std::string decode(const std::string& s) {
-    return decode(s.data(), s.size());
   }
 }
 

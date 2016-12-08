@@ -37,7 +37,7 @@ namespace Chaos {
 class Date : public Copyable {
   int epoch_day_{};
 public:
-  struct DateTuple {
+  struct DateValue {
     int year;
     int month;
     int day;
@@ -81,7 +81,7 @@ public:
   }
 
   std::string to_iso_string(void) const;
-  DateTuple get_date(void) const;
+  DateValue get_date(void) const;
 };
 
 inline bool operator==(Date a, Date b) {

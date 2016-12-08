@@ -40,14 +40,14 @@ int get_unix_day(int year, int month, int day) {
   return day + (m * 153 + 2) / 5 + y * 365 + y / 4 - y / 100 + y / 400 - 32045;
 }
 
-struct Date::DateTuple get_date_tuple(int epoch_day) {
+struct Date::DateValue get_date_value(int epoch_day) {
   int a = epoch_day + 32044;
   int b = (a * 4 + 3) / 146097;
   int c = a - ((b * 146097) / 4);
   int d = (c * 4 + 3) / 1461;
   int e = c - ((d * 1461) / 4);
   int m = (e * 5 + 2) / 153;
-  Date::DateTuple date;
+  Date::DateValue date;
   date.year = b * 100 + d - 4800 + (m / 10);
   date.month = m + 3 - (m / 10) * 12;
   date.day = e - ((m * 153 + 2) / 5) + 1;
@@ -66,13 +66,13 @@ Date::Date(const struct tm& t)
 
 std::string Date::to_iso_string(void) const {
   char buf[32];
-  DateTuple date(get_date());
+  DateValue date(get_date());
   snprintf(buf, sizeof(buf), "%4d-%02d-%02d", date.year, date.month, date.day);
   return buf;
 }
 
-Date::DateTuple Date::get_date(void) const {
-  return get_date_tuple(epoch_day_);
+Date::DateValue Date::get_date(void) const {
+  return get_date_value(epoch_day_);
 }
 
 }

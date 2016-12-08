@@ -286,14 +286,14 @@ struct tm Timezone::to_utc_time(time_t sec_since_epoch, bool yday) {
   }
   fill_time(seconds, utc);
   Date date(days + Date::kEpochDay19700101);
-  Date::DateTuple dt = date.get_date();
-  utc.tm_year = dt.year - 1900;
-  utc.tm_mon = dt.month - 1;
-  utc.tm_mday = dt.day;
+  Date::DateValue dv = date.get_date();
+  utc.tm_year = dv.year - 1900;
+  utc.tm_mon = dv.month - 1;
+  utc.tm_mday = dv.day;
   utc.tm_wday = date.weekday();
 
   if (yday) {
-    Date start(dt.year, 1, 1);
+    Date start(dv.year, 1, 1);
     utc.tm_yday = date.epoch_day() - start.epoch_day();
   }
   return utc;

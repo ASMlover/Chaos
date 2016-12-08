@@ -59,6 +59,21 @@ inline ScopedPtr<T> to_scoped_ptr(T* p) noexcept {
   return ScopedPtr<T>(p);
 }
 
+template <typename T>
+struct is_smart_ptr : std::false_type {};
+
+template <typename T>
+struct is_smart_ptr<std::unique_ptr<T>> : std::true_type {};
+
+template <typename T>
+struct is_smart_ptr<std::shared_ptr<T>> : std::true_type {};
+
+template <typename T>
+struct is_smart_ptr<ScopedPtr<T>> : std::true_type {};
+
+template <typename T>
+struct is_smart_ptr<SharedPtr<T>> : std::true_type {};
+
 }
 
 #endif // CHAOS_UTILITY_MEMORY_H

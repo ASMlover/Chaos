@@ -37,9 +37,9 @@ inline std::unique_ptr<T, std::default_delete<T>> make_unique(Args&&... args) {
   return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
 
-template <typename T>
-inline std::unique_ptr<T, std::default_delete<T>> as_unique(T* p) noexcept {
-  return std::unique_ptr<T>(p);
+template <typename T, typename Y = void>
+inline std::unique_ptr<T, std::default_delete<T>> as_unique(Y* p) noexcept {
+  return std::unique_ptr<T>(static_cast<T*>(p));
 }
 
 template <typename T>
@@ -54,9 +54,9 @@ inline ScopedPtr<T> make_scoped(Args&&... args) {
   return ScopedPtr<T>(new T(std::forward<Args>(args)...));
 }
 
-template <typename T>
-inline ScopedPtr<T> as_scoped(T* p) noexcept {
-  return ScopedPtr<T>(p);
+template <typename T, typename Y = void>
+inline ScopedPtr<T> as_scoped(Y* p) noexcept {
+  return ScopedPtr<T>(static_cast<T*>(p));
 }
 
 template <typename T>

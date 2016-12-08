@@ -61,6 +61,7 @@ namespace Base64 {
 
       if (i + 2 < n) {
         r.push_back(kEncode64[((b[i + 1] & 0x0f) << 2) | (b[i + 2] >> 6)]);
+        r.push_back(kEncode64[b[i + 2] & 0x3f]);
       }
       else {
         r.push_back(kEncode64[(b[i + 1] & 0x0f) << 2]);

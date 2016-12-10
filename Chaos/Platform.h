@@ -58,6 +58,11 @@
 # error "Please use a higher version of compiler."
 #endif
 
+#define CHAOS_LITTLE_ENDIAN 0x41424344UL
+#define CHAOS_BIG_ENDIAN 0x44434241UL
+#define CHAOS_PDP_ENDIAN 0x42414443UL
+#define CHAOS_BYTE_ORDER 'ABCD'
+
 #define CHAOS_IMPL_WITH_STD (0)
 
 #if defined(CHAOS_WINDOWS)

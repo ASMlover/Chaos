@@ -42,17 +42,17 @@
 #endif
 
 #if defined(_MSC_VER)
-# define CHAOS_CC_VER       _MSC_VER
-# define CHAOS_CC_VER_LIMIT 1900
+# define CHAOS_CC_VER         _MSC_VER
+# define CHAOS_CC_VER_LIMIT   1900
 #elif defined(__GNUC__)
-# define CHAOS_CC_VER       (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+# define CHAOS_CC_VER         (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 # if defined(CHAOS_DARWIN)
 #   define CHAOS_CC_VER_LIMIT 30300
 # else
 #   define CHAOS_CC_VER_LIMIT 40801
 # endif
 #elif defined(__clang__)
-# define CHAOS_CC_VER       (__clang_major__ * 10000 + __clang_major__ * 100 + __clang_patchlevel__)
+# define CHAOS_CC_VER         (__clang_major__ * 10000 + __clang_major__ * 100 + __clang_patchlevel__)
 # if defined(CHAOS_DARWIN)
 #   define CHAOS_CC_VER_LIMIT 80000
 # else

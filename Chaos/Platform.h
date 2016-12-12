@@ -66,10 +66,15 @@
 # error "Please use a higher version of compiler."
 #endif
 
+// fixed Wmultichar for gcc and clang
+// [REF] Best practices for multi-character character constants
+// [REF] http://zipcon.net/~swhite/docs/computers/languages/c_multi-char_const.html
+#define CHAOS_LECHR(a, b, c, d) (((a) << 24) | ((b) << 16) | ((c) << 8) | (d))
+
 #define CHAOS_LITTLE_ENDIAN 0x41424344UL
 #define CHAOS_BIG_ENDIAN 0x44434241UL
 #define CHAOS_PDP_ENDIAN 0x42414443UL
-#define CHAOS_BYTE_ORDER 'ABCD'
+#define CHAOS_BYTE_ORDER CHAOS_LECHR('A', 'B', 'C', 'D')
 
 #define CHAOS_IMPL_WITH_STD (0)
 

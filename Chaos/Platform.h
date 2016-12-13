@@ -71,10 +71,11 @@
 // [REF] http://zipcon.net/~swhite/docs/computers/languages/c_multi-char_const.html
 #define CHAOS_LECHR(a, b, c, d) (((a) << 24) | ((b) << 16) | ((c) << 8) | (d))
 
+// machine byte order checking macros
 #define CHAOS_LITTLE_ENDIAN (0x41424344UL)
-#define CHAOS_BIG_ENDIAN (0x44434241UL)
-#define CHAOS_PDP_ENDIAN (0x42414443UL)
-#define CHAOS_BYTE_ORDER CHAOS_LECHR('A', 'B', 'C', 'D')
+#define CHAOS_BIG_ENDIAN    (0x44434241UL)
+#define CHAOS_PDP_ENDIAN    (0x42414443UL)
+#define CHAOS_BYTE_ORDER    CHAOS_LECHR('A', 'B', 'C', 'D')
 
 // functional implementations used C++ standard library
 // defining the compiling flag in Makefile (use `Surtr` script)

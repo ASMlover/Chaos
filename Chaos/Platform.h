@@ -52,7 +52,7 @@
 #   define CHAOS_CC_VER_LIMIT 40801
 # endif
 #elif defined(__clang__)
-# define CHAOS_CC_VER         (__clang_major__ * 10000 + __clang_major__ * 100 + __clang_patchlevel__)
+# define CHAOS_CC_VER         (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
 # if defined(CHAOS_DARWIN)
 #   define CHAOS_CC_VER_LIMIT 80000
 # else
@@ -64,6 +64,18 @@
 
 #if CHAOS_CC_VER < CHAOS_CC_VER_LIMIT
 # error "Please use a higher version of compiler."
+#endif
+
+#if defined(i386) || defined(__i386__) || defined(__i486__) || \
+  defined(__i586__) || defined(__i686__) || defined(__i386) || \
+  defined(_M_IX86) || defined(_X86_) || defined(__THW_INTEL__) || \
+  defined(__I86__) || defined(__INTEL__)
+# define CHAOS_ARCH32
+#elif defined(__x86_64) || defined(__x86_64__) || \
+  defined(__amd64__) || defined(__amd64) || defined(_M_X64)
+# define CHAOS_ARCH64
+#else
+# error "Unknown Architecture."
 #endif
 
 // fixed Wmultichar for gcc and clang
@@ -85,6 +97,13 @@
 # define CHAOS_ARRAY(type, name, count) type* name = (type*)_alloca((count) * sizeof(type))
 #else
 # define CHAOS_ARRAY(type, name, count) type name[count]
+#endif
+
+// thread local storage duration
+#if defined(CHAOS_WINDOWS)
+# define __chaos_tl __declspec(thread)
+#else
+# define __chaos_tl __thread
 #endif
 
 #endif // CHAOS_PLATFORM_H

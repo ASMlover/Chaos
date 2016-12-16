@@ -105,7 +105,7 @@ int kern_backtrace(std::string& bt) {
   return 0;
 }
 
-static uint32_t __stdcall kern_thread_start_routine(void* arg) {
+static UINT CALLBACK kern_thread_start_routine(void* arg) {
   auto params = Chaos::as_unique<_ThreadBinder_t>(arg);
   if (!params)
     return 0;

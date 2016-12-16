@@ -93,6 +93,9 @@
 // defining the compiling flag in Makefile (use `Surtr` script)
 // #define CHAOS_IMPL_WITH_STD (0)
 
+// enabled using `chaos_fast_dycast` and `chaos_fast_dypcast`
+// # define CHAOS_ENABLE_FAST_CAST (0)
+
 #if defined(CHAOS_WINDOWS)
 # define CHAOS_ARRAY(type, name, count) type* name = (type*)_alloca((count) * sizeof(type))
 #else

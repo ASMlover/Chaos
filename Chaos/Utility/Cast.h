@@ -57,10 +57,10 @@ namespace Unexposed {
   template <typename T>
   using AddPtr_t = typename std::add_pointer<T>::type;
 #else
-  using RemoveCV_t = std::remove_cv_t;
-  using RemoveRef_t = std::remove_reference_t;
-  using RemovePtr_t = std::remove_pointer_t;
-  using EnableIf_t = std::enable_if_t;
+# define RemoveCV_t std::remove_cv_t
+# define RemoveRef_t std::remove_reference_t
+# define RemovePtr_t std::remove_pointer_t
+# define EnableIf_t std::enable_if_t
 #endif
 }
 
@@ -137,5 +137,13 @@ inline T fast_dynamic_cast(T p) {
 }
 
 }
+
+#if defined(CHAOS_ENABLE_FAST_CAST)
+# define chaos_fast_dycast  Chaos::fast_dynamic_cast
+# define chaos_fast_dypcast Chaos::fast_dynamic_ptr_cast
+#else
+# define chaos_fast_dycast  dynamic_cast
+# define chaos_fast_dypcast std::dynamic_pointer_cast
+#endif
 
 #endif // CHAOS_UTILITY_CAST_H

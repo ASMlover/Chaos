@@ -24,83 +24,117 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_OS_POSIX_OS_H
-#define CHAOS_OS_POSIX_OS_H
+#ifndef CHAOS_KERN_WINDOWS_KERNCOMMON_H
+#define CHAOS_KERN_WINDOWS_KERNCOMMON_H
 
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <pthread.h>
+#include <Windows.h>
+#include <errno.h>
 #include <string.h>
 #include <time.h>
 #include <string>
 
+typedef int pid_t;
+
+struct timezone {
+  int tz_minuteswest;
+  int tz_dsttime;
+};
+
 namespace Chaos {
 
-inline struct tm* kern_gmtime(const time_t* timep, struct tm* result) {
-  return gmtime_r(timep, result);
+#if !defined(__builtin_expect)
+# define __builtin_expect(exp, c) (exp)
+#endif
+
+inline errno_t kern_gmtime(const time_t* timep, struct tm* result) {
+  return gmtime_s(result, timep);
+}
+
+inline errno_t kern_strerror(int errnum, char* buf, size_t buflen) {
+  return strerror_s(buf, buflen, errnum);
 }
 
 inline time_t kern_timegm(struct tm* timep) {
-  return timegm(timep);
+  return _mkgmtime(timep);
 }
 
 inline pid_t kern_getpid(void) {
-  return getpid();
+  return static_cast<pid_t>(GetCurrentProcessId());
 }
 
-inline pid_t kern_getppid(void) {
-  return getppid();
+inline pid_t kern_gettid(void) {
+  return static_cast<pid_t>(GetCurrentThreadId());
 }
 
+// int kern_getppid(void); // not support on Windows
+int kern_gettimeofday(struct timeval* tv, struct timezone* tz);
+int kern_this_thread_setname(const char* name);
 int kern_backtrace(std::string& bt);
 
-// Posix thread methods wrapper
-typedef pthread_t _Thread_t;
+// Windows thread methods wrapper
+struct _Thread_t {
+  HANDLE notify_start{};
+  HANDLE handle{};
 
-inline int kern_thread_create(_Thread_t* thread, void* (*start_routine)(void*), void* arg) {
-  return pthread_create(thread, nullptr, start_routine, arg);
-}
+  _Thread_t(void) = default;
+
+  _Thread_t(std::nullptr_t)
+    : notify_start(nullptr)
+    , handle(nullptr) {
+  }
+
+  _Thread_t& operator=(std::nullptr_t) {
+    notify_start = nullptr;
+    handle = nullptr;
+    return *this;
+  }
+};
+
+int kern_thread_create(_Thread_t* thread, void* (*start_routine)(void*), void* arg);
 
 inline int kern_thread_join(_Thread_t thread) {
-  return pthread_join(thread, nullptr);
+  if (nullptr != thread.handle) {
+    WaitForSingleObject(thread.handle, INFINITE);
+    CloseHandle(thread.handle);
+  }
+  return 0;
 }
 
 inline int kern_thread_detach(_Thread_t thread) {
-  return pthread_detach(thread);
+  if (nullptr != thread.handle)
+    CloseHandle(thread.handle);
+  return 0;
 }
 
 inline int kern_thread_atfork(void (*prepare)(void), void (*parent)(void), void (*child)(void)) {
-  return pthread_atfork(prepare, parent, child);
+  return 0;
 }
 
-// Posix thread local methods wrapper
-typedef pthread_key_t _Tls_t;
+// Windows thread local methods wrapper
+typedef DWORD _Tls_t;
 
 inline int kern_tls_create(_Tls_t* tls, void (*destructor)(void*)) {
-  return pthread_key_create(tls, destructor);
+  return *tls = FlsAlloc((PFLS_CALLBACK_FUNCTION)destructor), 0;
 }
 
 inline int kern_tls_delete(_Tls_t tls) {
-  return pthread_key_delete(tls);
+  return TRUE == FlsFree(tls) ? 0 : -1;
 }
 
 inline int kern_tls_setspecific(_Tls_t tls, const void* value) {
-  return pthread_setspecific(tls, value);
+  return TRUE == FlsSetValue(tls, (PVOID)value) ? 0 : -1;
 }
 
 inline void* kern_tls_getspecific(_Tls_t tls) {
-  return pthread_getspecific(tls);
+  return FlsGetValue(tls);
 }
 
-// Posix init once methods wrapper
-typedef pthread_once_t _Once_t;
-const _Once_t kInitOnceValue = PTHREAD_ONCE_INIT;
+// Windows execute once methods wrapper
+typedef INIT_ONCE _Once_t;
+const _Once_t kInitOnceValue = INIT_ONCE_STATIC_INIT;
 
-inline int kern_once(_Once_t* once_control, void (*init_routine)(void)) {
-  return pthread_once(once_control, init_routine);
-}
+int kern_once(_Once_t* once_control, void (*init_routine)(void));
 
 }
 
-#endif // CHAOS_OS_POSIX_OS_H
+#endif // CHAOS_KERN_WINDOWS_KERNCOMMON_H

@@ -24,45 +24,14 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_OS_DARWIN_OS_H
-#define CHAOS_OS_DARWIN_OS_H
+#ifndef CHAOS_KERN_KERNCOMMON_H
+#define CHAOS_KERN_KERNCOMMON_H
 
-#include <mach/mach_time.h>
-#include <sys/syscall.h>
-#include <sys/time.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <time.h>
-#include <Chaos/Types.h>
+#include <Chaos/Platform.h>
 
-namespace Chaos {
+#if defined(CHAOS_WINDOWS)
+# include <Chaos/Kern/Windows/KernCommon.h>
+#else
+#endif
 
-inline int kern_strerror(int errnum, char* buf, size_t buflen) {
-  return strerror_r(errnum, buf, buflen);
-}
-
-inline int kern_gettimeofday(struct timeval* tv, struct timezone* tz) {
-  return gettimeofday(tv, tz);
-}
-
-inline pid_t kern_gettid(void) {
-  return static_cast<pid_t>(syscall(SYS_thread_selfid));
-}
-
-inline int kern_this_thread_setname(const char* name) {
-  return pthread_setname_np(name);
-}
-
-inline int kern_gettime(struct timespec* timep) {
-  mach_timebase_info_data_t info;
-  if (KERN_SUCCESS != mach_timebase_info(&info))
-    abort();
-  uint64_t realtime = mach_absolute_time() * info.numer / info.denom;
-  timep->tv_sec = realtime / CHAOS_NANOSEC;
-  timep->tv_nsec = realtime % CHAOS_NANOSEC;
-  return 0;
-}
-
-}
-
-#endif // CHAOS_OS_DARWIN_OS_H
+#endif // CHAOS_KERN_KERNCOMMON_H

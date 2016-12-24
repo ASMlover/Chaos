@@ -30,7 +30,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <Chaos/Utility/Memory.h>
-#include <Chaos/OS/Windows/OS.h>
+#include <Chaos/Kern/Windows/KernCommon.h>
 
 namespace Chaos {
 

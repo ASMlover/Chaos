@@ -30,7 +30,7 @@
 # include <chrono>
 # include <thread>
 #endif
-#include <Chaos/OS/OS.h>
+#include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Datetime/Timestamp.h>
 #include <Chaos/Concurrent/Unexposed/CurrentThread.h>
 #include <Chaos/Concurrent/CurrentThread.h>

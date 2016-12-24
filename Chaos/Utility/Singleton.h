@@ -33,7 +33,7 @@
 # include <mutex>
 #endif
 #include <Chaos/Types.h>
-#include <Chaos/OS/OS.h>
+#include <Chaos/Kern/KernCommon.h>
 
 namespace Chaos {
 

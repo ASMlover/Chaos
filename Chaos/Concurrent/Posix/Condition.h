@@ -30,7 +30,7 @@
 #include <pthread.h>
 #include <Chaos/UnCopyable.h>
 #include <Chaos/Concurrent/Mutex.h>
-#include <Chaos/OS/OS.h>
+#include <Chaos/Kern/KernCommon.h>
 
 namespace Chaos {
 

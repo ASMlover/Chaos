@@ -28,7 +28,7 @@
 #include <chrono>
 #include <thread>
 #include <type_traits>
-#include <Chaos/OS/OS.h>
+#include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Concurrent/Unexposed/CurrentThread.h>
 #include <Chaos/Concurrent/CurrentThread.h>
 

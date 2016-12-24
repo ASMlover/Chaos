@@ -54,11 +54,7 @@ class ThreadLocalSingleton : private UnCopyable {
     }
   };
 
-#if defined(CHAOS_WINDOWS)
-  static __declspec(thread) T* t_value_;
-#else
-  static __thread T* t_value_;
-#endif
+  static __chaos_tl T* t_value_;
   static Deleter deleter_;
 
   ThreadLocalSingleton(void) = delete;
@@ -86,11 +82,7 @@ public:
 };
 
 template <typename T>
-#if defined(CHAOS_WINDOWS)
-__declspec(thread) T* ThreadLocalSingleton<T>::t_value_ = nullptr;
-#else
-__thread T* ThreadLocalSingleton<T>::t_value_ = nullptr;
-#endif
+__chaos_tl T* ThreadLocalSingleton<T>::t_value_ = nullptr;
 
 template <typename T>
 typename ThreadLocalSingleton<T>::Deleter ThreadLocalSingleton<T>::deleter_;

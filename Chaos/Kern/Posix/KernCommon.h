@@ -27,8 +27,10 @@
 #ifndef CHAOS_KERN_POSIX_KERNCOMMON_H
 #define CHAOS_KERN_POSIX_KERNCOMMON_H
 
-#include <sys/time.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <pthread.h>
 #include <string.h>
@@ -99,6 +101,42 @@ const _Once_t kInitOnceValue = PTHREAD_ONCE_INIT;
 
 inline int kern_once(_Once_t* once_control, void (*init_routine)(void)) {
   return pthread_once(once_control, init_routine);
+}
+
+// Posix low-level IO methods wrapper
+namespace io {
+  inline bool kern_stat_isdir(mode_t mode) {
+    return S_ISDIR(mode, _S_IFDIR);
+  }
+
+  inline bool kern_stat_ischr(mode_t mode) {
+    return S_ISCHR(mode, _S_IFCHR);
+  }
+
+  inline bool kern_stat_isreg(mode_t mode) {
+    return S_ISREG(mode, _S_IFREG);
+  }
+
+  inline int kern_open(const char* path, int oflag) {
+    return open(path, oflag);
+  }
+
+  inline int kern_close(int fileds) {
+    return close(fileds);
+  }
+
+  inline ssize_t kern_read(int fd, void* buf, size_t len) {
+    return read(fd, buf, len);
+  }
+
+  inline ssize_t kern_pread(int fd, void* buf, size_t len, off_t offset) {
+    return pread(fd, buf, len, offset);
+  }
+
+  typedef struct stat _Stat_t;
+  inline int kern_fstat(int fileds, _Stat_t* buf) {
+    return fstat(fileds, buf);
+  }
 }
 
 }

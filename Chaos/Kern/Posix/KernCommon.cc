@@ -24,20 +24,28 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_KERN_KERNCOMMON_H
-#define CHAOS_KERN_KERNCOMMON_H
+#include <execinfo.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <Chaos/OS/Posix/OS.h>
 
-#include <Chaos/Platform.h>
+namespace Chaos {
 
-#if defined(CHAOS_WINDOWS)
-# include <Chaos/Kern/Windows/KernCommon.h>
-#else
-# include <Chaos/Kern/Posix/KernCommon.h>
-# if defined(CHAOS_LINUX)
-#   include <Chaos/Kern/Linux/KernCommon.h>
-# elif defined(CHAOS_DARWIN)
-#   include <Chaos/Kern/Darwin/KernCommon.h>
-# endif
-#endif
+int kern_backtrace(std::string& bt) {
+  static const int kMaxBacktrace = 256;
+  void* buff[kMaxBacktrace];
+  int nptrs = backtrace(buff, kMaxBacktrace);
+  char** messages = backtrace_symbols(buff, nptrs);
+  if (nullptr != messages) {
+    char message[1024];
+    for (int i = 0; i < nptrs; ++i) {
+      snprintf(message, sizeof(message), "%i: %s\n", nptrs - i - 1, messages[i]);
+      bt.append(message);
+    }
+    free(messages);
+  }
 
-#endif // CHAOS_KERN_KERNCOMMON_H
+  return 0;
+}
+
+}

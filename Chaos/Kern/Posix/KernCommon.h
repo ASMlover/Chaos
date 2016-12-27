@@ -106,15 +106,15 @@ inline int kern_once(_Once_t* once_control, void (*init_routine)(void)) {
 // Posix low-level IO methods wrapper
 namespace io {
   inline bool kern_stat_isdir(mode_t mode) {
-    return S_ISDIR(mode, _S_IFDIR);
+    return S_ISDIR(mode);
   }
 
   inline bool kern_stat_ischr(mode_t mode) {
-    return S_ISCHR(mode, _S_IFCHR);
+    return S_ISCHR(mode);
   }
 
   inline bool kern_stat_isreg(mode_t mode) {
-    return S_ISREG(mode, _S_IFREG);
+    return S_ISREG(mode);
   }
 
   inline int kern_open(const char* path, int oflag) {

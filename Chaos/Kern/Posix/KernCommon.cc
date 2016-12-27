@@ -27,7 +27,7 @@
 #include <execinfo.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <Chaos/OS/Posix/OS.h>
+#include <Chaos/Kern/Posix/KernCommon.h>
 
 namespace Chaos {
 

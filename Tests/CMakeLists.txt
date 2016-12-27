@@ -50,13 +50,13 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     message(FATAL_ERROR "you need Visual Studio 2015 or later")
   endif()
   add_definitions(
+    -D_UNICODE
     -D_CRT_SECURE_NO_WARNINGS
     -D_CRT_NONSTDC_NO_WARNINGS
     -wd4091
     -wd4244
     -wd4996)
-
-  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-GS -Zi -EHsc -O2 -W3")
+  set(CMAKE_CXX_FLAGS "-O2 -W3 -GF -GS -Gs -Zi -EHsc")
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   add_compile_options(-std=c++11)
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-g -O2 -Wall")
@@ -108,8 +108,6 @@ else()
   endif()
 endif()
 add_executable(chaos.test ${ALL_SOURCES})
-
-message(STATUS "${ALL_SOURCES}")
 
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
   target_link_libraries(chaos.test winmm.lib Dbghelp.lib)

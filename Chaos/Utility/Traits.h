@@ -31,18 +31,6 @@
 
 namespace Chaos {
 
-// disable_if `traits`
-template <bool B, typename T = void>
-struct DisableIfImpl {
-  typedef T type;
-};
-
-template <typename T>
-struct DisableIfImpl<true, T> {};
-
-template <typename Cond, typename T = void>
-struct DisableIf : public DisableIfImpl<Cond::value, T> {};
-
 // add reference `traits`
 template <typename T>
 struct AddRefImpl {
@@ -64,15 +52,24 @@ struct AddRef<T&> {
   typedef T& type;
 };
 
-template <typename Cond, typename T = void>
-using DisableIf_t = typename DisableIf<Cond, T>::type;
+// disable_if `traits`
+template <bool B, typename T = void>
+struct DisableIf {
+  typedef T type;
+};
+
+template <typename T>
+struct DisableIf<true, T> {};
 
 template <typename T>
 using AddRef_t = typename AddRef<T>::type;
 
+template <bool B, typename T = void>
+using DisableIf_t = typename DisableIf<B, T>::type;
+
 #if __cplusplus < 201402L
   template <typename T>
-  using RemoveCV_t = typename std::remove_cv<T>::type;
+  using AddPtr_t = typename std::add_pointer<T>::type;
 
   template <typename T>
   using RemovePtr_t = typename std::remove_pointer<T>::type;
@@ -84,10 +81,10 @@ using AddRef_t = typename AddRef<T>::type;
   using EnableIf_t = typename std::enable_if<B, T>::type;
 
   template <typename T>
-  using AddPtr_t = typename std::add_pointer<T>::type;
+  using RemoveCV_t = typename std::remove_cv<T>::type;
 #else
   template <typename T>
-  using RemoveCV_t = std::remove_cv_t<T>;
+  using AddPtr_t = std::add_pointer_t<T>;
 
   template <typename T>
   using RemovePtr_t = std::remove_pointer_t<T>;
@@ -99,7 +96,7 @@ using AddRef_t = typename AddRef<T>::type;
   using EnableIf_t = typedef std::enable_if_t<B, T>;
 
   template <typename T>
-  using AddPtr_t = std::add_pointer_t<T>;
+  using RemoveCV_t = std::remove_cv_t<T>;
 #endif
 
 }

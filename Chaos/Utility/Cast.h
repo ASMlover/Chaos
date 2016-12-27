@@ -29,8 +29,8 @@
 
 #include <stddef.h>
 #include <memory>
-#include <type_traits>
 #include <Chaos/Platform.h>
+#include <Chaos/Utility/Traits.h>
 
 #if defined(CHAOS_ARCH64)
 # define CHAOS_CAST_NOOFFSET (0x7fffffffffffffffLL)
@@ -39,30 +39,6 @@
 #endif
 
 namespace Chaos {
-
-namespace Unexposed {
-#if __cplusplus < 201402L
-  template <typename T>
-  using RemoveCV_t = typename std::remove_cv<T>::type;
-
-  template <typename T>
-  using RemoveRef_t = typename std::remove_reference<T>::type;
-
-  template <typename T>
-  using RemovePtr_t = typename std::remove_pointer<T>::type;
-
-  template <bool B, typename T = void>
-  using EnableIf_t = typename std::enable_if<B, T>::type;
-
-  template <typename T>
-  using AddPtr_t = typename std::add_pointer<T>::type;
-#else
-# define RemoveCV_t std::remove_cv_t
-# define RemoveRef_t std::remove_reference_t
-# define RemovePtr_t std::remove_pointer_t
-# define EnableIf_t std::enable_if_t
-#endif
-}
 
 using ObjectPtr = const uintptr_t*;
 using VTablePtr = const uintptr_t*;
@@ -73,7 +49,7 @@ inline VTablePtr get_vtable(const T* p) {
 }
 
 template <typename T>
-using CleanType = typename Unexposed::RemoveCV_t<Unexposed::RemoveRef_t<Unexposed::RemovePtr_t<T>>>;
+using CleanType = RemoveCV_t<RemoveRef_t<RemovePtr_t<T>>>;
 
 template <typename Target, typename Source>
 inline Target fast_dynamic_cast(Source* p) {
@@ -107,9 +83,9 @@ inline const Target fast_dynamic_cast(const Source* p) {
 }
 
 template <typename Target, typename Source,
-         typename = Unexposed::EnableIf_t<!std::is_same<CleanType<Target>, CleanType<Source&>>::value>>
+         typename = EnableIf_t<!std::is_same<CleanType<Target>, CleanType<Source&>>::value>>
 inline Target fast_dynamic_cast(Source& ref) {
-  using TargetPtr = Unexposed::AddPtr_t<Unexposed::RemoveRef_t<Target>>;
+  using TargetPtr = AddPtr_t<RemoveRef_t<Target>>;
   auto casted_ptr = fast_dynamic_cast<TargetPtr>(&ref);
   if (nullptr == casted_ptr)
     throw std::bad_cast{};
@@ -117,9 +93,9 @@ inline Target fast_dynamic_cast(Source& ref) {
 }
 
 template <typename Target, typename Source,
-         typename = Unexposed::EnableIf_t<!std::is_same<CleanType<Target>, CleanType<Source&>>::value>>
+         typename = EnableIf_t<!std::is_same<CleanType<Target>, CleanType<Source&>>::value>>
 inline Target fast_dynamic_cast(const Source& ref) {
-  using TargetPtr = Unexposed::AddPtr_t<Unexposed::RemoveRef_t<Source>>;
+  using TargetPtr = AddPtr_t<RemoveRef_t<Source>>;
   auto casted_ptr = fast_dynamic_cast<TargetPtr>(const_cast<Source*>(&ref));
   if (nullptr == casted_ptr)
     throw std::bad_cast{};

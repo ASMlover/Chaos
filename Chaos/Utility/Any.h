@@ -174,8 +174,7 @@ ValueType any_cast(Any& operand) {
 
 template <typename ValueType>
 inline const ValueType any_cast(const Any& operand) {
-  using NonRef = RemoveRef_t<ValueType>;
-  return any_cast<const NonRef&>(const_cast<Any&>(operand));
+  return any_cast<const RemoveRef_t<ValueType>&>(const_cast<Any&>(operand));
 }
 
 template <typename ValueType>

@@ -29,6 +29,7 @@
 
 #include <typeinfo>
 #include <utility>
+#include <Chaos/Except/SystemError.h>
 #include <Chaos/Utility/Traits.h>
 
 namespace Chaos {
@@ -144,6 +145,48 @@ public:
     return "Chaos::BadAnyCast - failed conversion using Chaos::any_cast";
   }
 };
+
+template <typename ValueType>
+inline ValueType* any_cast(Any* operand) {
+  return operand && operand->get_type() == typeid(ValueType)
+    ? &static_cast<Any::Holder<RemoveCV_t<ValueType>>*>(operand->content_)->held_
+    : nullptr;
+}
+
+template <typename ValueType>
+inline const ValueType* any_cast(const Any* operand) {
+  return any_cast<ValueType>(const_cast<Any*>(operand));
+}
+
+template <typename ValueType>
+ValueType any_cast(Any& operand) {
+  using NonRef = RemoveRef_t<ValueType>;
+
+  NonRef* result = any_cast<NonRef>(&operand);
+  if (!result)
+    __chaos_throw_exception(BadAnyCast());
+
+  using RefType = typename std::conditional<
+    std::is_reference<ValueType>::value, ValueType, AddRef_t<ValueType>>::type;
+
+  return static_cast<RefType>(*result);
+}
+
+template <typename ValueType>
+inline const ValueType any_cast(const Any& operand) {
+  using NonRef = RemoveRef_t<ValueType>;
+  return any_cast<const NonRef&>(const_cast<Any&>(operand));
+}
+
+template <typename ValueType>
+inline ValueType* unsafe_any_cast(Any* operand) {
+  return &static_cast<Any::Holder<ValueType>*>(operand->content_)->held_;
+}
+
+template <typename ValueType>
+inline const ValueType* unsafe_any_cast(const Any* operand) {
+  return unsafe_any_cast<ValueType>(const_cast<Any*>(operand));
+}
 
 }
 

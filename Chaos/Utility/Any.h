@@ -56,7 +56,7 @@ class Any {
       : held_(std::move(value)) {
     }
 
-    virtual const std::type_info& get_type(const) const override {
+    virtual const std::type_info& get_type(void) const override {
       return typeid(ValueType);
     }
 

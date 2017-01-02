@@ -123,6 +123,42 @@ namespace FileUtil {
 
   template int ReadSmallFile::read_to_string(int, std::string*, int64_t*, int64_t*, int64_t*);
   template int read_file(StringArg, int, std::string*, int64_t*, int64_t*, int64_t*);
+
+  AppendFile::AppendFile(StringArg fname)
+    : stream_(fopen(fname.c_str(), "ae")) {
+    CHAOS_CHECK(nullptr != stream_, "`stream_` with fopen should be valid");
+    setvbuf(stream_, buffer_, _IOFBF, sizeof(buffer_));
+  }
+
+  AppendFile::~AppendFile(void) {
+    fclose(stream_);
+  }
+
+  void AppendFile::append(const char* buf, size_t len) {
+    size_t nwrote = 0;
+    size_t nremain = len - nwrote;
+    while (nremain > 0) {
+      size_t n = write(buf + nwrote, nremain);
+      if (0 == n) {
+        int err = ferror(stream_);
+        if (0 != err)
+          fprintf(stderr, "AppendFile::append - failed %s\n", Chaos::strerror_tl(err));
+        break;
+      }
+      nwrote += n;
+      nremain = len - nwrote;
+    }
+
+    written_bytes_ += nwrote;
+  }
+
+  void AppendFile::flush(void) {
+    fflush(stream_);
+  }
+
+  int AppendFile::write(const char* buf, size_t len) {
+    return Chaos::io::kern_fwrite_unlocked(buf, 1, len, stream_);
+  }
 }
 
 }

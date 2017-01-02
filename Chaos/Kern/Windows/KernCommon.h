@@ -183,6 +183,7 @@ namespace io {
     return _fstat(fileds, buf);
   }
 
+  // Stream-IO methods wrapper
   inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
     return _fwrite_nolock(buf, size, count, stream);
   }

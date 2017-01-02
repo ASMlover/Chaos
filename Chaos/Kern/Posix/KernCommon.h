@@ -33,6 +33,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <string>
@@ -136,6 +137,10 @@ namespace io {
   typedef struct stat _Stat_t;
   inline int kern_fstat(int fileds, _Stat_t* buf) {
     return fstat(fileds, buf);
+  }
+
+  inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
+    return fwrite_unlocked(buf, size, count, stream);
   }
 }
 

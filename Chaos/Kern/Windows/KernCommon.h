@@ -33,6 +33,7 @@
 #include <sys/stat.h>
 #include <io.h>
 #include <errno.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <time.h>
@@ -173,13 +174,17 @@ namespace io {
   }
 
   inline ssize_t kern_pread(int fd, void* buf, size_t len, off_t offset) {
-    _lseek(fd, 0L, SEEK_SET);
+    _lseek(fd, offset, SEEK_SET);
     return _read(fd, buf, len);
   }
 
   typedef struct _stat _Stat_t;
   inline int kern_fstat(int fileds, _Stat_t* buf) {
     return _fstat(fileds, buf);
+  }
+
+  inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
+    return _fwrite_nolock(buf, size, count, stream);
   }
 }
 

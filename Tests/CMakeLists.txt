@@ -42,8 +42,7 @@ else()
   return()
 endif()
 
-set(CMAKE_DEBUG_POSTFIX "_d" CACHE STRING "debug postfix, usually `_d`" FORCE)
-set(CMAKE_RELEASE_POSTFIX "" CACHE STRING "release postfix, usually empty" FORCE)
+set(CMAKE_DEBUG_POSTFIX "_d")
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   if (MSVC_VERSION LESS 1900)
@@ -64,7 +63,6 @@ endif()
 
 include_directories(${PROJECT_SOURCE_DIR}/../)
 
-file(GLOB_RECURSE TEST_SOURCES ${PROJECT_SOURCE_DIR}/*.cc)
 file(GLOB_RECURSE COMMON_SOURCES
   ${PROJECT_SOURCE_DIR}/../Chaos/Codecs/*.cc
   ${PROJECT_SOURCE_DIR}/../Chaos/Container/*.cc
@@ -82,37 +80,50 @@ file(GLOB CROCESS_SOURCES
   ${PROJECT_SOURCE_DIR}/../Chaos/IO/*.cc
   ${PROJECT_SOURCE_DIR}/../Chaos/Kern/*.cc
   )
-set(ALL_SOURCES ${TEST_SOURCES} ${COMMON_SOURCES} ${CROCESS_SOURCES})
+set(LIB_SOURCES ${COMMON_SOURCES} ${CROCESS_SOURCES})
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
   file(GLOB_RECURSE WINDOWS_SOURCES
     ${PROJECT_SOURCE_DIR}/../Chaos/Concurrent/Windows/*.cc
     ${PROJECT_SOURCE_DIR}/../Chaos/IO/Windows/*.cc
     ${PROJECT_SOURCE_DIR}/../Chaos/Kern/Windows/*.cc)
-  set(ALL_SOURCES ${ALL_SOURCES} ${WINDOWS_SOURCES})
+  set(LIB_SOURCES ${LIB_SOURCES} ${WINDOWS_SOURCES})
 else()
   file(GLOB_RECURSE POSIX_SOURCES
     ${PROJECT_SOURCE_DIR}/../Chaos/Concurrent/Posix/*.cc
     ${PROJECT_SOURCE_DIR}/../Chaos/IO/Posix/*.cc
     ${PROJECT_SOURCE_DIR}/../Chaos/Kern/Posix/*.cc)
-  set(ALL_SOURCES ${ALL_SOURCES} ${POSIX_SOURCES})
+  set(LIB_SOURCES ${LIB_SOURCES} ${POSIX_SOURCES})
   if (CMAKE_SYSTEM_NAME MATCHES "Linux")
     file(GLOB_RECURSE LINUX_SOURCES
       ${PROJECT_SOURCE_DIR}/../Chaos/Concurrent/Linux/*.cc
       ${PROJECT_SOURCE_DIR}/../Chaos/Kern/Linux/*.cc)
-    set(ALL_SOURCES ${ALL_SOURCES} ${LINUX_SOURCES})
+    set(LIB_SOURCES ${LIB_SOURCES} ${LINUX_SOURCES})
   elseif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
     file(GLOB_RECURSE DARWIN_SOURCES
       ${PROJECT_SOURCE_DIR}/../Chaos/Concurrent/Darwin/*.cc
       ${PROJECT_SOURCE_DIR}/../Chaos/Kern/Darwin/*.cc)
-    set(ALL_SOURCES ${ALL_SOURCES} ${DARWIN_SOURCES})
+    set(LIB_SOURCES ${LIB_SOURCES} ${DARWIN_SOURCES})
   endif()
 endif()
+add_library(libchaos STATIC ${LIB_SOURCES})
+
+file(GLOB_RECURSE ALL_SOURCES ${PROJECT_SOURCE_DIR}/*.cc)
 add_executable(chaos.test ${ALL_SOURCES})
 
+add_dependencies(chaos.test libchaos)
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
-  target_link_libraries(chaos.test winmm.lib Dbghelp.lib)
+  target_link_libraries(libchaos winmm.lib Dbghelp.lib)
+  if (CMAKE_GENERATOR MATCHES "Visual Studio")
+    target_link_libraries(chaos.test
+      debug ${CMAKE_BINARY_DIR}/Debug/libchaos_d.lib
+      optimized ${CMAKE_BINARY_DIR}/Release/libchaos.lib)
+  else()
+    target_link_libraries(chaos.test debug libchaos_d.lib optimized libchaos.lib)
+  endif()
 elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
-  target_link_libraries(chaos.test pthread unwind)
+  target_link_libraries(libchaos pthread unwind)
+  target_link_libraries(chaos.test debug chaos_d optimized chaos)
 elseif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-  target_link_libraries(chaos.test c pthread)
+  target_link_libraries(libchaos c pthread)
+  target_link_libraries(chaos.test debug chaos_d optimized chaos)
 endif()

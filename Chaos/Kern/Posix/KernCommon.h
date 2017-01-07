@@ -31,8 +31,8 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <fcntl.h>
-#include <unistd.h>
 #include <pthread.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -137,11 +137,6 @@ namespace io {
   typedef struct stat _Stat_t;
   inline int kern_fstat(int fileds, _Stat_t* buf) {
     return fstat(fileds, buf);
-  }
-
-  // Stream-IO methods wrapper
-  inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
-    return fwrite_unlocked(buf, size, count, stream);
   }
 }
 

@@ -31,6 +31,7 @@
 #include <sys/syscall.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <time.h>
 
 namespace Chaos {
@@ -53,6 +54,13 @@ inline int kern_this_thread_setname(const char* name) {
 
 inline int kern_gettime(struct timespec* timep) {
   return clock_gettime(CLOCK_REALTIME, timep);
+}
+
+namespace io {
+  // Stream-IO methods wrapper
+  inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
+    return fwrite_unlocked(buf, size, count, stream);
+  }
 }
 
 }

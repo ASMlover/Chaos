@@ -32,6 +32,7 @@
 #include <sys/time.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <time.h>
 #include <Chaos/Types.h>
 
@@ -61,6 +62,13 @@ inline int kern_gettime(struct timespec* timep) {
   timep->tv_sec = realtime / CHAOS_NANOSEC;
   timep->tv_nsec = realtime % CHAOS_NANOSEC;
   return 0;
+}
+
+namespace io {
+  // Stream-IO methods wrapper
+  inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
+    return fwrite(buf, size, count, stream);
+  }
 }
 
 }

@@ -29,38 +29,143 @@
 
 #include <Windows.h>
 #include <Chaos/UnCopyable.h>
+#include <iostream>
 
 namespace Chaos {
 
+template <int Bytes> struct ActomicImpl {
+  LONG get_impl(const void* value) const volatile {
+    return InterlockedCompareExchange((volatile LONG*)value, 0, 0);
+  }
+
+  LONG set_impl(const void* value, LONG arg) const volatile {
+    return InterlockedExchange((volatile LONG*)value, arg);
+  }
+
+  LONG fetch_add_impl(const void* value, LONG arg) const volatile {
+    return InterlockedExchangeAdd((volatile LONG*)value, arg);
+  }
+
+  LONG fetch_sub_impl(const void* value, LONG arg) const volatile {
+    return InterlockedExchangeAdd((volatile LONG*)value, -arg);
+  }
+
+  LONG increment_impl(const void* value) const volatile {
+    return InterlockedIncrement((volatile LONG*)value);
+  }
+
+  LONG decrement_impl(const void* value) const volatile {
+    return InterlockedDecrement((volatile LONG*)value);
+  }
+};
+
+template <> struct ActomicImpl<1> {
+  char get_impl(const void* value) const volatile {
+    return static_cast<char>(InterlockedCompareExchange((volatile LONG*)value, 0, 0));
+  }
+
+  char set_impl(const void* value, char arg) const volatile {
+    return InterlockedExchange8((volatile char*)value, arg);
+  }
+
+  char fetch_add_impl(const void* value, char arg) const volatile {
+    return static_cast<char>(InterlockedExchangeAdd((volatile LONG*)value, arg));
+  }
+
+  char fetch_sub_impl(const void* value, char arg) const volatile {
+    return static_cast<char>(InterlockedExchangeAdd((volatile LONG*)value, -arg));
+  }
+
+  char increment_impl(const void* value) const volatile {
+    return static_cast<char>(InterlockedIncrement((volatile LONG*)value));
+  }
+
+  char decrement_impl(const void* value) const volatile {
+    return static_cast<char>(InterlockedDecrement((volatile LONG*)value));
+  }
+};
+
+template <> struct ActomicImpl<2> {
+  short get_impl(const void* value) const volatile {
+    return InterlockedCompareExchange16((volatile short*)value, 0, 0);
+  }
+
+  short set_impl(const void* value, short arg) const volatile {
+    return InterlockedExchange16((volatile short*)value, arg);
+  }
+
+  short fetch_add_impl(const void* value, short arg) const volatile {
+    return static_cast<short>(InterlockedExchangeAdd((volatile LONG*)value, arg));
+  }
+
+  short fetch_sub_impl(const void* value, short arg) const volatile {
+    return static_cast<short>(InterlockedExchangeAdd((volatile LONG*)value, -arg));
+  }
+
+  short increment_impl(const void* value) const volatile {
+    return InterlockedIncrement16((volatile short*)value);
+  }
+
+  short decrement_impl(const void* value) const volatile {
+    return static_cast<short>(InterlockedDecrement((volatile LONG*)value));
+  }
+};
+
+template <> struct ActomicImpl<8> {
+  LONGLONG get_impl(const void* value) const volatile {
+    return InterlockedCompareExchange64((volatile LONGLONG*)value, 0, 0);
+  }
+
+  LONGLONG set_impl(const void* value, LONGLONG arg) const volatile {
+    return InterlockedExchange64((volatile LONGLONG*)value, arg);
+  }
+
+  LONGLONG fetch_add_impl(const void* value, LONGLONG arg) const volatile {
+    return InterlockedExchangeAdd64((volatile LONGLONG*)value, arg);
+  }
+
+  LONGLONG fetch_sub_impl(const void* value, LONGLONG arg) const volatile {
+    return InterlockedExchangeAdd64((volatile LONGLONG*)value, -arg);
+  }
+
+  LONGLONG increment_impl(const void* value) const volatile {
+    return InterlockedIncrement64((volatile LONGLONG*)value);
+  }
+
+  LONGLONG decrement_impl(const void* value) const volatile {
+    return InterlockedDecrement64((volatile LONGLONG*)value);
+  }
+};
+
 template <typename T>
-class Atomic : private UnCopyable {
-  volatile T value_{};
+class Atomic : public ActomicImpl<sizeof(T)> , private UnCopyable {
+  T value_{};
 
   static_assert(sizeof(T) == 1 || sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8,
       "Chaos::Atomic value type's size must be `1`, `2`, `4` or `8`");
 public:
   T get(void) {
-    return static_cast<T>(InterlockedCompareExchange(reinterpret_cast<volatile LONG*>(&value_), 0, 0));
+    return static_cast<T>(get_impl(&value_));
   }
 
   T set(T desired) {
-    return static_cast<T>(InterlockedExchange(reinterpret_cast<volatile LONG*>(&value_), desired));
+    return static_cast<T>(set_impl(&value_, desired));
   }
 
   T fetch_add(T arg) {
-    return static_cast<T>(InterlockedExchangeAdd(reinterpret_cast<volatile LONG*>(&value_), arg));
+    return static_cast<T>(fetch_add_impl(&value_, arg));
   }
 
   T fetch_sub(T arg) {
-    return static_cast<T>(InterlockedExchangeAdd(reinterpret_cast<volatile LONG*>(&value_), -arg));
+    return static_cast<T>(fetch_sub_impl(&value_, arg));
   }
 
   T operator++(void) {
-    return static_cast<T>(InterlockedIncrement(reinterpret_cast<volatile LONG*>(&value_)));
+    return static_cast<T>(increment_impl(&value_));
   }
 
   T operator--(void) {
-    return static_cast<T>(InterlockedDecrement(reinterpret_cast<volatile LONG*>(&value_)));
+    return static_cast<T>(decrement_impl(&value_));
   }
 
   T operator++(int) {

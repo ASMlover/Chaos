@@ -38,8 +38,7 @@
 
 namespace Chaos {
 
-// FIXME: occoured "Run-Time Check Failure #2" on VC2015
-// typedef Atomic<int16_t> AtomicI16;
+typedef Atomic<int16_t> AtomicI16;
 typedef Atomic<int32_t> AtomicI32;
 typedef Atomic<int64_t> AtomicI64;
 

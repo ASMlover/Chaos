@@ -52,6 +52,8 @@ public:
 _ThreadNameInitializer g_threadname_init;
 
 struct ThreadData {
+  using ThreadCallback = std::function<void (void)>;
+
   ThreadCallback _fn;
   std::string _name;
   std::weak_ptr<pid_t> _wk_tid;

@@ -38,12 +38,11 @@
 
 namespace Chaos {
 
-typedef std::function<void (void)> TaskCallback;
-
 class Thread;
 
 class ThreadPool : private UnCopyable {
-  typedef std::unique_ptr<Thread> ThreadEntity;
+  using TaskCallback = std::function<void (void)>;
+  using ThreadEntity = std::unique_ptr<Thread>;
 
   size_t tasks_capacity_{};
   bool running_{};

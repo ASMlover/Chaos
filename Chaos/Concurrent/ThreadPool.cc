@@ -38,7 +38,7 @@ bool ThreadPool::is_full(void) const {
   return tasks_capacity_ > 0 && tasks_.size() >= tasks_capacity_;
 }
 
-TaskCallback ThreadPool::fetch_task(void) {
+ThreadPool::TaskCallback ThreadPool::fetch_task(void) {
   ScopedLock<Mutex> guard(mtx_);
   while (tasks_.empty() && running_)
     non_empty_.wait();

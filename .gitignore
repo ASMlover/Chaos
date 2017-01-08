@@ -16,5 +16,6 @@
 *.out
 *.conf
 .ycm_extra_conf.py
-build
 Makefile
+build
+cmake-build

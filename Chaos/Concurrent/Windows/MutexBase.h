@@ -52,7 +52,6 @@ private:
   }
 
   int do_lock(bool try_lock = false) {
-    int r = WAIT_TIMEOUT;
     int tid = static_cast<int>(GetCurrentThreadId());
 
     if (!try_lock) {
@@ -64,6 +63,7 @@ private:
       return MUTEX_SUCCESS;
     }
     else {
+      int r = WAIT_TIMEOUT;
       if (!try_lock) {
         if (tid_ != tid)
           EnterCriticalSection(&m_);

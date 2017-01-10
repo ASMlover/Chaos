@@ -56,33 +56,42 @@ private:
     int tid = static_cast<int>(GetCurrentThreadId());
 
     if (!try_lock) {
-      if (tid_ != tid)
+      if (tid_ != tid) {
         EnterCriticalSection(&m_);
-      r = WAIT_OBJECT_0;
+        tid_ = tid;
+      }
+      ++count_;
+      return MUTEX_SUCCESS;
     }
     else {
-      if (tid_ != tid)
-        r = TRUE == TryEnterCriticalSection(&m_) ? WAIT_OBJECT_0 : WAIT_TIMEOUT;
-      else
+      if (!try_lock) {
+        if (tid_ != tid)
+          EnterCriticalSection(&m_);
         r = WAIT_OBJECT_0;
+      }
+      else {
+        if (tid_ != tid)
+          r = TRUE == TryEnterCriticalSection(&m_) ? WAIT_OBJECT_0 : WAIT_TIMEOUT;
+        else
+          r = WAIT_OBJECT_0;
+      }
+
+      if (r != WAIT_OBJECT_0 && r != WAIT_ABANDONED)
+        ;
+      else if (1 < ++count_)
+        r = (--count_, WAIT_TIMEOUT);
+      else
+        tid_ = tid;
+
+      switch (r) {
+      case WAIT_OBJECT_0:
+      case WAIT_ABANDONED:
+        return MUTEX_SUCCESS;
+      case WAIT_TIMEOUT:
+        return try_lock ? MUTEX_BUSY : MUTEX_TIMEDOUT;
+      }
+      return MUTEX_ERROR;
     }
-
-    if (r != WAIT_OBJECT_0 && r != WAIT_ABANDONED)
-      ;
-    else if (1 < ++count_)
-      r = (--count_, WAIT_TIMEOUT);
-    else
-      tid_ = tid;
-
-    switch (r) {
-    case WAIT_OBJECT_0:
-    case WAIT_ABANDONED:
-      return MUTEX_SUCCESS;
-    case WAIT_TIMEOUT:
-      return try_lock ? MUTEX_BUSY : MUTEX_TIMEDOUT;
-    }
-
-    return MUTEX_ERROR;
   }
 public:
   MutexBase(void) {

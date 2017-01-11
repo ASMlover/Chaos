@@ -1,0 +1,29 @@
+sudo: required
+
+language: cpp
+
+branches:
+  only:
+    - master
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
+before_install:
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      sudo apt-get install cmake;
+      sudo apt-get install unwind;
+    fi
+
+before_script:
+  - mkdir cmake-build
+  - cd cmake-build
+  - cmake
+
+script:
+  - make

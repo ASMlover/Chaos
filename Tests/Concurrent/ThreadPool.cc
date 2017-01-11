@@ -24,24 +24,39 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <Chaos/Concurrent/CurrentThread.h>
-#include <Chaos/Concurrent/ThreadPool.h>
 #include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Concurrent/ThreadPool.h>
+#include <Chaos/Concurrent/CurrentThread.h>
+#include <Chaos/Concurrent/CountdownLatch.h>
 #include <Chaos/Logging/Logging.h>
 #include <iostream>
 
 static void do_print(void) {
-  std::cout << "Chaos::ThreadPool unittest, tid=" << Chaos::CurrentThread::get_tid() << std::endl;
+  std::cout << "Chaos::ThreadPool unittest, @tid=" << Chaos::CurrentThread::get_tid() << std::endl;
 }
 
 static void do_test(int max_count) {
-  CHAOSLOG_INFO << "Chaos::ThreadPool unittest, max thread count: " << max_count;
+  CHAOSLOG_INFO << "Chaos::ThreadPool unittest, @max_count=" << max_count;
   Chaos::ThreadPool pool("TestThreadPool");
   pool.set_tasks_capacity(max_count);
   pool.start(5);
 
   pool.run(do_print);
   pool.run(do_print);
+  pool.run(do_print);
+
+  for (int i = 0; i < 10; ++i) {
+    char buf[32];
+    snprintf(buf, sizeof(buf), "task#%d", i + 1);
+    pool.run([&buf] {
+      CHAOSLOG_INFO << "Chaos::ThreadPool unittest, @buf=" <<  buf;
+      Chaos::CurrentThread::sleep_usec(1000 * 100);
+    });
+  }
+
+  Chaos::CountdownLatch latch(1);
+  pool.run(std::bind(&Chaos::CountdownLatch::countdown, &latch));
+  latch.wait();
 
   pool.stop();
 }

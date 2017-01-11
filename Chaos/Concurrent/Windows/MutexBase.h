@@ -52,39 +52,61 @@ private:
     return ret;
   }
 
-  // FIXME: need implementation non-recursive mutex on Windows ???
-  // int do_lock(bool try_lock = false) {
-  //   int tid = static_cast<int>(GetCurrentThreadId());
-  //   int r = WAIT_TIMEOUT;
-  //   if (!try_lock) {
-  //     if (tid_ != tid)
-  //       EnterCriticalSection(&m_);
-  //     r = WAIT_OBJECT_0;
-  //     std::cout << "do_lock r=" << r << ", count_=" << count_ << std::endl;
-  //   }
-  //   else {
-  //     if (tid_ != tid)
-  //       r = TRUE == TryEnterCriticalSection(&m_) ? WAIT_OBJECT_0 : WAIT_TIMEOUT;
-  //     else
-  //       r = WAIT_OBJECT_0;
-  //   }
+  int do_lock(bool try_lock = false) {
+    int tid = static_cast<int>(GetCurrentThreadId());
+    int r = WAIT_TIMEOUT;
+    if (!try_lock) {
+      if (tid_ != tid)
+        EnterCriticalSection(&m_);
+      r = WAIT_OBJECT_0;
+    }
+    else {
+      if (tid_ != tid)
+        r = TRUE == TryEnterCriticalSection(&m_) ? WAIT_OBJECT_0 : WAIT_TIMEOUT;
+      else
+        r = WAIT_OBJECT_0;
+    }
 
-  //   if (r != WAIT_OBJECT_0 && r != WAIT_ABANDONED)
-  //     ;
-  //   else if (1 < ++count_)
-  //     r = (--count_, WAIT_TIMEOUT);
-  //   else
-  //     tid_ = tid;
+    if (r != WAIT_OBJECT_0 && r != WAIT_ABANDONED)
+      ;
+    else if (1 < ++count_)
+      r = (--count_, WAIT_TIMEOUT);
+    else
+      tid_ = tid;
 
-  //   switch (r) {
-  //   case WAIT_OBJECT_0:
-  //   case WAIT_ABANDONED:
-  //     return MUTEX_SUCCESS;
-  //   case WAIT_TIMEOUT:
-  //     return MUTEX_BUSY;
-  //   }
-  //   return MUTEX_ERROR;
-  // }
+    switch (r) {
+    case WAIT_OBJECT_0:
+    case WAIT_ABANDONED:
+      return MUTEX_SUCCESS;
+    case WAIT_TIMEOUT:
+      return MUTEX_BUSY;
+    }
+    return MUTEX_ERROR;
+  }
+
+  void clear_owner(void) {
+    tid_ = -1;
+    --count_;
+  }
+
+  void reset_owner(void) {
+    tid_ = static_cast<int>(GetCurrentThreadId());
+    ++count_;
+  }
+
+  class UnassignOwnerGuard : private UnCopyable {
+    MutexBase& m_;
+  public:
+    explicit UnassignOwnerGuard(MutexBase& m)
+      : m_(m) {
+      m_.clear_owner();
+    }
+
+    ~UnassignOwnerGuard(void) {
+      m_.reset_owner();
+    }
+  };
+  friend class Condition;
 public:
   MutexBase(void) {
     InitializeCriticalSection(&m_);
@@ -95,24 +117,18 @@ public:
   }
 
   void lock(void) {
-    // FIXME: need non-recursive mutex on Windows
-    // CHECK_RETURN(do_lock());
-    EnterCriticalSection(&m_);
+    CHECK_RETURN(do_lock());
   }
 
   bool try_lock(void) {
-    // FIXME: need non-recursive mutex on Windows
-    // return CHECK_RETURN(do_lock(true), MUTEX_BUSY) == MUTEX_SUCCESS;
-    return TRUE == TryEnterCriticalSection(&m_);
+    return CHECK_RETURN(do_lock(true), MUTEX_BUSY) == MUTEX_SUCCESS;
   }
 
   void unlock(void) {
-    // FIXME: need non-recursive mutex on Windows
-    // if (0 == --count_) {
-    //   tid_ = -1;
-    //   LeaveCriticalSection(&m_);
-    // }
-    LeaveCriticalSection(&m_);
+    if (0 == --count_) {
+      tid_ = -1;
+      LeaveCriticalSection(&m_);
+    }
   }
 
   MutexType* get_mutex(void) {

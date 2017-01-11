@@ -44,11 +44,13 @@ public:
 
   void wait(void) {
     UnassignScopedMutex guard(mtx_);
+    Mutex::UnassignOwnerGuard owner(mtx_);
     SleepConditionVariableCS(&cond_, mtx_.get_mutex(), INFINITE);
   }
 
   bool wait_for(int seconds) {
     UnassignScopedMutex guard(mtx_);
+    Mutex::UnassignOwnerGuard owner(mtx_);
     return TRUE == SleepConditionVariableCS(&cond_, mtx_.get_mutex(), static_cast<DWORD>(seconds * 1000));
   }
 

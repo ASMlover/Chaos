@@ -29,6 +29,7 @@
 
 #include <Windows.h>
 #include <Chaos/Types.h>
+#include <iostream>
 
 namespace Chaos {
 
@@ -47,52 +48,43 @@ private:
   };
 
   inline int CHECK_RETURN(int ret, int desired = MUTEX_SUCCESS) {
-    CHAOS_CHECK(!(ret != MUTEX_SUCCESS && ret != desired), "Mutex::CHECK_RETURN: mutex operation failed");
+    CHAOS_CHECK((ret == MUTEX_SUCCESS || ret == desired), "Mutex::CHECK_RETURN: mutex operation failed");
     return ret;
   }
 
-  int do_lock(bool try_lock = false) {
-    int tid = static_cast<int>(GetCurrentThreadId());
+  // FIXME: need implementation non-recursive mutex on Windows ???
+  // int do_lock(bool try_lock = false) {
+  //   int tid = static_cast<int>(GetCurrentThreadId());
+  //   int r = WAIT_TIMEOUT;
+  //   if (!try_lock) {
+  //     if (tid_ != tid)
+  //       EnterCriticalSection(&m_);
+  //     r = WAIT_OBJECT_0;
+  //     std::cout << "do_lock r=" << r << ", count_=" << count_ << std::endl;
+  //   }
+  //   else {
+  //     if (tid_ != tid)
+  //       r = TRUE == TryEnterCriticalSection(&m_) ? WAIT_OBJECT_0 : WAIT_TIMEOUT;
+  //     else
+  //       r = WAIT_OBJECT_0;
+  //   }
 
-    if (!try_lock) {
-      if (tid_ != tid) {
-        EnterCriticalSection(&m_);
-        tid_ = tid;
-      }
-      ++count_;
-      return MUTEX_SUCCESS;
-    }
-    else {
-      int r = WAIT_TIMEOUT;
-      if (!try_lock) {
-        if (tid_ != tid)
-          EnterCriticalSection(&m_);
-        r = WAIT_OBJECT_0;
-      }
-      else {
-        if (tid_ != tid)
-          r = TRUE == TryEnterCriticalSection(&m_) ? WAIT_OBJECT_0 : WAIT_TIMEOUT;
-        else
-          r = WAIT_OBJECT_0;
-      }
+  //   if (r != WAIT_OBJECT_0 && r != WAIT_ABANDONED)
+  //     ;
+  //   else if (1 < ++count_)
+  //     r = (--count_, WAIT_TIMEOUT);
+  //   else
+  //     tid_ = tid;
 
-      if (r != WAIT_OBJECT_0 && r != WAIT_ABANDONED)
-        ;
-      else if (1 < ++count_)
-        r = (--count_, WAIT_TIMEOUT);
-      else
-        tid_ = tid;
-
-      switch (r) {
-      case WAIT_OBJECT_0:
-      case WAIT_ABANDONED:
-        return MUTEX_SUCCESS;
-      case WAIT_TIMEOUT:
-        return try_lock ? MUTEX_BUSY : MUTEX_TIMEDOUT;
-      }
-      return MUTEX_ERROR;
-    }
-  }
+  //   switch (r) {
+  //   case WAIT_OBJECT_0:
+  //   case WAIT_ABANDONED:
+  //     return MUTEX_SUCCESS;
+  //   case WAIT_TIMEOUT:
+  //     return MUTEX_BUSY;
+  //   }
+  //   return MUTEX_ERROR;
+  // }
 public:
   MutexBase(void) {
     InitializeCriticalSection(&m_);
@@ -103,18 +95,24 @@ public:
   }
 
   void lock(void) {
-    CHECK_RETURN(do_lock());
+    // FIXME: need non-recursive mutex on Windows
+    // CHECK_RETURN(do_lock());
+    EnterCriticalSection(&m_);
   }
 
   bool try_lock(void) {
-    return CHECK_RETURN(do_lock(true), MUTEX_BUSY) == MUTEX_SUCCESS;
+    // FIXME: need non-recursive mutex on Windows
+    // return CHECK_RETURN(do_lock(true), MUTEX_BUSY) == MUTEX_SUCCESS;
+    return TRUE == TryEnterCriticalSection(&m_);
   }
 
   void unlock(void) {
-    if (0 == --count_) {
-      tid_ = -1;
-      LeaveCriticalSection(&m_);
-    }
+    // FIXME: need non-recursive mutex on Windows
+    // if (0 == --count_) {
+    //   tid_ = -1;
+    //   LeaveCriticalSection(&m_);
+    // }
+    LeaveCriticalSection(&m_);
   }
 
   MutexType* get_mutex(void) {

@@ -25,7 +25,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 project(ChaosPROJ CXX)
 
 if (POLICY CMP0025)
@@ -45,7 +45,7 @@ set(CHAOS_VERSION_STRING "${CHAOS_MAJOR_VERSION}.${CHAOS_MINOR_VERSION}.${CHAOS_
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "choose build type [Debug|Release|RelWithDebInfo|MinSizeRel]" FORCE)
 endif()
-message(STATUS "`ChaosPROJ` build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "`ChaosPROJ` CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
 # build all binaries in a separate directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -83,8 +83,9 @@ else()
   endif()
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-g -O2 -std=c++11 -Wall -Werror")
 endif()
-include_directories(${PROJECT_SOURCE_DIR})
+message(STATUS "`ChaosPROJ` CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 
+include_directories(${PROJECT_SOURCE_DIR})
 add_subdirectory(Chaos)
 if (CHAOS_BUILD_TEST)
   add_subdirectory(Tests)

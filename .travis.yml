@@ -7,31 +7,21 @@ branches:
 
 os:
   - linux
-cache:
-  apt: true
-
-matrix:
-  include:
-    - env: CXX=g++-5 CC=gcc-5
-      addons:
-        apt:
-          sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-precise
-          packages:
-          - gcc-5
-          - g++-5
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.6
+    packages:
+    - gcc-5
+    - g++-5
+env: CXX=g++-5 CC=gcc-5 COMPILER=g++-5
 
 before_install:
   # libunwind
   - wget -q http://download.savannah.gnu.org/releases/libunwind/libunwind-1.1.tar.gz
   - tar xfz libunwind-1.1.tar.gz
   - cd libunwind-1.1 && ./configure --prefix=/usr && sudo make --silent install && cd ..
-  # cmake
-  - sudo apt-get install build-essential
-  - wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
-  - tar xfz cmake-3.2.2.tar.gz
-  - cd cmake-3.2.2 && ./configure --prefix=/usr && sudo make --silent install && cd ..
 
 script:
   - mkdir cmake-build && cd cmake-build && cmake ..

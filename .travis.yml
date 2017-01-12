@@ -15,12 +15,20 @@ compiler:
   - clang
 
 before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install libunwind-dev; fi
+  # g++4.8.1
+  - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
+  # clang 3.4
+  - if [ "$CXX" == "clang++" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
+  - sudo apt-get update -qq
+
+install:
+  - if [ "$CXX" == "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libunwind-dev; fi
 
 before_script:
   - mkdir cmake-build
   - cd cmake-build
-  - cmake
+  - cmake ..
 
 script:
   - make

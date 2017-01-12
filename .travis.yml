@@ -8,16 +8,13 @@ branches:
 os:
   - linux
 
-matrix:
-  include:
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env: COMPILER=g++-5
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-5
+    - g++-5
 
 before_install:
   # libunwind
@@ -30,10 +27,9 @@ before_install:
   - tar xfz cmake-3.2.2.tar.gz
   - cd cmake-3.2.2 && ./configure --prefix=/usr && sudo make --silent install && cd ..
 
-before_script:
+script:
+  - sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-5 /usr/bin/gcc
   - mkdir cmake-build
   - cd cmake-build
   - cmake ..
-
-script:
   - make

@@ -9,8 +9,16 @@ branches:
 os:
   - linux
 
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-5
+      - g++-5
+
 compiler:
-  - gcc-4.8.1
+  - gcc
 
 before_install:
   # libunwind

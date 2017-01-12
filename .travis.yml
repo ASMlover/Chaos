@@ -10,16 +10,7 @@ os:
   - linux
 
 compiler:
-  - gcc
-
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - cmake-3.2.2
-    - gcc-4.8.1
-    - g++-4.8.1
+  - gcc-4.8.1
 
 before_install:
   # libunwind
@@ -27,10 +18,10 @@ before_install:
   - tar xfz libunwind-1.1.tar.gz
   - cd libunwind-1.1 && ./configure --prefix=/usr && sudo make --silent install && cd ..
   # cmake
-  # - sudo apt-get install build-essential
-  # - wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
-  # - tar xfz cmake-3.2.2.tar.gz
-  # - cd cmake-3.2.2 && ./configure --prefix=/usr && sudo make --silent install && cd ..
+  - sudo apt-get install build-essential
+  - wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
+  - tar xfz cmake-3.2.2.tar.gz
+  - cd cmake-3.2.2 && ./configure --prefix=/usr && sudo make --silent install && cd ..
 
 before_script:
   - mkdir cmake-build

@@ -7,14 +7,20 @@ branches:
 
 os:
   - linux
+cache:
+  apt: true
 
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-5
-    - g++-5
+matrix:
+  include:
+    - env: CXX=g++-5 CC=gcc-5
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          - llvm-toolchain-precise
+          packages:
+          - gcc-5
+          - g++-5
 
 before_install:
   # libunwind
@@ -28,8 +34,5 @@ before_install:
   - cd cmake-3.2.2 && ./configure --prefix=/usr && sudo make --silent install && cd ..
 
 script:
-  - sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-5 /usr/bin/gcc
-  - mkdir cmake-build
-  - cd cmake-build
-  - cmake ..
+  - mkdir cmake-build && cd cmake-build && cmake ..
   - make

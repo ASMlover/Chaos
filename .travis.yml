@@ -11,8 +11,11 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
+    - george-edison55-precise-backports
     packages:
     - g++-5
+    - cmake
+    - cmake-data
 compiler: gcc
 env: COMPILER=g++-5
 

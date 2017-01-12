@@ -15,10 +15,7 @@ compiler:
   - clang
 
 before_install:
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      sudo apt-get install cmake;
-      sudo apt-get install libunwind-dev;
-    fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install libunwind-dev; fi
 
 before_script:
   - mkdir cmake-build

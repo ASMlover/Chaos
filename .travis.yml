@@ -1,7 +1,6 @@
 sudo: required
-
+dist: precise
 language: cpp
-
 branches:
   only:
     - master
@@ -9,16 +8,16 @@ branches:
 os:
   - linux
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-5
-      - g++-5
-
-compiler:
-  - gcc
+matrix:
+  include:
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env: COMPILER=g++-5
 
 before_install:
   # libunwind

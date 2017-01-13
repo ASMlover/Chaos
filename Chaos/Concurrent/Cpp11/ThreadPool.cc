@@ -28,6 +28,7 @@
 #include <Chaos/Types.h>
 #include <Chaos/Except/Exception.h>
 #include <Chaos/IO/ColorIO.h>
+#include <Chaos/Concurrent/CurrentThread.h>
 #include <Chaos/Concurrent/Cpp11/ThreadPool.h>
 
 namespace Chaos { namespace Cpp11 {
@@ -120,6 +121,7 @@ ThreadPool::TaskFunction ThreadPool::fetch_task(void) {
 }
 
 void ThreadPool::run_thread_callback(void) {
+  CurrentThread::cached_tid(); // cache tid
   try {
     if (initialize_fn_)
       initialize_fn_();

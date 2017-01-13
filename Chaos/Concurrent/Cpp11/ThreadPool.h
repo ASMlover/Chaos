@@ -39,7 +39,6 @@
 
 namespace Chaos { namespace Cpp11 {
 
-// [ATTENTION] use this ThreadPool need rebuild with defined macro `CHAOS_IMPL_WITH_STD`
 class ThreadPool : private UnCopyable {
   using TaskFunction = std::function<void (void)>;
   using ThreadEntity = std::unique_ptr<std::thread>;

@@ -1,4 +1,4 @@
-// Copyright (c) 2016 ASMlover. All rights reserved.
+// Copyright (c) 2017 ASMlover. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
@@ -24,20 +24,17 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdio.h>
 #include <stdlib.h>
+#include <Chaos/Types.h>
 #include <Chaos/Except/Exception.h>
 #include <Chaos/IO/ColorIO.h>
-#include <Chaos/Concurrent/Thread.h>
-#include <Chaos/Concurrent/ThreadPool.h>
+#include <Chaos/Concurrent/CurrentThread.h>
+#include <Chaos/Concurrent/Cpp11/ThreadPool.h>
 
-namespace Chaos {
+namespace Chaos { namespace Cpp11 {
 
 ThreadPool::ThreadPool(const std::string& name)
-  : mtx_()
-  , non_empty_(mtx_)
-  , non_full_(mtx_)
-  , name_(name) {
+  : name_(name) {
 }
 
 ThreadPool::~ThreadPool(void) {
@@ -46,7 +43,7 @@ ThreadPool::~ThreadPool(void) {
 }
 
 size_t ThreadPool::get_tasks_count(void) const {
-  ScopedLock<Mutex> guard(mtx_);
+  std::unique_lock<std::mutex> guard(mtx_);
   return tasks_.size();
 }
 
@@ -55,12 +52,8 @@ void ThreadPool::start(int nthreads) {
 
   running_ = true;
   threads_.reserve(nthreads);
-  for (int i = 0; i < nthreads; ++i) {
-    char thread_id[32];
-    snprintf(thread_id, sizeof(thread_id), "%d", i + 1);
-    threads_.emplace_back(new Thread(std::bind(&ThreadPool::run_thread_callback, this), name_ + thread_id));
-    threads_[i]->start();
-  }
+  for (int i = 0; i < nthreads; ++i)
+    threads_.emplace_back(new std::thread(std::bind(&ThreadPool::run_thread_callback, this)));
 
   if (nthreads == 0 && initialize_fn_)
     initialize_fn_();
@@ -68,7 +61,7 @@ void ThreadPool::start(int nthreads) {
 
 void ThreadPool::stop(void) {
   {
-    ScopedLock<Mutex> guard(mtx_);
+    std::unique_lock<std::mutex> guard(mtx_);
     running_ = false;
     non_empty_.notify_all();
   }
@@ -82,9 +75,9 @@ void ThreadPool::run(const TaskFunction& fn) {
     fn();
   }
   else {
-    ScopedLock<Mutex> guard(mtx_);
+    std::unique_lock<std::mutex> guard(mtx_);
     while (is_full())
-      non_full_.wait();
+      non_full_.wait(guard);
     CHAOS_CHECK(!is_full(), "ThreadPool::run(&) - tasks should not be full");
 
     tasks_.push_back(fn);
@@ -97,9 +90,9 @@ void ThreadPool::run(TaskFunction&& fn) {
     fn();
   }
   else {
-    ScopedLock<Mutex> guard(mtx_);
+    std::unique_lock<std::mutex> guard(mtx_);
     while (is_full())
-      non_full_.wait();
+      non_full_.wait(guard);
     CHAOS_CHECK(!is_full(), "ThreadPool::run(&&) - tasks should not be full");
 
     tasks_.push_back(std::move(fn));
@@ -108,14 +101,13 @@ void ThreadPool::run(TaskFunction&& fn) {
 }
 
 bool ThreadPool::is_full(void) const {
-  mtx_.assert_locked();
   return tasks_capacity_ > 0 && tasks_.size() >= tasks_capacity_;
 }
 
 ThreadPool::TaskFunction ThreadPool::fetch_task(void) {
-  ScopedLock<Mutex> guard(mtx_);
+  std::unique_lock<std::mutex> guard(mtx_);
   while (tasks_.empty() && running_)
-    non_empty_.wait();
+    non_empty_.wait(guard);
 
   TaskFunction task_fn;
   if (!tasks_.empty()) {
@@ -129,6 +121,7 @@ ThreadPool::TaskFunction ThreadPool::fetch_task(void) {
 }
 
 void ThreadPool::run_thread_callback(void) {
+  CurrentThread::cached_tid(); // cache tid
   try {
     if (initialize_fn_)
       initialize_fn_();
@@ -168,4 +161,4 @@ void ThreadPool::run_thread_callback(void) {
   }
 }
 
-}
+}}

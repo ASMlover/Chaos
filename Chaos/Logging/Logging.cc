@@ -38,15 +38,9 @@
 
 namespace Chaos {
 
-#if defined(CHAOS_WINDOWS)
-  __declspec(thread) char t_errbuf[512];
-  __declspec(thread) char t_timebuf[32];
-  __declspec(thread) time_t t_last_seconds;
-#else
-  __thread char t_errbuf[512];
-  __thread char t_timebuf[32];
-  __thread time_t t_last_seconds;
-#endif
+__chaos_tl char t_errbuf[512];
+__chaos_tl char t_timebuf[32];
+__chaos_tl time_t t_last_seconds;
 
 const char* strerror_tl(int saved_errno) {
 #if defined(CHAOS_LINUX)

@@ -35,6 +35,7 @@ set(CHAOS_SOURCES
   Concurrent/CountdownLatch.cc
   Concurrent/Thread.cc
   Concurrent/ThreadPool.cc
+  Concurrent/Cpp11/ThreadPool.cc
   Container/StringPiece.cc
   Datetime/Date.cc
   Datetime/Timestamp.cc

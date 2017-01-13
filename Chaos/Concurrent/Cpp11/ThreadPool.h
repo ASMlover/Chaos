@@ -1,4 +1,4 @@
-// Copyright (c) 2016 ASMlover. All rights reserved.
+// Copyright (c) 2017 ASMlover. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
@@ -24,31 +24,30 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_CONCURRENT_THREADPOOL_H
-#define CHAOS_CONCURRENT_THREADPOOL_H
+#ifndef CHAOS_CONCURRENT_CPP11_THREADPOOL_H
+#define CHAOS_CONCURRENT_CPP11_THREADPOOL_H
 
 #include <functional>
 #include <memory>
 #include <string>
 #include <deque>
 #include <vector>
-#include <Chaos/Types.h>
-#include <Chaos/Concurrent/Mutex.h>
-#include <Chaos/Concurrent/Condition.h>
+#include <mutex>
+#include <thread>
+#include <condition_variable>
+#include <Chaos/UnCopyable.h>
 
-namespace Chaos {
-
-class Thread;
+namespace Chaos { namespace Cpp11 {
 
 class ThreadPool : private UnCopyable {
   using TaskFunction = std::function<void (void)>;
-  using ThreadEntity = std::unique_ptr<Thread>;
+  using ThreadEntity = std::unique_ptr<std::thread>;
 
   size_t tasks_capacity_{};
   bool running_{};
-  mutable Mutex mtx_;
-  Condition non_empty_;
-  Condition non_full_;
+  mutable std::mutex mtx_;
+  std::condition_variable non_empty_;
+  std::condition_variable non_full_;
   std::string name_;
   TaskFunction initialize_fn_{};
   std::vector<ThreadEntity> threads_;
@@ -80,11 +79,10 @@ public:
   }
 
   void set_tasks_capacity(size_t capacity) {
-    // should be called before start
     tasks_capacity_ = capacity;
   }
 };
 
-}
+}}
 
-#endif // CHAOS_CONCURRENT_THREADPOOL_H
+#endif // CHAOS_CONCURRENT_CPP11_THREADPOOL_H

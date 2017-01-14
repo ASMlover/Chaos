@@ -36,7 +36,7 @@ int kern_backtrace(std::string& bt) {
   void* buff[kMaxBacktrace];
   int nptrs = backtrace(buff, kMaxBacktrace);
   char** messages = backtrace_symbols(buff, nptrs);
-  if (nullptr != messages) {
+  if (messages) {
     char message[1024];
     for (int i = 0; i < nptrs; ++i) {
       snprintf(message, sizeof(message), "%i: %s\n", nptrs - i - 1, messages[i]);

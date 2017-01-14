@@ -56,7 +56,7 @@ typedef struct _ThreadBinder_t {
 } _ThreadBinder_t;
 
 int kern_gettimeofday(struct timeval* tv, struct timezone* /*tz*/) {
-  if (nullptr != tv) {
+  if (tv) {
     FILETIME ft;
     SYSTEMTIME st;
     ULARGE_INTEGER uli;
@@ -111,7 +111,7 @@ static UINT CALLBACK kern_thread_start_routine(void* arg) {
     return 0;
 
   SetEvent(params->thread->notify_start);
-  if (NULL != params->start)
+  if (params->start)
     params->start(params->arg);
 
   return 0;
@@ -119,7 +119,7 @@ static UINT CALLBACK kern_thread_start_routine(void* arg) {
 
 int kern_thread_create(_Thread_t* thread, void* (*start_routine)(void*), void* arg) {
   thread->notify_start = CreateEvent(NULL, TRUE, FALSE, NULL);
-  if (NULL == thread->notify_start)
+  if (!thread->notify_start)
     return -1;
 
   int result = -1;
@@ -132,7 +132,7 @@ int kern_thread_create(_Thread_t* thread, void* (*start_routine)(void*), void* a
 
   thread->handle = reinterpret_cast<HANDLE>(_beginthreadex(
         nullptr, 0, kern_thread_start_routine, params.get(), 0, nullptr));
-  if (nullptr == thread->handle)
+  if (!thread->is_valid())
     goto _Exit;
 
   WaitForSingleObject(thread->notify_start, INFINITE);
@@ -149,14 +149,14 @@ static BOOL CALLBACK kern_once_callback(PINIT_ONCE /*once_control*/, PVOID arg, 
   typedef void (*_InitCallback)(void);
   _InitCallback init_routine = (_InitCallback)arg;
 
-  if (nullptr != init_routine)
+  if (init_routine)
     init_routine();
 
   return TRUE;
 }
 
 int kern_once(_Once_t* once_control, void (*init_routine)(void)) {
-  return TRUE == InitOnceExecuteOnce(once_control, kern_once_callback, (PVOID)init_routine, nullptr);
+  return InitOnceExecuteOnce(once_control, kern_once_callback, (PVOID)init_routine, nullptr) ? 0 : -1;
 }
 
 }

@@ -86,9 +86,7 @@ struct _Thread_t {
 
   _Thread_t(void) = default;
 
-  _Thread_t(std::nullptr_t)
-    : notify_start(nullptr)
-    , handle(nullptr) {
+  _Thread_t(std::nullptr_t) {
   }
 
   _Thread_t& operator=(std::nullptr_t) {
@@ -96,12 +94,16 @@ struct _Thread_t {
     handle = nullptr;
     return *this;
   }
+
+  bool is_valid(void) const {
+    return handle != nullptr;
+  }
 };
 
 int kern_thread_create(_Thread_t* thread, void* (*start_routine)(void*), void* arg);
 
 inline int kern_thread_join(_Thread_t thread) {
-  if (nullptr != thread.handle) {
+  if (thread.is_valid()) {
     WaitForSingleObject(thread.handle, INFINITE);
     CloseHandle(thread.handle);
   }
@@ -109,7 +111,7 @@ inline int kern_thread_join(_Thread_t thread) {
 }
 
 inline int kern_thread_detach(_Thread_t thread) {
-  if (nullptr != thread.handle)
+  if (thread.is_valid())
     CloseHandle(thread.handle);
   return 0;
 }
@@ -126,11 +128,11 @@ inline int kern_tls_create(_Tls_t* tls, void (*destructor)(void*)) {
 }
 
 inline int kern_tls_delete(_Tls_t tls) {
-  return TRUE == FlsFree(tls) ? 0 : -1;
+  return FlsFree(tls) ? 0 : -1;
 }
 
 inline int kern_tls_setspecific(_Tls_t tls, const void* value) {
-  return TRUE == FlsSetValue(tls, (PVOID)value) ? 0 : -1;
+  return FlsSetValue(tls, (PVOID)value) ? 0 : -1;
 }
 
 inline void* kern_tls_getspecific(_Tls_t tls) {
@@ -174,7 +176,8 @@ namespace io {
   }
 
   inline ssize_t kern_pread(int fd, void* buf, size_t len, off_t offset) {
-    _lseek(fd, offset, SEEK_SET);
+    if (_lseek(fd, offset, SEEK_SET) == -1)
+      return -1;
     return _read(fd, buf, len);
   }
 

@@ -56,7 +56,7 @@ inline int kern_this_thread_setname(const char* name) {
 
 inline int kern_gettime(struct timespec* timep) {
   mach_timebase_info_data_t info;
-  if (KERN_SUCCESS != mach_timebase_info(&info))
+  if (mach_timebase_info(&info) != KERN_SUCCESS)
     abort();
   uint64_t realtime = mach_absolute_time() * info.numer / info.denom;
   timep->tv_sec = realtime / CHAOS_NANOSEC;

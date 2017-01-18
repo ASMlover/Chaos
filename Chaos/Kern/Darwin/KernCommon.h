@@ -71,6 +71,24 @@ namespace io {
   }
 }
 
+namespace timer {
+  // timerfd methods wrapper
+  inline int kern_open(void) {
+    return 0;
+  }
+
+  inline void kern_close(int /*timerfd*/) {
+  }
+
+  inline int kern_gettime(int /*timerfd*/, size_t /*len*/, void* /*buf*/) {
+    return 0;
+  }
+
+  inline int kern_settime(int /*timerfd*/, int64_t /*msec*/) {
+    return 0;
+  }
+}
+
 }
 
 #endif // CHAOS_KERN_DARWIN_KERNCOMMON_H

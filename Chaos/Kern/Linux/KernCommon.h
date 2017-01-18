@@ -30,6 +30,7 @@
 #include <sys/prctl.h>
 #include <sys/syscall.h>
 #include <sys/time.h>
+#include <sys/timerfd.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <time.h>
@@ -60,6 +61,32 @@ namespace io {
   // Stream-IO methods wrapper
   inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
     return fwrite_unlocked(buf, size, count, stream);
+  }
+}
+
+namespace timer {
+  // timerfd methods wrapper
+  inline int kern_open(void) {
+    return timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);
+  }
+
+  inline void kern_close(int timerfd) {
+    close(timerfd);
+  }
+
+  inline int kern_gettime(int timerfd, size_t len, void* buf) {
+    return static_cast<int>(read(timerfd, buf, len));
+  }
+
+  inline int kern_settime(int timerfd, int64_t msec) {
+    struct itimerspec oldt{};
+    struct itimersepc newt{};
+
+    struct timerspec ts;
+    ts.tv_sec = static_cast<time_t>(msec / 1000000);
+    ts.tv_nsec = static_cast<long>((msec % 1000000) * 1000);
+    newt.it_value = ts;
+    return timerfd_settime(timerfd, 0, &newt, &oldt);
   }
 }
 

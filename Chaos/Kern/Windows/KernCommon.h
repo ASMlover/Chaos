@@ -27,6 +27,7 @@
 #ifndef CHAOS_KERN_WINDOWS_KERNCOMMON_H
 #define CHAOS_KERN_WINDOWS_KERNCOMMON_H
 
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <fcntl.h>
 #include <sys/types.h>

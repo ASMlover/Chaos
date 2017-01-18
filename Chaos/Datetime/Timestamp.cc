@@ -26,6 +26,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <inttypes.h>
 #include <time.h>
+#include <Chaos/Platform.h>
+#if defined(CHAOS_WINDOWS)
+# include <Windows.h>
+#endif
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Datetime/Timestamp.h>
 

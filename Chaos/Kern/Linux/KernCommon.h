@@ -32,7 +32,9 @@
 #include <sys/time.h>
 #include <sys/timerfd.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 namespace Chaos {
@@ -80,9 +82,9 @@ namespace timer {
 
   inline int kern_settime(int timerfd, int64_t msec) {
     struct itimerspec oldt{};
-    struct itimersepc newt{};
+    struct itimerspec newt{};
 
-    struct timerspec ts;
+    struct timespec ts;
     ts.tv_sec = static_cast<time_t>(msec / 1000000);
     ts.tv_nsec = static_cast<long>((msec % 1000000) * 1000);
     newt.it_value = ts;

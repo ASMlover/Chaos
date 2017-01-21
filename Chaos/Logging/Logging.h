@@ -104,12 +104,12 @@ inline T* check_non_nil(Logger::SourceFile file, int lineno, const char* names, 
   return p;
 }
 
-#if !defined(CHECK_NONIL)
-# define CHECK_NONIL(value)\
-  Chaos::check_non_nil(__FILE__, __LINE__, "`" #value "` must be non-nil", (value));
-#endif
-
 }
+
+#if !defined(CHAOS_CHECK_NONIL)
+# define CHAOS_CHECK_NONIL(value)\
+  Chaos::check_non_nil(__FILE__, __LINE__, "`" #value "` must be non-nil", (value))
+#endif
 
 #define CHAOSLOG_TRACE if (Chaos::Logger::get_loglevel() <= Chaos::LoggingLevel::LOGGINGLEVEL_TRACE)\
   Chaos::Logger(__FILE__, __LINE__, Chaos::LoggingLevel::LOGGINGLEVEL_TRACE, __func__).get_stream()

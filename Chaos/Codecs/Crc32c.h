@@ -27,6 +27,7 @@
 #ifndef CHAOS_CODECS_CRC32C_H
 #define CHAOS_CODECS_CRC32C_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 namespace Chaos {

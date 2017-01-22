@@ -76,6 +76,11 @@ public:
     , size_(n) {
   }
 
+  StringPiece(const void* s, size_t n)
+    : str_(reinterpret_cast<const char*>(s))
+    , size_(n) {
+  }
+
   explicit operator bool(void) const {
     return nullptr != str_;
   }

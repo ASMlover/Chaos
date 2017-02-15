@@ -62,12 +62,14 @@ int run_all_testharness(void) {
     for (auto& hc : *g_tests) {
       hc.closure();
       ++passed_tests;
+      ColorIO::fprintf(stdout, ColorIO::ColorType::COLORTYPE_GREEN,
+          "********** [%s] test harness PASSED (%d/%d) **********\n", hc.name, passed_tests, total_tests);
     }
 
     delete g_tests;
   }
   ColorIO::fprintf(stdout, ColorIO::ColorType::COLORTYPE_GREEN,
-      "========== PASSED (%d/%d) test harness\n", passed_tests, total_tests);
+      "========== PASSED (%d/%d) test harness ==========\n", passed_tests, total_tests);
   return 0;
 }
 

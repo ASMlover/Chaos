@@ -28,7 +28,6 @@
 #include <string.h>
 #include <Chaos/Codecs/Crc32c.h>
 #include <Chaos/Unittest/TestHarness.h>
-#include <iostream>
 
 CHAOS_TEST(Crc32c, Chaos::FakeTester) {
   namespace cc = Chaos::Crc32c;

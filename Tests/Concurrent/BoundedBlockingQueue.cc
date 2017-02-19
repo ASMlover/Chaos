@@ -27,60 +27,41 @@
 #include <memory>
 #include <thread>
 #include <vector>
-#include <Chaos/Concurrent/BlockingQueue.h>
+#include <Chaos/Concurrent/BoundedBlockingQueue.h>
 #include <Chaos/Concurrent/CountdownLatch.h>
 #include <Chaos/Logging/Logging.h>
 #include <Chaos/Unittest/TestHarness.h>
 
-CHAOS_TEST(BlockingQueue, Chaos::FakeTester) {
-  {
-    Chaos::BlockingQueue<int> queue;
-    queue.put_in(42);
-    auto x = queue.fetch_out();
-    CHAOS_CHECK_EQ(x, 42);
-  }
-
-  {
-    Chaos::BlockingQueue<std::unique_ptr<int>> queue;
-    queue.put_in(std::unique_ptr<int>(new int(42)));
-    auto x = queue.fetch_out();
-    CHAOS_CHECK_EQ(42, *x);
-    *x = 100;
-    queue.put_in(std::move(x));
-    auto y = queue.fetch_out();
-    CHAOS_CHECK_EQ(100, *y);
-  }
-
+CHAOS_TEST(BoundedBlockingQueue, Chaos::FakeTester) {
   {
     const int COUNT = 4;
     Chaos::CountdownLatch latch(COUNT);
-    Chaos::BlockingQueue<int> queue;
+    Chaos::BoundedBlockingQueue<int> queue(20);
     std::vector<std::unique_ptr<std::thread>> threads;
 
-    char buf[32];
+    char buf[32]{};
     for (auto i = 0; i < COUNT; ++i) {
       snprintf(buf, sizeof(buf), "THREAD#%d", i + 1);
       std::string name(buf);
       threads.emplace_back(new std::thread([&latch, &queue, name] {
               Chaos::CurrentThread::cached_tid();
-              CHAOSLOG_INFO << "Chaos::BlockingQueue unittest - thread [" << name << "] running ...";
+              CHAOSLOG_INFO << "Chaos::BoundedBlockingQueue unitest - thread [" << name << "] running ...";
 
               latch.countdown();
               bool running = true;
               while (running) {
                 auto x(queue.fetch_out());
-                CHAOSLOG_INFO << "Chaos::BlockingQueue unittest - fetch_out @x=" << x;
+                CHAOSLOG_INFO << "Chaos::BoundedBlockingQueue unittest - fetch_out @x=" << x;
                 running = (x != 0);
               }
-
-              CHAOSLOG_INFO << "Chaos::BlockingQueue unittest - thread [" << name << "] stoping ...";
+              CHAOSLOG_INFO << "Chaos::BoundedBlockingQueue unittest - thread [" << name << "] stoping ...";
             }));
     }
 
     latch.wait();
     for (auto i = 0; i < 100; ++i) {
       queue.put_in(i + 1);
-      CHAOSLOG_INFO << "Chaos::BlockingQueue unittest - @size=" << queue.size();
+      CHAOSLOG_INFO << "Chaos::BoundedBlockingQueue unittest - @size=" << queue.size();
     }
 
     for (auto i = 0; i < COUNT; ++i)

@@ -189,7 +189,7 @@ private:
     return at_unchecked(i);
   }
 
-  size_type next_tail(size_type i) const {
+  size_type next_tail(void) const {
     return (tail_ + 1 == capacity_) ? 0 : tail_ + 1;
   }
 

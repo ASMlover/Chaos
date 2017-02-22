@@ -52,7 +52,7 @@ public:
 
   T& get_value(void) {
     T* value = static_cast<T*>(Chaos::kern_tls_getspecific(tls_));
-    if (nullptr != value) {
+    if (nullptr == value) {
       T* obj = new T();
       Chaos::kern_tls_setspecific(tls_, obj);
       value = obj;

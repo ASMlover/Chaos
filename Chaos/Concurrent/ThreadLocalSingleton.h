@@ -48,7 +48,7 @@ class ThreadLocalSingleton : private UnCopyable {
     }
 
     void set_value(T* value) {
-      CHAOS_CHECK(nullptr == Chaos::kern_tls_getspecific(&tls_),
+      CHAOS_CHECK(nullptr == Chaos::kern_tls_getspecific(tls_),
           "ThreadLocalSingleton::Deleter::set_value - current tls should be nullptr");
       Chaos::kern_tls_setspecific(tls_, value);
     }

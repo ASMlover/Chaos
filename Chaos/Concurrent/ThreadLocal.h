@@ -32,6 +32,14 @@
 
 namespace Chaos {
 
+#if defined(CHAOS_WINDOWS)
+template <typename T>
+void WINAPI _ThreadLocal_destructor(T* obj) {
+  if (obj != nullptr)
+    delete obj;
+}
+#endif
+
 template <typename T>
 class ThreadLocal : private UnCopyable {
   Chaos::_Tls_t tls_;
@@ -43,7 +51,11 @@ class ThreadLocal : private UnCopyable {
   }
 public:
   ThreadLocal(void) {
+#if defined(CHAOS_WINDOWS)
+    Chaos::kern_tls_create(&tls_, _ThreadLocal_destructor);
+#else
     Chaos::kern_tls_create(&tls_, &ThreadLocal::destructor);
+#endif
   }
 
   ~ThreadLocal(void) {

@@ -201,7 +201,7 @@ private:
   }
 
   void increment_tail(void) {
-    --size_;
+    ++size_;
     tail_ = next_tail();
   }
 

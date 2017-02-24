@@ -33,14 +33,6 @@
 
 namespace Chaos {
 
-#if defined(CHAOS_WINDOWS)
-template <typename T>
-void WINAPI _ThreadLocalSingleton_destructor(T* obj) {
-  if (obj != nullptr)
-    delete obj;
-}
-#endif
-
 template <typename T>
 class ThreadLocalSingleton : private UnCopyable {
   class Deleter {
@@ -48,11 +40,7 @@ class ThreadLocalSingleton : private UnCopyable {
     Chaos::_Tls_t tls_;
 
     Deleter(void) {
-#if defined(CHAOS_WINDOWS)
-      Chaos::kern_tls_create(&tls_, _ThreadLocalSingleton_destructor);
-#else
       Chaos::kern_tls_create(&tls_, &ThreadLocalSingleton::destructor);
-#endif
     }
 
     ~Deleter(void) {

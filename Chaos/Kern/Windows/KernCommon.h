@@ -124,8 +124,14 @@ inline int kern_thread_atfork(void (*prepare)(void), void (*parent)(void), void 
 // Windows thread local methods wrapper
 typedef DWORD _Tls_t;
 
-inline int kern_tls_create(_Tls_t* tls, void (WINAPI *destructor)(void*)) {
-  return *tls = FlsAlloc((PFLS_CALLBACK_FUNCTION)destructor), 0;
+template <typename T>
+void WINAPI _kern_tls_destructor_callback(T* obj) {
+  if (obj != nullptr)
+    delete obj;
+}
+
+inline int kern_tls_create(_Tls_t* tls, void (*)(void*)) {
+  return *tls = FlsAlloc((PFLS_CALLBACK_FUNCTION)_kern_tls_destructor_callback), 0;
 }
 
 inline int kern_tls_delete(_Tls_t tls) {

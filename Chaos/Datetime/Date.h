@@ -45,6 +45,8 @@ public:
   static const int kDaysPerWeek = 7;
   static const int kEpochDay19700101;
 
+  Date(void) = default;
+
   explicit Date(int epoch_day)
     : epoch_day_(epoch_day) {
   }

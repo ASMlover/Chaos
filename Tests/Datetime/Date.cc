@@ -51,10 +51,11 @@ CHAOS_TEST(Date, Chaos::FakeTester) {
   {
     Chaos::Date d0(1990, 1, 1);
     CHAOSLOG_INFO << "Chaos::Date unittest - @d0=" << d0.to_iso_string() << ", @epoch_day=" << d0.epoch_day();
-    Chaos::Date d1(2017, 2, 24);
-    CHAOSLOG_INFO << "Chaos::Date unittest - @d1=" << d1.to_iso_string() << ", @epoch_day=" << d1.epoch_day();
     std::time_t now(std::time(nullptr));
-    Chaos::Date d2(*std::localtime(&now));
+    std::tm* tm_now = std::localtime(&now);
+    Chaos::Date d1(tm_now->tm_year + 1900, tm_now->tm_mon + 1, tm_now->tm_mday);
+    CHAOSLOG_INFO << "Chaos::Date unittest - @d1=" << d1.to_iso_string() << ", @epoch_day=" << d1.epoch_day();
+    Chaos::Date d2(*tm_now);
     CHAOSLOG_INFO << "Chaos::Date unittest - @d2=" << d1.to_iso_string() << ", @epoch_day=" << d1.epoch_day();
 
     CHAOS_CHECK_TRUE(d1 == d2);
@@ -62,11 +63,11 @@ CHAOS_TEST(Date, Chaos::FakeTester) {
     CHAOS_CHECK_TRUE(d0 < d2);
 
     d0.swap(d2);
-    CHAOS_CHECK_TRUE(d0.epoch_day() == 2457809 && d2.epoch_day() == 2447893);
-    CHAOS_CHECK_TRUE(d0.year() == 2017 && d2.year() == 1990);
-    CHAOS_CHECK_TRUE(d0.month() == 2 && d2.month() == 1);
-    CHAOS_CHECK_TRUE(d0.day() == 24 && d2.day() == 1);
-    CHAOS_CHECK_TRUE(d0.weekday() == 5 && d2.weekday() == 1);
+    CHAOS_CHECK_TRUE(d0.epoch_day() == d1.epoch_day() && d2.epoch_day() == 2447893);
+    CHAOS_CHECK_TRUE(d0.year() == tm_now->tm_year + 1900 && d2.year() == 1990);
+    CHAOS_CHECK_TRUE(d0.month() == tm_now->tm_mon + 1 && d2.month() == 1);
+    CHAOS_CHECK_TRUE(d0.day() == tm_now->tm_mday && d2.day() == 1);
+    CHAOS_CHECK_TRUE(d0.weekday() == tm_now->tm_wday && d2.weekday() == 1);
     CHAOS_CHECK_TRUE(d0 == d1);
     CHAOS_CHECK_TRUE(d2 < d0);
     CHAOS_CHECK_TRUE(d2 < d1);

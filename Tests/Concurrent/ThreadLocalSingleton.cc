@@ -24,12 +24,12 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+#include <iostream>
 #include <string>
 #include <Chaos/UnCopyable.h>
 #include <Chaos/Concurrent/CurrentThread.h>
 #include <Chaos/Concurrent/Thread.h>
 #include <Chaos/Concurrent/ThreadLocalSingleton.h>
-#include <Chaos/Logging/Logging.h>
 #include <Chaos/Unittest/TestHarness.h>
 
 namespace cc = ::Chaos::CurrentThread;
@@ -38,11 +38,11 @@ class Useless : private Chaos::UnCopyable {
   std::string message_;
 public:
   Useless(void) {
-    CHAOSLOG_INFO << "Chaos::ThreadLocalSingleton unittest - Useless::Useless @tid=" << cc::get_tid();
+    std::cout << "Chaos::ThreadLocalSingleton unittest - Useless::Useless @tid=" << cc::get_tid() << std::endl;
   }
 
   ~Useless(void) {
-    CHAOSLOG_INFO << "Chaos::ThreadLocalSingleton unittest - Useless::~Useless @tid=" << cc::get_tid();
+    std::cout << "Chaos::ThreadLocalSingleton unittest - Useless::~Useless @tid=" << cc::get_tid() << std::endl;
   }
 
   void set_message(const std::string& msg) {
@@ -58,19 +58,17 @@ CHAOS_TEST(ThreadLocalSingleton, Chaos::FakeTester) {
   {
     Chaos::ThreadLocalSingleton<Useless>::get_instance().set_message("Main#1");
 
-#if !defined(CHAOS_DARWIN)
     Chaos::Thread t([] {
-          CHAOSLOG_INFO << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
-            << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message();
+          std::cout << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
+            << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message() << std::endl;
           Chaos::ThreadLocalSingleton<Useless>::get_instance().set_message("Thread#1");
-          CHAOSLOG_INFO << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
-            << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message();
+          std::cout << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
+            << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message() << std::endl;
         });
     t.start();
     t.join();
-#endif
 
-    CHAOSLOG_INFO << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
-      << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message();
+    std::cout << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
+      << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message() << std::endl;
   }
 }

@@ -24,24 +24,26 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+#include <iostream>
 #include <string>
 #include <thread>
 #include <Chaos/UnCopyable.h>
 #include <Chaos/Concurrent/CurrentThread.h>
-#include <Chaos/Logging/Logging.h>
 #include <Chaos/Unittest/TestHarness.h>
 #include <Chaos/Utility/Singleton.h>
+
+namespace cc = ::Chaos::CurrentThread;
 
 class _Useless : private Chaos::UnCopyable {
   std::string message_;
 public:
   _Useless(void) {
-    CHAOSLOG_INFO << "Chaos::Singleton unittest  - _Useless::_Useless @tid=" << Chaos::CurrentThread::get_tid();
+    std::cout << "Chaos::Singleton unittest  - _Useless::_Useless @tid=" << cc::get_tid() << std::endl;
   }
 
   ~_Useless(void) {
-    CHAOSLOG_INFO << "Chaos::Singleton unittest - _Useless::~_Useless @tid="
-      << Chaos::CurrentThread::get_tid() << ", @message=" << message_;
+    std::cout << "Chaos::Singleton unittest - _Useless::~_Useless @tid="
+      << cc::get_tid() << ", @message=" << message_ << std::endl;
   }
 
   void set_message(const std::string& message) {
@@ -56,15 +58,13 @@ public:
 CHAOS_TEST(Singleton, Chaos::FakeTester) {
   {
     Chaos::Singleton<_Useless>::get_instance().set_message("_Useless.Main");
-#if !defined(CHAOS_DARWIN)
     std::thread t([] {
-        CHAOSLOG_INFO << "Chaos::Singleton unittest - @tid="
-          << Chaos::CurrentThread::get_tid() << ", @message=" << Chaos::Singleton<_Useless>::get_instance().get_message();
+        std::cout << "Chaos::Singleton unittest - @tid=" << cc::get_tid()
+          << ", @message=" << Chaos::Singleton<_Useless>::get_instance().get_message() << std::endl;
         Chaos::Singleton<_Useless>::get_instance().set_message("_Useless.Changed");
         });
     t.join();
-#endif
-    CHAOSLOG_INFO << "Chaos::Singleton unittest - @tid="
-      << Chaos::CurrentThread::get_tid() << ", @message=" << Chaos::Singleton<_Useless>::get_instance().get_message();
+    std::cout << "Chaos::Singleton unittest - @tid=" << cc::get_tid() << ", @message="
+      << Chaos::Singleton<_Useless>::get_instance().get_message() << std::endl;
   }
 }

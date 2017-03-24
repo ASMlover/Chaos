@@ -61,6 +61,13 @@ class ThreadLocalSingleton : private UnCopyable {
   ~ThreadLocalSingleton(void) = delete;
 
   static void destructor(void* obj) {
+    if (nullptr == t_value_ && nullptr != obj) {
+      // FIXME: fixed calling in another thread
+      T* del_obj = static_cast<T*>(obj);
+      delete del_obj;
+      return;
+    }
+
     CHAOS_CHECK(obj == t_value_, "ThreadLocalSingleton::destructor - destruction obj should be `t_value_`");
     if (nullptr != t_value_) {
       delete t_value_;

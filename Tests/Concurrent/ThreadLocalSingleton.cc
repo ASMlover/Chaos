@@ -58,6 +58,7 @@ CHAOS_TEST(ThreadLocalSingleton, Chaos::FakeTester) {
   {
     Chaos::ThreadLocalSingleton<Useless>::get_instance().set_message("Main#1");
 
+#if !defined(CHAOS_DARWIN)
     Chaos::Thread t([] {
           CHAOSLOG_INFO << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
             << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message();
@@ -66,10 +67,10 @@ CHAOS_TEST(ThreadLocalSingleton, Chaos::FakeTester) {
             << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message();
         });
     t.start();
+    t.join();
+#endif
 
     CHAOSLOG_INFO << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
       << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message();
-
-    t.join();
   }
 }

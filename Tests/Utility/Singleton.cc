@@ -56,12 +56,14 @@ public:
 CHAOS_TEST(Singleton, Chaos::FakeTester) {
   {
     Chaos::Singleton<_Useless>::get_instance().set_message("_Useless.Main");
+#if !defined(CHAOS_DARWIN)
     std::thread t([] {
         CHAOSLOG_INFO << "Chaos::Singleton unittest - @tid="
           << Chaos::CurrentThread::get_tid() << ", @message=" << Chaos::Singleton<_Useless>::get_instance().get_message();
         Chaos::Singleton<_Useless>::get_instance().set_message("_Useless.Changed");
         });
     t.join();
+#endif
     CHAOSLOG_INFO << "Chaos::Singleton unittest - @tid="
       << Chaos::CurrentThread::get_tid() << ", @message=" << Chaos::Singleton<_Useless>::get_instance().get_message();
   }

@@ -66,6 +66,7 @@ CHAOS_TEST(ThreadLocal, Chaos::FakeTester) {
   _useless_obj1.get_value().set_message("Main.unittest#1");
   show_useless();
 
+#if !defined(CHAOS_DARWIN)
   Chaos::Thread t([] {
         show_useless();
 
@@ -76,6 +77,7 @@ CHAOS_TEST(ThreadLocal, Chaos::FakeTester) {
       });
   t.start();
   t.join();
+#endif
 
   _useless_obj2.get_value().set_message("Main.unittest#2");
   show_useless();

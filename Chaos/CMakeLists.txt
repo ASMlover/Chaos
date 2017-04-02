@@ -45,6 +45,7 @@ set(CHAOS_SOURCES
   IO/ColorIO.cc
   Logging/Logging.cc
   Logging/LogStream.cc
+  Memory/MemoryPool.cc
   Unittest/TestHarness.cc
   )
 
@@ -68,6 +69,7 @@ else()
     set(CHAOS_SOURCES ${CHAOS_SOURCES} Concurrent/Darwin/CurrentThread.cc)
   endif()
 endif()
+message(STATUS "`ChaosPROJ` CHAOS_SOURCES: ${CHAOS_SOURCES}")
 
 add_library(chaos STATIC ${CHAOS_SOURCES})
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")

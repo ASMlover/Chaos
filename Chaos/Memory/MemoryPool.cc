@@ -80,6 +80,8 @@ MemoryBlock* MemoryPool::alloc_new_pool(size_t index) {
       return nullptr;
     pools_.push_back(new_pool);
 
+    freeblocks_[index] = new_pool;
+
     auto* block = freeblocks_[index];
     for (size_t i = 0; i < POOL_SIZE - block_bytes; i += block_bytes)
       block = block->nextblock = block + block_bytes / sizeof(MemoryBlock);

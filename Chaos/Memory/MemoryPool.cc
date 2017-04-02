@@ -80,10 +80,19 @@ MemoryBlock* MemoryPool::alloc_new_pool(size_t index) {
       return nullptr;
     pools_.push_back(new_pool);
 
-    freeblocks_[index] = new_pool;
+    size_t excess = (size_t)new_pool & SYSTEM_PAGE_SIZE_MASK;
+    size_t alignment_bytes;
+    if (excess != 0) {
+      freeblocks_[index] = (MemoryBlock*)((char*)new_pool + SYSTEM_PAGE_SIZE - excess);
+      alignment_bytes = POOL_SIZE - (SYSTEM_PAGE_SIZE - excess + block_bytes);
+    }
+    else {
+      freeblocks_[index] = new_pool;
+      alignment_bytes = POOL_SIZE - block_bytes;
+    }
 
     auto* block = freeblocks_[index];
-    for (size_t i = 0; i < POOL_SIZE - block_bytes; i += block_bytes)
+    for (size_t i = 0; i < alignment_bytes; i += block_bytes)
       block = block->nextblock = block + block_bytes / sizeof(MemoryBlock);
     block->nextblock = nullptr;
   }

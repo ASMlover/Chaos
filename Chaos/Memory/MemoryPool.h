@@ -27,6 +27,7 @@
 #ifndef CHAOS_MEMORY_MEMORYPOOL_H
 #define CHAOS_MEMORY_MEMORYPOOL_H
 
+#include <stddef.h>
 #include <vector>
 #include <Chaos/UnCopyable.h>
 

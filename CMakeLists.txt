@@ -68,7 +68,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     /wd4244
     /wd4800
     /wd4996)
-  set(CMAKE_CXX_FLAGS "/W3 /GF /GS /Gs /Zi /EHsc")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3 /GF /GS /Gs /Zi /EHsc")
 else()
   if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.1")
@@ -81,7 +81,7 @@ else()
       return()
     endif()
   endif()
-  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-g -O2 -std=c++11 -Wall -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O2 -std=c++11 -Wall -Werror")
 endif()
 message(STATUS "`ChaosPROJ` CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 

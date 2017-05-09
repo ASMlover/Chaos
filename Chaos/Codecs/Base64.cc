@@ -42,11 +42,11 @@ namespace Base64 {
     return s;
   }
 
-  std::string encode(const char* s, size_t n) {
+  std::string encode(const char* s, std::size_t n) {
     std::string r;
 
     const byte_t* b = reinterpret_cast<const byte_t*>(s);
-    for (size_t i = 0; i < n; i += 3) {
+    for (std::size_t i = 0; i < n; i += 3) {
       r.push_back(kEncode64[b[i] >> 2]);
 
       if (i + 1 < n) {
@@ -72,11 +72,11 @@ namespace Base64 {
     return r;
   }
 
-  std::string decode(const char* s, size_t n) {
+  std::string decode(const char* s, std::size_t n) {
     std::string r;
 
     const byte_t* b = reinterpret_cast<const byte_t*>(s);
-    for (size_t i = 0; i < n; i += 4) {
+    for (std::size_t i = 0; i < n; i += 4) {
       r.push_back((kDecode64[b[i]] << 2) | ((kDecode64[b[i + 1]] >> 4) & 0x03));
       if (b[i + 2] != '=')
         r.push_back((kDecode64[b[i + 1]] << 4) | ((kDecode64[b[i + 2]] >> 2) & 0x0f));

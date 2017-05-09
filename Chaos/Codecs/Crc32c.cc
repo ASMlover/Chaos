@@ -24,14 +24,14 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <string.h>
+#include <cstring>
 #include <Chaos/Platform.h>
 #include <Chaos/Codecs/Crc32c.h>
 
 namespace Chaos {
 
 namespace Crc32c {
-  static const uint32_t kTable0[256] = {
+  static const std::uint32_t kTable0[256] = {
     0x00000000, 0xf26b8303, 0xe13b70f7, 0x1350f3f4,
     0xc79a971f, 0x35f1141c, 0x26a1e7e8, 0xd4ca64eb,
     0x8ad958cf, 0x78b2dbcc, 0x6be22838, 0x9989ab3b,
@@ -98,7 +98,7 @@ namespace Crc32c {
     0xbe2da0a5, 0x4c4623a6, 0x5f16d052, 0xad7d5351
   };
 
-  static const uint32_t kTable1[256] = {
+  static const std::uint32_t kTable1[256] = {
     0x00000000, 0x13a29877, 0x274530ee, 0x34e7a899,
     0x4e8a61dc, 0x5d28f9ab, 0x69cf5132, 0x7a6dc945,
     0x9d14c3b8, 0x8eb65bcf, 0xba51f356, 0xa9f36b21,
@@ -165,7 +165,7 @@ namespace Crc32c {
     0x97048c1a, 0x84a6146d, 0xb041bcf4, 0xa3e32483
   };
 
-  static const uint32_t kTable2[256] = {
+  static const std::uint32_t kTable2[256] = {
     0x00000000, 0xa541927e, 0x4f6f520d, 0xea2ec073,
     0x9edea41a, 0x3b9f3664, 0xd1b1f617, 0x74f06469,
     0x38513ec5, 0x9d10acbb, 0x773e6cc8, 0xd27ffeb6,
@@ -232,7 +232,7 @@ namespace Crc32c {
     0x7b2bebdb, 0xde6a79a5, 0x3444b9d6, 0x91052ba8
   };
 
-  static const uint32_t kTable3[256] = {
+  static const std::uint32_t kTable3[256] = {
     0x00000000, 0xdd45aab8, 0xbf672381, 0x62228939,
     0x7b2231f3, 0xa6679b4b, 0xc4451272, 0x1900b8ca,
     0xf64463e6, 0x2b01c95e, 0x49234067, 0x9466eadf,
@@ -299,52 +299,52 @@ namespace Crc32c {
     0x4a21617b, 0x9764cbc3, 0xf54642fa, 0x2803e842
   };
 
-  inline uint32_t decode_fixed32(const char* p) {
+  inline std::uint32_t decode_fixed32(const char* p) {
 #if CHAOS_BYTE_ORDER == CHAOS_LITTLE_ENDIAN
-    uint32_t result;
-    memcpy(&result, p, sizeof(result));
+    std::uint32_t result;
+    std::memcpy(&result, p, sizeof(result));
     return result;
 #else
-    return ((static_cast<uint32_t>(static_cast<byte_t>(p[0])))
-        | (static_cast<uint32_t>(static_cast<byte_t>(p[1])) << 8)
-        | (static_cast<uint32_t>(static_cast<byte_t>(p[2])) << 16)
-        | (static_cast<uint32_t>(static_cast<byte_t>(p[3])) << 24));
+    return ((static_cast<std::uint32_t>(static_cast<byte_t>(p[0])))
+        | (static_cast<std::uint32_t>(static_cast<byte_t>(p[1])) << 8)
+        | (static_cast<std::uint32_t>(static_cast<byte_t>(p[2])) << 16)
+        | (static_cast<std::uint32_t>(static_cast<byte_t>(p[3])) << 24));
 #endif
   }
 
-  inline uint64_t decode_fixed64(const char* p) {
+  inline std::uint64_t decode_fixed64(const char* p) {
 #if CHAOS_BYTE_ORDER == CHAOS_LITTLE_ENDIAN
-    uint64_t result;
-    memcpy(&result, p, sizeof(result));
+    std::uint64_t result;
+    std::memcpy(&result, p, sizeof(result));
     return result;
 #else
-    uint64_t lo = decode_fixed32(p);
-    uint64_t hi = decode_fixed32(p + 4);
+    std::uint64_t lo = decode_fixed32(p);
+    std::uint64_t hi = decode_fixed32(p + 4);
     return (hi << 32) | lo;
 #endif
   }
 
-  static inline uint32_t le_load32(const uint8_t* p) {
+  static inline std::uint32_t le_load32(const std::uint8_t* p) {
     return decode_fixed32(reinterpret_cast<const char*>(p));
   }
 
-  uint32_t extend(uint32_t crc, const char* buf, size_t len) {
-    const uint8_t* p = reinterpret_cast<const uint8_t*>(buf);
-    const uint8_t* e = p + len;
-    uint32_t l = crc ^ 0xffffffffu;
+  std::uint32_t extend(std::uint32_t crc, const char* buf, std::size_t len) {
+    const std::uint8_t* p = reinterpret_cast<const std::uint8_t*>(buf);
+    const std::uint8_t* e = p + len;
+    std::uint32_t l = crc ^ 0xffffffffu;
 
 #define STEP1 do {\
   int c = (l & 0xff) ^ *p++;\
   l = kTable0[c] ^ (l >> 8);\
 } while (0)
 #define STEP4 do {\
-  uint32_t c = l ^ le_load32(p);\
+  std::uint32_t c = l ^ le_load32(p);\
   p += 4;\
   l = kTable3[c & 0xff] ^ kTable2[(c >> 8) & 0xff] ^ kTable1[(c >> 16) & 0xff] ^ kTable0[c >> 24];\
 } while (0)
 
-    const uintptr_t pval = reinterpret_cast<uintptr_t>(p);
-    const uint8_t* x = reinterpret_cast<const uint8_t*>(((pval + 3) >> 2) << 2);
+    const std::uintptr_t pval = reinterpret_cast<std::uintptr_t>(p);
+    const std::uint8_t* x = reinterpret_cast<const std::uint8_t*>(((pval + 3) >> 2) << 2);
     if (x <= e) {
       while (p != x) {
         STEP1;

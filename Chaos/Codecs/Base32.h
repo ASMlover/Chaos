@@ -27,14 +27,13 @@
 #ifndef CHAOS_CODECS_BASE32_H
 #define CHAOS_CODECS_BASE32_H
 
-#include <string.h>
 #include <string>
 
 namespace Chaos {
 
 namespace Base32 {
-  std::string encode(const char* s, size_t n);
-  std::string decode(const char* s, size_t n);
+  std::string encode(const char* s, std::size_t n);
+  std::string decode(const char* s, std::size_t n);
 
   inline std::string encode(const char* s) {
     return encode(s, strlen(s));

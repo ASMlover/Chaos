@@ -27,7 +27,7 @@
 #ifndef CHAOS_TYPES_H
 #define CHAOS_TYPES_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <memory>
 #include <Chaos/Copyable.h>
 #include <Chaos/UnCopyable.h>
@@ -41,7 +41,7 @@
 #endif
 
 #if !defined(CHAOS_CHECK)
-# include <stdlib.h>
+# include <cstdlib>
 # include <Chaos/IO/ColorIO.h>
 # define CHAOS_CHECK(condition, message) do {\
     if (!(condition)) {\

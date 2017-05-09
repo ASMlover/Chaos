@@ -42,11 +42,11 @@ namespace Base16 {
     return s;
   }
 
-  std::string encode(const char* s, size_t n) {
+  std::string encode(const char* s, std::size_t n) {
     std::string r;
 
     const byte_t* b = reinterpret_cast<const byte_t*>(s);
-    for (size_t i = 0; i < n; ++i) {
+    for (std::size_t i = 0; i < n; ++i) {
       r.push_back(kEncode16[b[i] >> 4]);
       r.push_back(kEncode16[b[i] & 0x0F]);
     }
@@ -54,11 +54,11 @@ namespace Base16 {
     return r;
   }
 
-  std::string decode(const char* s, size_t n) {
+  std::string decode(const char* s, std::size_t n) {
     std::string r;
 
     const byte_t* b = reinterpret_cast<const byte_t*>(s);
-    for (size_t i = 0; i < n; i += 2)
+    for (std::size_t i = 0; i < n; i += 2)
       r.push_back((kDecode16[b[i]] << 4) | (kDecode16[b[i + 1]] & 0x0F));
 
     return r;

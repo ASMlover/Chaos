@@ -27,26 +27,26 @@
 #ifndef CHAOS_CODECS_CRC32C_H
 #define CHAOS_CODECS_CRC32C_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 
 namespace Chaos {
 
 namespace Crc32c {
-  uint32_t extend(uint32_t init_crc, const char* buf, size_t len);
+  std::uint32_t extend(std::uint32_t init_crc, const char* buf, std::size_t len);
 
-  inline uint32_t value(const char* s, size_t n) {
+  inline std::uint32_t value(const char* s, std::size_t n) {
     return extend(0, s, n);
   }
 
-  static const uint32_t kMaskDelta = 0xa282ead8ul;
+  static const std::uint32_t kMaskDelta = 0xa282ead8ul;
 
-  inline uint32_t mask(uint32_t crc) {
+  inline std::uint32_t mask(std::uint32_t crc) {
     return ((crc >> 15) | (crc << 17)) + kMaskDelta;
   }
 
-  inline uint32_t unmask(uint32_t masked_crc) {
-    uint32_t rot = masked_crc - kMaskDelta;
+  inline std::uint32_t unmask(std::uint32_t masked_crc) {
+    std::uint32_t rot = masked_crc - kMaskDelta;
     return ((rot >> 17) | (rot << 15));
   }
 }

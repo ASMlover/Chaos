@@ -33,7 +33,8 @@
 namespace Chaos {
 
 namespace Crc32c {
-  std::uint32_t extend(std::uint32_t init_crc, const char* buf, std::size_t len);
+  std::uint32_t extend(
+      std::uint32_t init_crc, const char* buf, std::size_t len);
 
   inline std::uint32_t value(const char* s, std::size_t n) {
     return extend(0, s, n);

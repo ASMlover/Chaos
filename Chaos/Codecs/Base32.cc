@@ -100,11 +100,14 @@ namespace Base32 {
     for (std::size_t i = 0; i < n; i += 8) {
       r.push_back((kDecode32[b[i]] << 3) | ((kDecode32[b[i + 1]] >> 2) & 0x07));
       if (b[i + 2] != '=')
-        r.push_back((kDecode32[b[i + 1]] << 6) | (kDecode32[b[i + 2]] << 1) | ((kDecode32[b[i + 3]] >> 4) & 0x01));
+        r.push_back((kDecode32[b[i + 1]] << 6)
+            | (kDecode32[b[i + 2]] << 1) | ((kDecode32[b[i + 3]] >> 4) & 0x01));
       if (b[i + 4] != '=')
-        r.push_back((kDecode32[b[i + 3]] << 4) | ((kDecode32[b[i + 4]] >> 1) & 0x0f));
+        r.push_back((kDecode32[b[i + 3]] << 4)
+            | ((kDecode32[b[i + 4]] >> 1) & 0x0f));
       if (b[i + 5] != '=')
-        r.push_back((kDecode32[b[i + 4]] << 7) | (kDecode32[b[i + 5]] << 2) | ((kDecode32[b[i + 6]] >> 3) & 0x03));
+        r.push_back((kDecode32[b[i + 4]] << 7)
+            | (kDecode32[b[i + 5]] << 2) | ((kDecode32[b[i + 6]] >> 3) & 0x03));
       if (b[i + 7] != '=')
         r.push_back((kDecode32[b[i + 6]] << 5) | (kDecode32[b[i + 7]] & 0x1f));
     }

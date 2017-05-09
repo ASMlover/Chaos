@@ -340,11 +340,13 @@ namespace Crc32c {
 #define STEP4 do {\
   std::uint32_t c = l ^ le_load32(p);\
   p += 4;\
-  l = kTable3[c & 0xff] ^ kTable2[(c >> 8) & 0xff] ^ kTable1[(c >> 16) & 0xff] ^ kTable0[c >> 24];\
+  l = kTable3[c & 0xff] ^ kTable2[(c >> 8) & 0xff] \
+      ^ kTable1[(c >> 16) & 0xff] ^ kTable0[c >> 24];\
 } while (0)
 
     const std::uintptr_t pval = reinterpret_cast<std::uintptr_t>(p);
-    const std::uint8_t* x = reinterpret_cast<const std::uint8_t*>(((pval + 3) >> 2) << 2);
+    const std::uint8_t* x =
+      reinterpret_cast<const std::uint8_t*>(((pval + 3) >> 2) << 2);
     if (x <= e) {
       while (p != x) {
         STEP1;

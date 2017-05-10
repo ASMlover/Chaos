@@ -27,6 +27,7 @@
 #ifndef CHAOS_CODECS_BASE16_H
 #define CHAOS_CODECS_BASE16_H
 
+#include <cstring>
 #include <string>
 
 namespace Chaos {
@@ -36,11 +37,11 @@ namespace Base16 {
   std::string decode(const char* s, std::size_t n);
 
   inline std::string encode(const char* s) {
-    return encode(s, strlen(s));
+    return encode(s, std::strlen(s));
   }
 
   inline std::string decode(const char* s) {
-    return decode(s, strlen(s));
+    return decode(s, std::strlen(s));
   }
 
   inline std::string encode(const std::string& s) {

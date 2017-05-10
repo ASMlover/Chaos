@@ -27,7 +27,7 @@
 #ifndef CHAOS_CONTAINER_STRINGPIECE_H
 #define CHAOS_CONTAINER_STRINGPIECE_H
 
-#include <string.h>
+#include <cstring>
 #include <string>
 #include <Chaos/Types.h>
 
@@ -51,19 +51,19 @@ public:
 
 class StringPiece {
   const char* str_{};
-  size_t size_{};
+  std::size_t size_{};
 public:
   StringPiece(void) = default;
   ~StringPiece(void) = default;
 
   StringPiece(const char* s)
     : str_(s)
-    , size_(strlen(str_)) {
+    , size_(std::strlen(str_)) {
   }
 
   StringPiece(const byte_t* s)
     : str_(reinterpret_cast<const char*>(s))
-    , size_(strlen(str_)) {
+    , size_(std::strlen(str_)) {
   }
 
   StringPiece(const std::string& s)
@@ -71,12 +71,12 @@ public:
     , size_(s.size()) {
   }
 
-  StringPiece(const char* s, size_t n)
+  StringPiece(const char* s, std::size_t n)
     : str_(s)
     , size_(n) {
   }
 
-  StringPiece(const void* s, size_t n)
+  StringPiece(const void* s, std::size_t n)
     : str_(reinterpret_cast<const char*>(s))
     , size_(n) {
   }
@@ -89,11 +89,11 @@ public:
     return str_;
   }
 
-  char operator[](size_t i) const {
+  char operator[](std::size_t i) const {
     return str_[i];
   }
 
-  size_t size(void) const {
+  std::size_t size(void) const {
     return size_;
   }
 
@@ -116,25 +116,25 @@ public:
 
   void set(const char* s) {
     str_ = s;
-    size_ = strlen(str_);
+    size_ = std::strlen(str_);
   }
 
-  void set(const char* s, size_t n) {
+  void set(const char* s, std::size_t n) {
     str_ = s;
     size_ = n;
   }
 
-  void set(const void* buf, size_t len) {
+  void set(const void* buf, std::size_t len) {
     str_ = reinterpret_cast<const char*>(buf);
     size_ = len;
   }
 
-  void remove_prefix(size_t n) {
+  void remove_prefix(std::size_t n) {
     str_ += n;
     size_ -= n;
   }
 
-  void remove_suffix(size_t n) {
+  void remove_suffix(std::size_t n) {
     size_ -= n;
   }
 
@@ -147,11 +147,11 @@ public:
   }
 
   bool starts_with(const StringPiece& r) const {
-    return ((size_ >= r.size_) && (0 == memcmp(str_, r.str_, r.size_)));
+    return ((size_ >= r.size_) && (0 == std::memcmp(str_, r.str_, r.size_)));
   }
 
   int compare(const StringPiece& r) const {
-    int c = memcmp(str_, r.str_, chaos_min(size_, r.size_));
+    int c = std::memcmp(str_, r.str_, chaos_min(size_, r.size_));
     if (0 == c) {
       if (size_ < r.size_)
         c = -1;
@@ -162,26 +162,26 @@ public:
   }
 
   bool operator==(const StringPiece& r) const {
-    return ((size_ == r.size_) && (0 == memcmp(str_, r.str_, size_)));
+    return ((size_ == r.size_) && (0 == std::memcmp(str_, r.str_, size_)));
   }
 
   bool operator<(const StringPiece& r) const {
-    int c = memcmp(str_, r.str_, chaos_min(size_, r.size_));
+    int c = std::memcmp(str_, r.str_, chaos_min(size_, r.size_));
     return ((c < 0) || ((0 == c) && (size_ < r.size_)));
   }
 
   bool operator<=(const StringPiece& r) const {
-    int c = memcmp(str_, r.str_, chaos_min(size_, r.size_));
+    int c = std::memcmp(str_, r.str_, chaos_min(size_, r.size_));
     return ((c < 0) || ((0 == c) && (size_ <= r.size_)));
   }
 
   bool operator>(const StringPiece& r) const {
-    int c = memcmp(str_, r.str_, chaos_min(size_, r.size_));
+    int c = std::memcmp(str_, r.str_, chaos_min(size_, r.size_));
     return ((c > 0) || ((0 == c) && (size_ > r.size_)));
   }
 
   bool operator>=(const StringPiece& r) const {
-    int c = memcmp(str_, r.str_, chaos_min(size_, r.size_));
+    int c = std::memcmp(str_, r.str_, chaos_min(size_, r.size_));
     return ((c > 0) || ((0 == c) && (size_ >= r.size_)));
   }
 };

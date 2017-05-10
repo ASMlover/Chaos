@@ -118,7 +118,8 @@ public:
     return *this;
   }
 
-  difference_type operator-(const CircularBufferIterator<T, ElemType>& r) const {
+  difference_type operator-(
+      const CircularBufferIterator<T, ElemType>& r) const {
     return pos_ -= r.pos_;
   }
 
@@ -150,19 +151,32 @@ public:
 template <typename T, typename Allocator = std::allocator<T>>
 class CircularBuffer {
 public:
-  typedef CircularBuffer<T, Allocator>                              SelfType;
-  typedef Allocator                                                 allocator_type;
-  typedef typename allocator_type::value_type                       value_type;
-  typedef typename allocator_type::size_type                        size_type;
-  typedef typename allocator_type::pointer                          pointer;
-  typedef typename allocator_type::const_pointer                    const_pointer;
-  typedef typename allocator_type::reference                        reference;
-  typedef typename allocator_type::const_reference                  const_reference;
-  typedef typename allocator_type::difference_type                  difference_type;
-  typedef CircularBufferIterator<SelfType>                          iterator;
-  typedef CircularBufferIterator<const SelfType, const value_type>  const_iterator;
-  typedef std::reverse_iterator<iterator>                           reverse_iterator;
-  typedef std::reverse_iterator<const_iterator>                     const_reverse_iterator;
+  typedef CircularBuffer<T, Allocator>
+    SelfType;
+  typedef Allocator
+    allocator_type;
+  typedef typename allocator_type::value_type
+    value_type;
+  typedef typename allocator_type::size_type
+    size_type;
+  typedef typename allocator_type::pointer
+    pointer;
+  typedef typename allocator_type::const_pointer
+    const_pointer;
+  typedef typename allocator_type::reference
+    reference;
+  typedef typename allocator_type::const_reference
+    const_reference;
+  typedef typename allocator_type::difference_type
+    difference_type;
+  typedef CircularBufferIterator<SelfType>
+    iterator;
+  typedef CircularBufferIterator<const SelfType, const value_type>
+    const_iterator;
+  typedef std::reverse_iterator<iterator>
+    reverse_iterator;
+  typedef std::reverse_iterator<const_iterator>
+    const_reverse_iterator;
 private:
   pointer buff_{};
   size_type capacity_{};
@@ -234,14 +248,18 @@ public:
     : alloc_(alloc) {
   }
 
-  CircularBuffer(size_type capacity, const allocator_type& alloc = allocator_type())
+  CircularBuffer(
+      size_type capacity, const allocator_type& alloc = allocator_type())
     : capacity_(capacity)
     , alloc_(alloc) {
     buff_ = alloc_.allocate(capacity_);
   }
 
   template <typename InputIterator>
-  CircularBuffer(InputIterator from, InputIterator to, const allocator_type& alloc = allocator_type())
+  CircularBuffer(
+      InputIterator from,
+      InputIterator to,
+      const allocator_type& alloc = allocator_type())
     : alloc_(alloc) {
     SelfType tmp(std::distance(from, to));
     tmp.assign(from, to);
@@ -432,17 +450,23 @@ public:
 };
 
 template <typename T, typename Allocator>
-inline bool operator==(const CircularBuffer<T, Allocator>& a, const CircularBuffer<T, Allocator>& b) {
+inline bool operator==(
+    const CircularBuffer<T, Allocator>& a,
+    const CircularBuffer<T, Allocator>& b) {
   return a.size() == b.size() && std::equal(a.begin(), a.end(), b.begin());
 }
 
 template <typename T, typename Allocator>
-inline bool operator!=(const CircularBuffer<T, Allocator>& a, const CircularBuffer<T, Allocator>& b) {
+inline bool operator!=(
+    const CircularBuffer<T, Allocator>& a,
+    const CircularBuffer<T, Allocator>& b) {
   return a.size() != b.size() || !std::equal(a.begin(), a.end(), b.begin());
 }
 
 template <typename T, typename Allocator>
-inline bool operator<(const CircularBuffer<T, Allocator>& a, const CircularBuffer<T, Allocator>& b) {
+inline bool operator<(
+    const CircularBuffer<T, Allocator>& a,
+    const CircularBuffer<T, Allocator>& b) {
   return std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
 }
 

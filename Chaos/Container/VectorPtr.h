@@ -295,32 +295,38 @@ public:
 };
 
 template <typename T, typename Allocator>
-inline bool operator==(const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
+inline bool operator==(
+    const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
   return a.get() == b.get() || *a.get() == *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator!=(const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
+inline bool operator!=(
+    const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
   return a.get() != b.get() && *a.get() != *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator<(const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
+inline bool operator<(
+    const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
   return *a.get() < *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator<=(const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
+inline bool operator<=(
+    const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
   return *a.get() <= *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator>(const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
+inline bool operator>(
+    const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
   return *a.get() > *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator>=(const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
+inline bool operator>=(
+    const VectorPtr<T, Allocator>& a, const VectorPtr<T, Allocator>& b) {
   return *a.get() >= *b.get();
 }
 
@@ -456,42 +462,56 @@ public:
 };
 
 template <typename T, typename Allocator>
-inline bool operator==(const ConstVectorPtr<T, Allocator>& a, const ConstVectorPtr<T, Allocator>& b) {
+inline bool operator==(
+    const ConstVectorPtr<T, Allocator>& a,
+    const ConstVectorPtr<T, Allocator>& b) {
   return a.get() == b.get() or *a.get() == *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator!=(const ConstVectorPtr<T, Allocator>& a, const ConstVectorPtr<T, Allocator>& b) {
+inline bool operator!=(
+    const ConstVectorPtr<T, Allocator>& a,
+    const ConstVectorPtr<T, Allocator>& b) {
   return a.get() != b.get() && *a.get() != *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator<(const ConstVectorPtr<T, Allocator>& a, const ConstVectorPtr<T, Allocator>& b) {
+inline bool operator<(
+    const ConstVectorPtr<T, Allocator>& a,
+    const ConstVectorPtr<T, Allocator>& b) {
   return *a.get() < *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator<=(const ConstVectorPtr<T, Allocator>& a, const ConstVectorPtr<T, Allocator>& b) {
+inline bool operator<=(
+    const ConstVectorPtr<T, Allocator>& a,
+    const ConstVectorPtr<T, Allocator>& b) {
   return *a.get() <= *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator>(const ConstVectorPtr<T, Allocator>& a, const ConstVectorPtr<T, Allocator>& b) {
+inline bool operator>(
+    const ConstVectorPtr<T, Allocator>& a,
+    const ConstVectorPtr<T, Allocator>& b) {
   return *a.get() > *b.get();
 }
 
 template <typename T, typename Allocator>
-inline bool operator>=(const ConstVectorPtr<T, Allocator>& a, const ConstVectorPtr<T, Allocator>& b) {
+inline bool operator>=(
+    const ConstVectorPtr<T, Allocator>& a,
+    const ConstVectorPtr<T, Allocator>& b) {
   return *a.get() >= *b.get();
 }
 
 template <typename T, typename Allocator = std::allocator<T>>
-inline VectorPtr<T, Allocator> make_vector_ptr(std::vector<T, Allocator>& vec) {
+inline VectorPtr<T, Allocator>
+make_vector_ptr(std::vector<T, Allocator>& vec) {
   return VectorPtr<T, Allocator>(&vec);
 }
 
 template <typename T, typename Allocator = std::allocator<T>>
-inline ConstVectorPtr<T, Allocator> make_vector_ptr(const std::vector<T, Allocator>& vec) {
+inline ConstVectorPtr<T, Allocator>
+make_vector_ptr(const std::vector<T, Allocator>& vec) {
   return ConstVectorPtr<T, Allocator>(&vec);
 }
 

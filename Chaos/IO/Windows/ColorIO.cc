@@ -57,7 +57,7 @@ namespace ColorIO {
     {
       ScopedLock<Mutex> guard(g_color_mutex);
       SetConsoleTextAttribute(out_handle, new_color);
-      n = ::vfprintf(stream, format, ap);
+      n = std::vfprintf(stream, format, ap);
       SetConsoleTextAttribute(out_handle, old_color);
     }
 

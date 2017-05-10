@@ -27,8 +27,8 @@
 #ifndef CHAOS_IO_COLORIO_H
 #define CHAOS_IO_COLORIO_H
 
-#include <stdarg.h>
-#include <stdio.h>
+#include <cstdarg>
+#include <cstdio>
 
 namespace Chaos {
 

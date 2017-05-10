@@ -51,8 +51,8 @@ namespace ColorIO {
     {
       ScopedLock<Mutex> guard(g_color_mutex);
       fprintf(stream, "%s", new_color);
-      n = ::vfprintf(stream, format, ap);
-      fprintf(stream, "\033[0m");
+      n = std::vfprintf(stream, format, ap);
+      std::fprintf(stream, "\033[0m");
     }
 
     return n;

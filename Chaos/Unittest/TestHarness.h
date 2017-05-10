@@ -27,8 +27,8 @@
 #ifndef CHAOS_UNITTEST_TESTHARNESS_H
 #define CHAOS_UNITTEST_TESTHARNESS_H
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <sstream>
 #include <Chaos/IO/ColorIO.h>
 
@@ -52,7 +52,7 @@ public:
     if (!ok_) {
       ColorIO::fprintf(stderr, ColorIO::ColorType::COLORTYPE_RED,
           "%s:%d - %s\n", fname_, lineno_, ss_.str().c_str());
-      exit(1);
+      std::exit(1);
     }
   }
 
@@ -98,7 +98,8 @@ public:
 #define CHAOS_CHECK_LE(a, b)  Chaos::Tester(__FILE__, __LINE__).is_le((a), (b))
 #define CHAOS_CHECK_LT(a, b)  Chaos::Tester(__FILE__, __LINE__).is_lt((a), (b))
 
-bool register_testharness(const char* base, const char* name, void (*closure)(void));
+bool register_testharness(
+    const char* base, const char* name, void (*closure)(void));
 int run_all_testharness(void);
 
 }
@@ -113,7 +114,8 @@ public:\
   }\
 };\
 bool _ChaosTestHarness_ignored_##Name =\
-  Chaos::register_testharness(#Base, #Name, &_ChaosTestHarness_##Name::_run_harness);\
+  Chaos::register_testharness(\
+    #Base, #Name, &_ChaosTestHarness_##Name::_run_harness);\
 void _ChaosTestHarness_##Name::_run(void)
 
 #endif // CHAOS_UNITTEST_TESTHARNESS_H

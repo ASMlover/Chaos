@@ -42,9 +42,11 @@ struct HarnessContext {
   }
 };
 typedef std::vector<HarnessContext> HarnessContextVector;
-HarnessContextVector* g_tests; // must be raw pointer for darwin (unique_ptr is invalid)
+HarnessContextVector* g_tests; // must be raw pointer for darwin
+                               // (unique_ptr is invalid)
 
-bool register_testharness(const char* base, const char* name, void (*closure)(void)) {
+bool register_testharness(
+    const char* base, const char* name, void (*closure)(void)) {
   if (nullptr == g_tests)
     g_tests = new HarnessContextVector;
 
@@ -62,14 +64,21 @@ int run_all_testharness(void) {
     for (auto& hc : *g_tests) {
       hc.closure();
       ++passed_tests;
-      ColorIO::fprintf(stdout, ColorIO::ColorType::COLORTYPE_GREEN,
-          "********** [%s] test harness PASSED (%d/%d) **********\n", hc.name, passed_tests, total_tests);
+      ColorIO::fprintf(stdout,
+          ColorIO::ColorType::COLORTYPE_GREEN,
+          "********** [%s] test harness PASSED (%d/%d) **********\n",
+          hc.name,
+          passed_tests,
+          total_tests);
     }
 
     delete g_tests;
   }
-  ColorIO::fprintf(stdout, ColorIO::ColorType::COLORTYPE_GREEN,
-      "========== PASSED (%d/%d) test harness ==========\n", passed_tests, total_tests);
+  ColorIO::fprintf(stdout,
+      ColorIO::ColorType::COLORTYPE_GREEN,
+      "========== PASSED (%d/%d) test harness ==========\n",
+      passed_tests,
+      total_tests);
   return 0;
 }
 

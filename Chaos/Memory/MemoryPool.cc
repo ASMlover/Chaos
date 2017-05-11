@@ -24,7 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdlib.h>
+#include <cstdlib>
 #include <Chaos/Memory/MemoryPool.h>
 
 namespace Chaos {
@@ -42,11 +42,11 @@ MemoryPool::~MemoryPool(void) {
   pools_.clear();
 }
 
-void* MemoryPool::alloc(size_t bytes) {
+void* MemoryPool::alloc(std::size_t bytes) {
   void* p;
 
   if (bytes <= SMALL_REQUEST_THRESHOLD) {
-    size_t index = bytes_to_index(bytes);
+    std::size_t index = bytes_to_index(bytes);
     if (freeblocks_[index] == nullptr)
       alloc_new_pool(index);
 
@@ -54,26 +54,26 @@ void* MemoryPool::alloc(size_t bytes) {
     freeblocks_[index] = freeblocks_[index]->nextblock;
   }
   else {
-    p = malloc(bytes);
+    p = std::malloc(bytes);
   }
 
   return p;
 }
 
-void MemoryPool::dealloc(void* p, size_t bytes) {
+void MemoryPool::dealloc(void* p, std::size_t bytes) {
   if (bytes <= SMALL_REQUEST_THRESHOLD) {
-    size_t index = bytes_to_index(bytes);
+    std::size_t index = bytes_to_index(bytes);
     auto* free_block = reinterpret_cast<MemoryBlock*>(p);
     free_block->nextblock = freeblocks_[index];
     freeblocks_[index] = free_block;
   }
   else {
-    free(p);
+    std::free(p);
   }
 }
 
-MemoryBlock* MemoryPool::alloc_new_pool(size_t index) {
-  size_t block_bytes = index_to_bytes(index);
+MemoryBlock* MemoryPool::alloc_new_pool(std::size_t index) {
+  std::size_t block_bytes = index_to_bytes(index);
 
   if (freeblocks_[index] == nullptr) {
     auto* new_pool = (MemoryBlock*)malloc(POOL_SIZE);
@@ -81,10 +81,11 @@ MemoryBlock* MemoryPool::alloc_new_pool(size_t index) {
       return nullptr;
     pools_.push_back(new_pool);
 
-    size_t excess = (size_t)new_pool & SYSTEM_PAGE_SIZE_MASK;
-    size_t alignment_bytes;
+    std::size_t excess = (size_t)new_pool & SYSTEM_PAGE_SIZE_MASK;
+    std::size_t alignment_bytes;
     if (excess != 0) {
-      freeblocks_[index] = (MemoryBlock*)((char*)new_pool + SYSTEM_PAGE_SIZE - excess);
+      freeblocks_[index] =
+        (MemoryBlock*)((char*)new_pool + SYSTEM_PAGE_SIZE - excess);
       alignment_bytes = POOL_SIZE - (SYSTEM_PAGE_SIZE - excess + block_bytes);
     }
     else {
@@ -93,7 +94,7 @@ MemoryBlock* MemoryPool::alloc_new_pool(size_t index) {
     }
 
     auto* block = freeblocks_[index];
-    for (size_t i = 0; i < alignment_bytes; i += block_bytes)
+    for (std::size_t i = 0; i < alignment_bytes; i += block_bytes)
       block = block->nextblock = block + block_bytes / sizeof(MemoryBlock);
     block->nextblock = nullptr;
   }

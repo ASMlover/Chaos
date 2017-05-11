@@ -27,41 +27,43 @@
 #ifndef CHAOS_MEMORY_INTRUSIVEREFCOUNTER_H
 #define CHAOS_MEMORY_INTRUSIVEREFCOUNTER_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <atomic>
 #include <Chaos/Copyable.h>
 
 namespace Chaos {
 
 struct CountedThreadUnsafe {
-  typedef uint32_t type;
+  typedef std::uint32_t type;
 
-  static uint32_t load(uint32_t counter) noexcept {
+  static std::uint32_t load(std::uint32_t counter) noexcept {
     return counter;
   }
 
-  static void increment(uint32_t& counter) noexcept {
+  static void increment(std::uint32_t& counter) noexcept {
     ++counter;
   }
 
-  static uint32_t decrement(uint32_t& counter) noexcept {
+  static std::uint32_t decrement(std::uint32_t& counter) noexcept {
     return --counter;
   }
 };
 
 struct CountedThreadSafe {
-  typedef std::atomic<uint32_t> type;
+  typedef std::atomic<std::uint32_t> type;
 
-  static uint32_t load(const std::atomic<uint32_t>& counter) noexcept {
-    return static_cast<uint32_t>(counter);
+  static std::uint32_t load(
+      const std::atomic<std::uint32_t>& counter) noexcept {
+    return static_cast<std::uint32_t>(counter);
   }
 
-  static void increment(std::atomic<uint32_t>& counter) noexcept {
+  static void increment(std::atomic<std::uint32_t>& counter) noexcept {
     ++counter;
   }
 
-  static uint32_t decrement(std::atomic<uint32_t>& counter) noexcept {
-    return static_cast<uint32_t>(--counter);
+  static std::uint32_t decrement(
+      std::atomic<std::uint32_t>& counter) noexcept {
+    return static_cast<std::uint32_t>(--counter);
   }
 };
 
@@ -69,9 +71,11 @@ template <typename DerivedT, typename CounterPolicyT>
 class IntrusiveRefCounter;
 
 template <typename DerivedT, typename CounterPolicyT>
-void intrusive_ptr_add_ref(const IntrusiveRefCounter<DerivedT, CounterPolicyT>* p);
+void intrusive_ptr_add_ref(
+    const IntrusiveRefCounter<DerivedT, CounterPolicyT>* p);
 template <typename DerivedT, typename CounterPolicyT>
-void intrusive_ptr_del_ref(const IntrusiveRefCounter<DerivedT, CounterPolicyT>* p);
+void intrusive_ptr_del_ref(
+    const IntrusiveRefCounter<DerivedT, CounterPolicyT>* p);
 
 template <typename DerivedT, typename CounterPolicyT>
 class IntrusiveRefCounter : public Copyable {
@@ -82,23 +86,27 @@ public:
     return *this;
   }
 
-  uint32_t use_count(void) const noexcept {
+  std::uint32_t use_count(void) const noexcept {
     return CounterPolicyT::load(ref_counter_);
   }
 protected:
   template <typename _Derived, typename _CounterPolicy>
-  friend void intrusive_ptr_add_ref(const IntrusiveRefCounter<_Derived, _CounterPolicy>* p);
+  friend void intrusive_ptr_add_ref(
+      const IntrusiveRefCounter<_Derived, _CounterPolicy>* p);
   template <typename _Derived, typename _CounterPolicy>
-  friend void intrusive_ptr_del_ref(const IntrusiveRefCounter<_Derived, _CounterPolicy>* p);
+  friend void intrusive_ptr_del_ref(
+      const IntrusiveRefCounter<_Derived, _CounterPolicy>* p);
 };
 
 template <typename DerivedT, typename CounterPolicyT>
-inline void intrusive_ptr_add_ref(const IntrusiveRefCounter<DerivedT, CounterPolicyT>* p) {
+inline void intrusive_ptr_add_ref(
+    const IntrusiveRefCounter<DerivedT, CounterPolicyT>* p) {
   CounterPolicyT::increment(p->ref_counter_);
 }
 
 template <typename DerivedT, typename CounterPolicyT>
-inline void intrusive_ptr_del_ref(const IntrusiveRefCounter<DerivedT, CounterPolicyT>* p) {
+inline void intrusive_ptr_del_ref(
+    const IntrusiveRefCounter<DerivedT, CounterPolicyT>* p) {
   CounterPolicyT::decrement(p->ref_counter_);
 }
 

@@ -27,7 +27,7 @@
 #ifndef CHAOS_MEMORY_SHAREDCOUNT_H
 #define CHAOS_MEMORY_SHAREDCOUNT_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <atomic>
 #include <algorithm>
 #include <Chaos/UnCopyable.h>
@@ -35,8 +35,8 @@
 namespace Chaos {
 
 class CountedBase : private UnCopyable {
-  std::atomic<uint32_t> shared_count_{1};
-  std::atomic<uint32_t> weak_count_{1};
+  std::atomic<std::uint32_t> shared_count_{1};
+  std::atomic<std::uint32_t> weak_count_{1};
 public:
   CountedBase(void) = default;
   virtual ~CountedBase(void) {}
@@ -71,7 +71,7 @@ public:
       destroy();
   }
 
-  uint32_t use_count(void) const {
+  std::uint32_t use_count(void) const {
     return shared_count_;
   }
 };
@@ -187,7 +187,7 @@ public:
     std::swap(pc_, r.pc_);
   }
 
-  uint32_t use_count(void) const {
+  std::uint32_t use_count(void) const {
     return nullptr != pc_ ? pc_->use_count() : 0;
   }
 
@@ -276,7 +276,7 @@ public:
     std::swap(pc_, r.pc_);
   }
 
-  uint32_t use_count(void) const {
+  std::uint32_t use_count(void) const {
     return nullptr != pc_ ? pc_->use_count() : 0;
   }
 

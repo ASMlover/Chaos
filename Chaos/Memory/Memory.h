@@ -358,7 +358,7 @@ public:
     return px_[i];
   }
 
-  uint32_t use_count(void) const {
+  std::uint32_t use_count(void) const {
     return pn_.use_count();
   }
 
@@ -516,7 +516,7 @@ public:
     pn_.swap(r.pn_);
   }
 
-  uint32_t use_count(void) const {
+  std::uint32_t use_count(void) const {
     return pn_.use_count();
   }
 
@@ -638,7 +638,7 @@ public:
     SelfType(r).swap(*this);
   }
 
-  uint32_t use_count(void) const {
+  std::uint32_t use_count(void) const {
     return pn_.use_count();
   }
 

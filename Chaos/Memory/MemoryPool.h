@@ -27,7 +27,7 @@
 #ifndef CHAOS_MEMORY_MEMORYPOOL_H
 #define CHAOS_MEMORY_MEMORYPOOL_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <vector>
 #include <Chaos/UnCopyable.h>
 
@@ -50,15 +50,15 @@ class MemoryPool : private UnCopyable {
   MemoryBlock* freeblocks_[NB_SMALL_SIZE_CLASSES]{};
   std::vector<MemoryBlock*> pools_;
 
-  size_t index_to_bytes(size_t index) {
+  std::size_t index_to_bytes(std::size_t index) {
     return (index + 1) << ALIGNMENT_SHIFT;
   }
 
-  size_t bytes_to_index(size_t bytes) {
+  std::size_t bytes_to_index(std::size_t bytes) {
     return (bytes - 1) >> ALIGNMENT_SHIFT;
   }
 
-  MemoryBlock* alloc_new_pool(size_t index);
+  MemoryBlock* alloc_new_pool(std::size_t index);
 
   MemoryPool(void);
   ~MemoryPool(void);
@@ -68,8 +68,8 @@ public:
     return ins;
   }
 
-  void* alloc(size_t bytes);
-  void dealloc(void* p, size_t bytes);
+  void* alloc(std::size_t bytes);
+  void dealloc(void* p, std::size_t bytes);
 };
 
 }

@@ -52,8 +52,8 @@
           __LINE__,\
           __func__,\
           (message));\
-      fflush(stderr);\
-      abort();\
+      std::fflush(stderr);\
+      std::abort();\
     }\
 } while (0)
 #endif

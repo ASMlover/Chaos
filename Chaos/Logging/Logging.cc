@@ -24,10 +24,11 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cerrno>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <sstream>
 #include <Chaos/Platform.h>
 #include <Chaos/Types.h>
@@ -40,7 +41,7 @@ namespace Chaos {
 
 __chaos_tl char t_errbuf[512];
 __chaos_tl char t_timebuf[32];
-__chaos_tl time_t t_last_seconds;
+__chaos_tl std::time_t t_last_seconds;
 
 const char* strerror_tl(int saved_errno) {
 #if defined(CHAOS_LINUX)
@@ -62,7 +63,8 @@ LoggingLevel init_loglevel(void) {
 
 LoggingLevel g_loglevel = init_loglevel();
 
-const char* kLogLevelNames[static_cast<int>(LoggingLevel::LOGGINGLEVEL_COUNTS)] = {
+const char*
+kLogLevelNames[static_cast<int>(LoggingLevel::LOGGINGLEVEL_COUNTS)] = {
   "TRACE ",
   "DEBUG ",
   "INFO  ",
@@ -74,12 +76,14 @@ const char* kLogLevelNames[static_cast<int>(LoggingLevel::LOGGINGLEVEL_COUNTS)] 
 class ValueT {
 public:
   const char* str_;
-  size_t len_;
+  std::size_t len_;
 
-  ValueT(const char* s, size_t n)
+  ValueT(const char* s, std::size_t n)
     : str_(s)
     , len_(n) {
-    CHAOS_CHECK(strlen(str_) == len_, "ValueT - length of `str_` must be equal to `len_`");
+    CHAOS_CHECK(
+        strlen(str_) == len_,
+        "ValueT - length of `str_` must be equal to `len_`");
   }
 };
 
@@ -93,12 +97,12 @@ inline LogStream& operator<<(LogStream& s, const Logger::SourceFile& f) {
   return s;
 }
 
-void default_logging_output(const char* buf, size_t len) {
-  fwrite(buf, 1, len, stdout);
+void default_logging_output(const char* buf, std::size_t len) {
+  std::fwrite(buf, 1, len, stdout);
 }
 
 void default_logging_flush(void) {
-  fflush(stdout);
+  std::fflush(stdout);
 }
 
 Logger::OutputCallback g_output_fn = default_logging_output;
@@ -113,19 +117,22 @@ public:
   int lineno_;
   SourceFile basename_;
 
-  LoggerImpl(LoggingLevel level, int saved_errno, const SourceFile& file, int lineno);
+  LoggerImpl(
+      LoggingLevel level, int saved_errno, const SourceFile& file, int lineno);
   void format_time(void);
   void finish(void);
 };
 
-Logger::LoggerImpl::LoggerImpl(LoggingLevel level, int saved_errno, const SourceFile& file, int lineno)
+Logger::LoggerImpl::LoggerImpl(
+    LoggingLevel level, int saved_errno, const SourceFile& file, int lineno)
   : time_(Timestamp::now())
   , stream_()
   , level_(level)
   , lineno_(lineno)
   , basename_(file) {
   format_time();
-  stream_ << ValueT(CurrentThread::get_strftid(), CurrentThread::get_strftid_length());
+  stream_ << ValueT(
+      CurrentThread::get_strftid(), CurrentThread::get_strftid_length());
   stream_ << ValueT(kLogLevelNames[static_cast<int>(level_)], 6);
   if (0 != saved_errno)
     stream_ << strerror_tl(saved_errno) << " (errno=" << saved_errno << ") ";
@@ -133,17 +140,19 @@ Logger::LoggerImpl::LoggerImpl(LoggingLevel level, int saved_errno, const Source
 
 void Logger::LoggerImpl::format_time(void) {
   int64_t msec_since_epoch = time_.msec_since_epoch();
-  time_t seconds = static_cast<time_t>(msec_since_epoch / Timestamp::kMicrosecondsPerSecond);
-  int msec = static_cast<int>(msec_since_epoch % Timestamp::kMicrosecondsPerSecond);
+  time_t seconds =
+    static_cast<time_t>(msec_since_epoch / Timestamp::kMicrosecondsPerSecond);
+  int msec =
+    static_cast<int>(msec_since_epoch % Timestamp::kMicrosecondsPerSecond);
   if (seconds != t_last_seconds) {
     t_last_seconds = seconds;
-    struct tm t;
+    struct std::tm t;
     if (g_logging_tzone.is_valid())
       t = g_logging_tzone.to_localtime(seconds);
     else
       Chaos::kern_gmtime(&seconds, &t);
 
-    int n = snprintf(t_timebuf,
+    int n = std::snprintf(t_timebuf,
         sizeof(t_timebuf),
         "%04d%02d%02d %02d:%02d:%02d",
         t.tm_year + 1900,
@@ -152,17 +161,23 @@ void Logger::LoggerImpl::format_time(void) {
         t.tm_hour,
         t.tm_min,
         t.tm_sec);
-    CHAOS_CHECK(n == 17, "Logger::LoggerImpl::format_time: `t_timebuf` length error");
+    CHAOS_CHECK(
+        n == 17,
+        "Logger::LoggerImpl::format_time: `t_timebuf` length error");
   }
 
   if (g_logging_tzone.is_valid()) {
     Format fmt(".%06d ", msec);
-    CHAOS_CHECK(fmt.size() == 8, "Logger::LoggerImpl::format_time: format size should be `8`");
+    CHAOS_CHECK(
+        fmt.size() == 8,
+        "Logger::LoggerImpl::format_time: format size should be `8`");
     stream_ << ValueT(t_timebuf, 17) << ValueT(fmt.data(), fmt.size());
   }
   else {
     Format fmt(".%06dZ ", msec);
-    CHAOS_CHECK(fmt.size() == 9, "Logger::LoggerImpl::format_time: format size should be `9`");
+    CHAOS_CHECK(
+        fmt.size() == 9,
+        "Logger::LoggerImpl::format_time: format size should be `9`");
     stream_ << ValueT(t_timebuf, 17) << ValueT(fmt.data(), fmt.size());
   }
 }
@@ -179,14 +194,16 @@ Logger::Logger(SourceFile file, int lineno, LoggingLevel level)
   : impl_(new LoggerImpl(level, 0, file, lineno)) {
 }
 
-Logger::Logger(SourceFile file, int lineno, LoggingLevel level, const char* func)
+Logger::Logger(
+    SourceFile file, int lineno, LoggingLevel level, const char* func)
   : impl_(new LoggerImpl(level, 0, file, lineno)) {
   impl_->stream_ << func << ' ';
 }
 
 Logger::Logger(SourceFile file, int lineno, bool do_abort)
   : impl_(new LoggerImpl(
-        do_abort ? LoggingLevel::LOGGINGLEVEL_FATAL : LoggingLevel::LOGGINGLEVEL_ERROR,
+        do_abort
+        ? LoggingLevel::LOGGINGLEVEL_FATAL : LoggingLevel::LOGGINGLEVEL_ERROR,
         errno,
         file,
         lineno)) {
@@ -198,7 +215,7 @@ Logger::~Logger(void) {
   g_output_fn(buf.data(), buf.size());
   if (LoggingLevel::LOGGINGLEVEL_FATAL == impl_->level_) {
     g_flush_fn();
-    abort();
+    std::abort();
   }
 }
 

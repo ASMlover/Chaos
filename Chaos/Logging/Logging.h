@@ -55,29 +55,29 @@ public:
   class SourceFile {
   public:
     const char* data_;
-    size_t size_;
+    std::size_t size_;
 
-    template <size_t N>
+    template <std::size_t N>
     SourceFile(const char (&arr)[N])
       : data_(arr)
       , size_(N - 1) {
-      const char* slash = strrchr(data_, '/');
+      const char* slash = std::strrchr(data_, '/');
       if (nullptr != slash) {
         data_ = slash + 1;
-        size_ -= static_cast<size_t>(data_ - arr);
+        size_ -= static_cast<std::size_t>(data_ - arr);
       }
     }
 
     explicit SourceFile(const char* fname)
       : data_(fname) {
-      const char* slash = strrchr(fname, '/');
+      const char* slash = std::strrchr(fname, '/');
       if (nullptr != slash)
         data_ = slash + 1;
-      size_ = strlen(data_);
+      size_ = std::strlen(data_);
     }
   };
 
-  typedef void (*OutputCallback)(const char* buf, size_t len);
+  typedef void (*OutputCallback)(const char* buf, std::size_t len);
   typedef void (*FlushCallback)(void);
 public:
   Logger(SourceFile file, int lineno);
@@ -98,9 +98,12 @@ public:
 const char* strerror_tl(int saved_errno);
 
 template <typename T>
-inline T* check_non_nil(Logger::SourceFile file, int lineno, const char* names, T* p) {
-  if (nullptr == p)
-    Logger(file, lineno, LoggingLevel::LOGGINGLEVEL_FATAL).get_stream() << names;
+inline T*
+check_non_nil(Logger::SourceFile file, int lineno, const char* names, T* p) {
+  if (nullptr == p) {
+    Logger(file, lineno, LoggingLevel::LOGGINGLEVEL_FATAL).get_stream()
+      << names;
+  }
   return p;
 }
 
@@ -108,18 +111,30 @@ inline T* check_non_nil(Logger::SourceFile file, int lineno, const char* names, 
 
 #if !defined(CHAOS_CHECK_NONIL)
 # define CHAOS_CHECK_NONIL(value)\
-  Chaos::check_non_nil(__FILE__, __LINE__, "`" #value "` must be non-nil", (value))
+  Chaos::check_non_nil(\
+      __FILE__, __LINE__, "`" #value "` must be non-nil", (value))
 #endif
 
-#define CHAOSLOG_TRACE if (Chaos::Logger::get_loglevel() <= Chaos::LoggingLevel::LOGGINGLEVEL_TRACE)\
-  Chaos::Logger(__FILE__, __LINE__, Chaos::LoggingLevel::LOGGINGLEVEL_TRACE, __func__).get_stream()
-#define CHAOSLOG_DEBUG if (Chaos::Logger::get_loglevel() <= Chaos::LoggingLevel::LOGGINGLEVEL_DEBUG)\
-  Chaos::Logger(__FILE__, __LINE__, Chaos::LoggingLevel::LOGGINGLEVEL_DEBUG, __func__).get_stream()
-#define CHAOSLOG_INFO if (Chaos::Logger::get_loglevel() <= Chaos::LoggingLevel::LOGGINGLEVEL_INFO)\
-  Chaos::Logger(__FILE__, __LINE__).get_stream()
-#define CHAOSLOG_WARN Chaos::Logger(__FILE__, __LINE__, Chaos::LoggingLevel::LOGGINGLEVEL_WARN).get_stream()
-#define CHAOSLOG_ERROR Chaos::Logger(__FILE__, __LINE__, Chaos::LoggingLevel::LOGGINGLEVEL_ERROR).get_stream()
-#define CHAOSLOG_FATAL Chaos::Logger(__FILE__, __LINE__, Chaos::LoggingLevel::LOGGINGLEVEL_FATAL).get_stream()
+#define CHAOSLOG_TRACE\
+  if (Chaos::Logger::get_loglevel() <= Chaos::LoggingLevel::LOGGINGLEVEL_TRACE)\
+    Chaos::Logger(__FILE__, __LINE__,\
+        Chaos::LoggingLevel::LOGGINGLEVEL_TRACE, __func__).get_stream()
+#define CHAOSLOG_DEBUG\
+  if (Chaos::Logger::get_loglevel() <= Chaos::LoggingLevel::LOGGINGLEVEL_DEBUG)\
+    Chaos::Logger(__FILE__, __LINE__,\
+        Chaos::LoggingLevel::LOGGINGLEVEL_DEBUG, __func__).get_stream()
+#define CHAOSLOG_INFO\
+  if (Chaos::Logger::get_loglevel() <= Chaos::LoggingLevel::LOGGINGLEVEL_INFO)\
+    Chaos::Logger(__FILE__, __LINE__).get_stream()
+#define CHAOSLOG_WARN\
+  Chaos::Logger(__FILE__, __LINE__,\
+      Chaos::LoggingLevel::LOGGINGLEVEL_WARN).get_stream()
+#define CHAOSLOG_ERROR\
+  Chaos::Logger(__FILE__, __LINE__,\
+      Chaos::LoggingLevel::LOGGINGLEVEL_ERROR).get_stream()
+#define CHAOSLOG_FATAL\
+  Chaos::Logger(__FILE__, __LINE__,\
+      Chaos::LoggingLevel::LOGGINGLEVEL_FATAL).get_stream()
 #define CHAOSLOG_SYSERR Chaos::Logger(__FILE__, __LINE__, false).get_stream()
 #define CHAOSLOG_SYSFATAL Chaos::Logger(__FILE__, __LINE__, true).get_stream()
 

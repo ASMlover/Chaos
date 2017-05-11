@@ -63,8 +63,8 @@ public:
     return data_;
   }
 
-  size_t size(void) const {
-    return static_cast<size_t>(current_ - data_);
+  std::size_t size(void) const {
+    return static_cast<std::size_t>(current_ - data_);
   }
 
   char* get_current(void) {
@@ -75,17 +75,17 @@ public:
     return current_;
   }
 
-  size_t get_avail(void) const {
-    return static_cast<size_t>(get_tail() - current_);
+  std::size_t get_avail(void) const {
+    return static_cast<std::size_t>(get_tail() - current_);
   }
 
-  void remove_prefix(size_t n) {
+  void remove_prefix(std::size_t n) {
     current_ += n;
   }
 
-  void append(const char* buf, size_t len) {
+  void append(const char* buf, std::size_t len) {
     if (get_avail() > len) {
-      memcpy(current_, buf, len);
+      std::memcpy(current_, buf, len);
       current_ += len;
     }
   }
@@ -95,7 +95,7 @@ public:
   }
 
   void bzero(void) {
-    memset(data_, 0, sizeof(data_));
+    std::memset(data_, 0, sizeof(data_));
   }
 
   void set_cookie(CookieCallback cb) {
@@ -124,7 +124,7 @@ private:
   template <typename T>
   void format_integer(T value);
 public:
-  void append(const char* s, size_t n) {
+  void append(const char* s, std::size_t n) {
     buff_.append(s, n);
   }
 
@@ -158,7 +158,7 @@ public:
 
 class Format {
   char data_[32];
-  size_t size_;
+  std::size_t size_;
 public:
   template <typename T>
   Format(const char* fmt, T value);
@@ -167,7 +167,7 @@ public:
     return data_;
   }
 
-  size_t size(void) const {
+  std::size_t size(void) const {
     return size_;
   }
 };

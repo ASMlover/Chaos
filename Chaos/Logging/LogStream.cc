@@ -24,7 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
 #include <limits>
 #include <Chaos/Logging/LogStream.h>
@@ -39,7 +39,7 @@ const char kDigitsHex[] = "0123456789ABCDEF";
 static_assert(sizeof(kDigitsHex) == 17, "wrong hex number of digits");
 
 template <typename T>
-size_t convert(char buf[], T value) {
+std::size_t convert(char buf[], T value) {
   T i = value;
   char* p = buf;
 
@@ -57,8 +57,8 @@ size_t convert(char buf[], T value) {
   return p - buf;
 }
 
-size_t convert_hex(char buf[], uintptr_t value) {
-  uintptr_t i = value;
+std::size_t convert_hex(char buf[], std::uintptr_t value) {
+  std::uintptr_t i = value;
   char* p = buf;
 
   do {
@@ -87,13 +87,17 @@ const char* FixedBuffer<N>::debug_string(void) {
 }
 
 void LogStream::static_check(void) {
-  static_assert(kMaxNumericSize - 10 > std::numeric_limits<double>::digits10,
+  static_assert(
+      kMaxNumericSize - 10 > std::numeric_limits<double>::digits10,
       "kMaxNumericSize is large enough");
-  static_assert(kMaxNumericSize - 10 > std::numeric_limits<long double>::digits10,
+  static_assert(
+      kMaxNumericSize - 10 > std::numeric_limits<long double>::digits10,
       "kMaxNumericSize is large enough");
-  static_assert(kMaxNumericSize - 10 > std::numeric_limits<long>::digits10,
+  static_assert(
+      kMaxNumericSize - 10 > std::numeric_limits<long>::digits10,
       "kMaxNumericSize is large enough");
-  static_assert(kMaxNumericSize - 10 > std::numeric_limits<long long>::digits10,
+  static_assert(
+      kMaxNumericSize - 10 > std::numeric_limits<long long>::digits10,
       "kMaxNumericSize is large enough");
 }
 
@@ -160,19 +164,20 @@ LogStream& LogStream::operator<<(float v) {
 
 LogStream& LogStream::operator<<(double v) {
   if (buff_.get_avail() >= kMaxNumericSize) {
-    size_t n = snprintf(buff_.get_current(), kMaxNumericSize, "%.12g", v);
+    std::size_t n = std::snprintf(
+        buff_.get_current(), kMaxNumericSize, "%.12g", v);
     buff_.remove_prefix(n);
   }
   return *this;
 }
 
 LogStream& LogStream::operator<<(const void* p) {
-  uintptr_t value = reinterpret_cast<uintptr_t>(p);
+  std::uintptr_t value = reinterpret_cast<std::uintptr_t>(p);
   if (buff_.get_avail() >= kMaxNumericSize) {
     char* buf = buff_.get_current();
     buf[0] = '0';
     buf[1] = 'x';
-    size_t n = convert_hex(buf + 2, value);
+    std::size_t n = convert_hex(buf + 2, value);
     buff_.remove_prefix(n + 2);
   }
   return *this;

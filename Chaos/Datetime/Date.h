@@ -27,10 +27,9 @@
 #ifndef CHAOS_DATETIME_DATE_H
 #define CHAOS_DATETIME_DATE_H
 
+#include <ctime>
 #include <string>
 #include <Chaos/Copyable.h>
-
-struct tm;
 
 namespace Chaos {
 
@@ -52,7 +51,7 @@ public:
   }
 
   Date(int year, int month, int day);
-  explicit Date(const struct tm& t);
+  explicit Date(const struct std::tm& t);
 
   void swap(Date& r) {
     std::swap(epoch_day_, r.epoch_day_);

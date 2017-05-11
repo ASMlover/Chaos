@@ -27,7 +27,7 @@
 #ifndef CHAOS_DATETIME_TIMEZONE_H
 #define CHAOS_DATETIME_TIMEZONE_H
 
-#include <time.h>
+#include <ctime>
 #include <memory>
 #include <Chaos/Copyable.h>
 
@@ -43,12 +43,14 @@ public:
   Timezone(int east_of_utc, const char* tzname);
 
   bool is_valid(void) const;
-  struct tm to_localtime(time_t sec_since_epoch) const;
-  time_t from_localtime(const struct tm& t) const;
+  struct std::tm to_localtime(std::time_t sec_since_epoch) const;
+  std::time_t from_localtime(const struct std::tm& t) const;
 
-  static struct tm to_utc_time(time_t sec_since_epoch, bool yday = false);
-  static time_t from_utc_time(const struct tm& utc);
-  static time_t from_utc_time(int year, int month, int day, int hour, int min, int sec);
+  static struct std::tm to_utc_time(
+      std::time_t sec_since_epoch, bool yday = false);
+  static std::time_t from_utc_time(const struct std::tm& utc);
+  static std::time_t from_utc_time(
+      int year, int month, int day, int hour, int min, int sec);
 };
 
 }

@@ -27,7 +27,8 @@
 #ifndef CHAOS_DATETIME_TIMESTAMP_H
 #define CHAOS_DATETIME_TIMESTAMP_H
 
-#include <stdint.h>
+#include <cstdint>
+#include <ctime>
 #include <string>
 #include <utility>
 #include <Chaos/Copyable.h>
@@ -35,11 +36,11 @@
 namespace Chaos {
 
 class Timestamp : public Copyable {
-  int64_t epoch_msec_{};
+  std::int64_t epoch_msec_{};
 public:
   Timestamp(void) = default;
 
-  explicit Timestamp(int64_t epoch_msec)
+  explicit Timestamp(std::int64_t epoch_msec)
     : epoch_msec_(epoch_msec) {
   }
 
@@ -51,12 +52,12 @@ public:
     return epoch_msec_ > 0;
   }
 
-  int64_t msec_since_epoch(void) const {
+  std::int64_t msec_since_epoch(void) const {
     return epoch_msec_;
   }
 
-  time_t sec_since_epoch(void) const {
-    return static_cast<time_t>(epoch_msec_ / kMicrosecondsPerSecond);
+  std::time_t sec_since_epoch(void) const {
+    return static_cast<std::time_t>(epoch_msec_ / kMicrosecondsPerSecond);
   }
 
   std::string to_string(void) const;
@@ -64,8 +65,8 @@ public:
 
   static Timestamp now(void);
   static Timestamp invalid(void);
-  static Timestamp from_unix_time(time_t t);
-  static Timestamp from_unix_time(time_t t, int msec);
+  static Timestamp from_unix_time(std::time_t t);
+  static Timestamp from_unix_time(std::time_t t, int msec);
   static const int kMicrosecondsPerSecond = 1000 * 1000;
 };
 
@@ -78,12 +79,13 @@ inline bool operator<(Timestamp a, Timestamp b) {
 }
 
 inline double time_difference(Timestamp a, Timestamp b) {
-  int64_t diff = a.msec_since_epoch() - b.msec_since_epoch();
+  std::int64_t diff = a.msec_since_epoch() - b.msec_since_epoch();
   return static_cast<double>(diff) / Timestamp::kMicrosecondsPerSecond;
 }
 
 inline Timestamp time_add(Timestamp t, double sec) {
-  int64_t delta = static_cast<int64_t>(sec * Timestamp::kMicrosecondsPerSecond);
+  std::int64_t delta =
+    static_cast<int64_t>(sec * Timestamp::kMicrosecondsPerSecond);
   return Timestamp(t.msec_since_epoch() + delta);
 }
 

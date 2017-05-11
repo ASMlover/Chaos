@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <inttypes.h>
-#include <time.h>
+#include <cinttypes>
 #include <Chaos/Platform.h>
 #if defined(CHAOS_WINDOWS)
 # include <Windows.h>
@@ -35,25 +34,28 @@
 
 namespace Chaos {
 
-static_assert(sizeof(Timestamp) == sizeof(int64_t), "Timestamp should be same size as `int64_t`");
+static_assert(
+    sizeof(Timestamp) == sizeof(int64_t),
+    "Timestamp should be same size as `int64_t`");
 
 std::string Timestamp::to_string(void) const {
   char buf[32];
-  int64_t sec = epoch_msec_ / kMicrosecondsPerSecond;
-  int64_t msec = epoch_msec_ % kMicrosecondsPerSecond;
-  snprintf(buf, sizeof(buf), "%" PRId64 ".%06" PRId64 "", sec, msec);
+  std::int64_t sec = epoch_msec_ / kMicrosecondsPerSecond;
+  std::int64_t msec = epoch_msec_ % kMicrosecondsPerSecond;
+  std::snprintf(buf, sizeof(buf), "%" PRId64 ".%06" PRId64 "", sec, msec);
   return buf;
 }
 
 std::string Timestamp::to_formatted_string(bool show_msec) const {
   char buf[32];
-  time_t time = static_cast<time_t>(epoch_msec_ / kMicrosecondsPerSecond);
-  struct tm result;
+  std::time_t time =
+    static_cast<std::time_t>(epoch_msec_ / kMicrosecondsPerSecond);
+  struct std::tm result;
   Chaos::kern_gmtime(&time, &result);
 
   if (show_msec) {
     int msec = static_cast<int>(epoch_msec_ % kMicrosecondsPerSecond);
-    snprintf(buf,
+    std::snprintf(buf,
         sizeof(buf),
         "%04d%02d%02d %02d:%02d:%02d.%06d",
         result.tm_year + 1900,
@@ -65,7 +67,7 @@ std::string Timestamp::to_formatted_string(bool show_msec) const {
         msec);
   }
   else {
-    snprintf(buf,
+    std::snprintf(buf,
         sizeof(buf),
         "%04d%02d%02d %02d:%02d:%02d",
         result.tm_year + 1900,
@@ -82,7 +84,7 @@ std::string Timestamp::to_formatted_string(bool show_msec) const {
 Timestamp Timestamp::now(void) {
   struct timeval tv;
   Chaos::kern_gettimeofday(&tv, nullptr);
-  int64_t sec = tv.tv_sec;
+  std::int64_t sec = tv.tv_sec;
   return Timestamp(sec * kMicrosecondsPerSecond + tv.tv_usec);
 }
 
@@ -90,12 +92,13 @@ Timestamp Timestamp::invalid(void) {
   return Timestamp();
 }
 
-Timestamp Timestamp::from_unix_time(time_t t) {
+Timestamp Timestamp::from_unix_time(std::time_t t) {
   return from_unix_time(t, 0);
 }
 
-Timestamp Timestamp::from_unix_time(time_t t, int msec) {
-  return Timestamp(static_cast<int64_t>(t) * kMicrosecondsPerSecond + msec);
+Timestamp Timestamp::from_unix_time(std::time_t t, int msec) {
+  return Timestamp(
+      static_cast<std::int64_t>(t) * kMicrosecondsPerSecond + msec);
 }
 
 }

@@ -24,14 +24,14 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdint.h>
-#include <stdio.h>
-#include <time.h>
+#include <cstdint>
+#include <cstdio>
 #include <Chaos/Datetime/Date.h>
 
 namespace Chaos {
 
-static_assert(sizeof(Date) >= sizeof(int32_t), "require 32 bit integer at least");
+static_assert(
+    sizeof(Date) >= sizeof(int32_t), "require 32 bit integer at least");
 
 int get_unix_day(int year, int month, int day) {
   int a = (14 - month) / 12;
@@ -60,14 +60,15 @@ Date::Date(int year, int month, int day)
   : epoch_day_(get_unix_day(year, month, day)) {
 }
 
-Date::Date(const struct tm& t)
+Date::Date(const struct std::tm& t)
   : epoch_day_(get_unix_day(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday)) {
 }
 
 std::string Date::to_iso_string(void) const {
   char buf[32];
   DateValue date(get_date());
-  snprintf(buf, sizeof(buf), "%4d-%02d-%02d", date.year, date.month, date.day);
+  std::snprintf(
+      buf, sizeof(buf), "%4d-%02d-%02d", date.year, date.month, date.day);
   return buf;
 }
 

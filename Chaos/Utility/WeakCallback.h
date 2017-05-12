@@ -37,7 +37,9 @@ class WeakCallback {
   std::weak_ptr<Class> wk_obj_;
   std::function<void (Class*, Args...)> fn_;
 public:
-  WeakCallback(const std::weak_ptr<Class>& obj, const std::function<void (Class*, Args...)>& fn)
+  WeakCallback(
+      const std::weak_ptr<Class>& obj,
+      const std::function<void (Class*, Args...)>& fn)
     : wk_obj_(obj)
     , fn_(fn) {
   }

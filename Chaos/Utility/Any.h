@@ -80,14 +80,16 @@ public:
 
   template <typename ValueType>
   Any(const ValueType& value)
-    : content_(new Holder<RemoveCV_t<typename std::decay<const ValueType>::trype>>(value)) {
+    : content_(new Holder<
+        RemoveCV_t<typename std::decay<const ValueType>::trype>>(value)) {
   }
 
   template <typename ValueType>
   Any(ValueType&& value,
       DisableIf_t<std::is_same<Any&, ValueType>::value>* = nullptr,
       DisableIf_t<std::is_const<ValueType>::value>* = nullptr)
-    : content_(new Holder<typename std::decay<ValueType>::type>(std::move(value))) {
+    : content_(new Holder<
+        typename std::decay<ValueType>::type>(std::move(value))) {
   }
 
   Any(const Any& r)
@@ -149,7 +151,8 @@ public:
 template <typename ValueType>
 inline ValueType* any_cast(Any* operand) {
   return operand && operand->get_type() == typeid(ValueType)
-    ? &static_cast<Any::Holder<RemoveCV_t<ValueType>>*>(operand->content_)->held_
+    ? &static_cast<
+        Any::Holder<RemoveCV_t<ValueType>>*>(operand->content_)->held_
     : nullptr;
 }
 

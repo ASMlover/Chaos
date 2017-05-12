@@ -27,7 +27,7 @@
 #ifndef CHAOS_UTILITY_SINGLETON_H
 #define CHAOS_UTILITY_SINGLETON_H
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <Chaos/Platform.h>
 #if defined(CHAOS_IMPL_WITH_STD)
 # include <mutex>
@@ -41,7 +41,7 @@ namespace Unexposed {
   template <typename T>
   struct has_no_destroy {
     template <typename C> static char check(decltype(&C::no_destroy));
-    template <typename C> static int32_t check(...);
+    template <typename C> static std::int32_t check(...);
     static const bool value = sizeof(check<T>(0)) == 1;
   };
 }

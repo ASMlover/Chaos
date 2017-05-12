@@ -27,7 +27,7 @@
 #ifndef CHAOS_UTILITY_CAST_H
 #define CHAOS_UTILITY_CAST_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <memory>
 #include <Chaos/Platform.h>
 #include <Chaos/Utility/Traits.h>
@@ -40,8 +40,8 @@
 
 namespace Chaos {
 
-using ObjectPtr = const uintptr_t*;
-using VTablePtr = const uintptr_t*;
+using ObjectPtr = const std::uintptr_t*;
+using VTablePtr = const std::uintptr_t*;
 
 template <typename T>
 inline VTablePtr get_vtable(const T* p) {
@@ -56,7 +56,7 @@ inline Target fast_dynamic_cast(Source* p) {
   if (nullptr == p)
     return nullptr;
 
-  static __chaos_tl ptrdiff_t offset = CHAOS_CAST_NOOFFSET;
+  static __chaos_tl std::ptrdiff_t offset = CHAOS_CAST_NOOFFSET;
   static __chaos_tl VTablePtr src_vtable_ptr;
 
   VTablePtr this_vtable = get_vtable(p);
@@ -70,7 +70,8 @@ inline Target fast_dynamic_cast(Source* p) {
       return nullptr;
 
     src_vtable_ptr = this_vtable;
-    offset = reinterpret_cast<const char*>(result) - reinterpret_cast<const char*>(p);
+    offset =
+      reinterpret_cast<const char*>(result) - reinterpret_cast<const char*>(p);
     return result;
   }
 }
@@ -83,7 +84,8 @@ inline const Target fast_dynamic_cast(const Source* p) {
 }
 
 template <typename Target, typename Source,
-         typename = EnableIf_t<!std::is_same<CleanType<Target>, CleanType<Source&>>::value>>
+          typename = EnableIf_t<
+            !std::is_same<CleanType<Target>, CleanType<Source&>>::value>>
 inline Target fast_dynamic_cast(Source& ref) {
   using TargetPtr = AddPtr_t<RemoveRef_t<Target>>;
   auto casted_ptr = fast_dynamic_cast<TargetPtr>(&ref);
@@ -93,7 +95,8 @@ inline Target fast_dynamic_cast(Source& ref) {
 }
 
 template <typename Target, typename Source,
-         typename = EnableIf_t<!std::is_same<CleanType<Target>, CleanType<Source&>>::value>>
+          typename = EnableIf_t<
+            !std::is_same<CleanType<Target>, CleanType<Source&>>::value>>
 inline Target fast_dynamic_cast(const Source& ref) {
   using TargetPtr = AddPtr_t<RemoveRef_t<Source>>;
   auto casted_ptr = fast_dynamic_cast<TargetPtr>(const_cast<Source*>(&ref));
@@ -103,7 +106,8 @@ inline Target fast_dynamic_cast(const Source& ref) {
 }
 
 template <typename Target, typename Source>
-inline std::shared_ptr<Target> fast_dynamic_ptr_cast(const std::shared_ptr<Source>& p) {
+inline std::shared_ptr<Target>
+fast_dynamic_ptr_cast(const std::shared_ptr<Source>& p) {
   return std::shared_ptr<Target>(p, fast_dynamic_cast<Target*>(p.get()));
 }
 

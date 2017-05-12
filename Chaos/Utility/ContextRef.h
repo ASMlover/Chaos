@@ -59,8 +59,10 @@ public:
   }
 
   template <typename... Args>
-  ContextRef(std::shared_ptr<void> parent, const allocator_type& alloc, Args&&... args)
-    : node_(std::allocate_shared<Node>(alloc, std::move(parent), std::forward<Args>(args)...))
+  ContextRef(
+      std::shared_ptr<void> parent, const allocator_type& alloc, Args&&... args)
+    : node_(std::allocate_shared<Node>(
+          alloc, std::move(parent), std::forward<Args>(args)...))
     , alloc_(alloc) {
   }
 
@@ -97,7 +99,8 @@ public:
   }
 
   template <typename U, typename UAllocator, typename... Args>
-  ContextRef<U, UAllocator> spawn_with_allocator(const UAllocator& alloc, Args&&... args) const {
+  ContextRef<U, UAllocator> spawn_with_allocator(
+      const UAllocator& alloc, Args&&... args) const {
     return ContextRef<U, UAllocator>(node_, alloc, std::forward<Args>(args)...);
   }
 
@@ -227,7 +230,8 @@ public:
   }
 
   template <typename U, typename UAllocator, typename... Args>
-  ContextRef<U, UAllocator> spawn_with_allocator(const UAllocator& alloc, Args&&... args) const {
+  ContextRef<U, UAllocator> spawn_with_allocator(
+      const UAllocator& alloc, Args&&... args) const {
     return ContextRef<U, UAllocator>(node_, alloc, std::forward<Args>(args)...);
   }
 
@@ -269,11 +273,14 @@ inline bool operator!=(std::nullptr_t, const ContextRef<T, Allocator>& p) {
 }
 
 template <typename T, typename Allocator, typename... Args>
-inline ContextRef<T, Allocator> make_context_with_allocator(const Allocator& alloc, Args&&... args) {
-  return ContextRef<T, Allocator>(std::shared_ptr<void>(), alloc, std::forward<Args>(args)...);
+inline ContextRef<T, Allocator> make_context_with_allocator(
+    const Allocator& alloc, Args&&... args) {
+  return ContextRef<T, Allocator>(
+      std::shared_ptr<void>(), alloc, std::forward<Args>(args)...);
 }
 
-template <typename T, typename Allocator = std::allocator<char>, typename... Args>
+template <typename T,
+          typename Allocator = std::allocator<char>, typename... Args>
 inline ContextRef<T, Allocator> make_context(Args&&... args) {
   return make_context_with_allocator(Allocator(), std::forward<Args>(args)...);
 }

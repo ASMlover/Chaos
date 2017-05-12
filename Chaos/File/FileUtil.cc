@@ -24,9 +24,8 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <assert.h>
-#include <errno.h>
-#include <stdio.h>
+#include <cerrno>
+#include <cstdio>
 #include <string>
 #include <Chaos/Platform.h>
 #include <Chaos/Types.h>
@@ -54,8 +53,9 @@ namespace FileUtil {
   }
 
   template <typename String>
-  int ReadSmallFile::read_to_string(int maxsz, String* content,
-      int64_t* filesz, int64_t* modify_time, int64_t* create_time) {
+  int ReadSmallFile::read_to_string(
+      int maxsz, String* content, std::int64_t* filesz,
+      std::int64_t* modify_time, std::int64_t* create_time) {
 #if defined(CHAOS_WINDOWS)
     static_assert(sizeof(off_t) == 4, "offset bits is `64`");
 #else
@@ -71,7 +71,8 @@ namespace FileUtil {
         if (0 == Chaos::io::kern_fstat(fd_, &statbuf)) {
           if (Chaos::io::kern_stat_isreg(statbuf.st_mode)) {
             *filesz = statbuf.st_size;
-            content->reserve(static_cast<int>(chaos_min(implicit_cast<int64_t>(maxsz), *filesz)));
+            content->reserve(static_cast<int>(
+                  chaos_min(implicit_cast<std::int64_t>(maxsz), *filesz)));
           }
           else if (Chaos::io::kern_stat_isdir(statbuf.st_mode)) {
             err = EISDIR;
@@ -87,8 +88,10 @@ namespace FileUtil {
         }
       }
 
-      while (content->size() < implicit_cast<size_t>(maxsz)) {
-        size_t to_read = chaos_min(implicit_cast<size_t>(maxsz) - content->size(), sizeof(buffer_));
+      while (content->size() < implicit_cast<std::size_t>(maxsz)) {
+        std::size_t to_read = chaos_min(
+            implicit_cast<std::size_t>(maxsz) - content->size(),
+            sizeof(buffer_));
         ssize_t n = Chaos::io::kern_read(fd_, buffer_, to_read);
         if (n > 0) {
           content->append(buffer_, n);
@@ -121,28 +124,32 @@ namespace FileUtil {
     return err;
   }
 
-  template int ReadSmallFile::read_to_string(int, std::string*, int64_t*, int64_t*, int64_t*);
-  template int read_file(StringArg, int, std::string*, int64_t*, int64_t*, int64_t*);
+  template int ReadSmallFile::read_to_string(
+      int, std::string*, std::int64_t*, std::int64_t*, std::int64_t*);
+  template int read_file(StringArg,
+      int, std::string*, std::int64_t*, std::int64_t*, std::int64_t*);
 
   AppendFile::AppendFile(StringArg fname)
-    : stream_(fopen(fname.c_str(), "ae")) {
+    : stream_(std::fopen(fname.c_str(), "ae")) {
     CHAOS_CHECK(nullptr != stream_, "`stream_` with fopen should be valid");
-    setvbuf(stream_, buffer_, _IOFBF, sizeof(buffer_));
+    std::setvbuf(stream_, buffer_, _IOFBF, sizeof(buffer_));
   }
 
   AppendFile::~AppendFile(void) {
-    fclose(stream_);
+    std::fclose(stream_);
   }
 
-  void AppendFile::append(const char* buf, size_t len) {
-    size_t nwrote = 0;
-    size_t nremain = len - nwrote;
+  void AppendFile::append(const char* buf, std::size_t len) {
+    std::size_t nwrote = 0;
+    std::size_t nremain = len - nwrote;
     while (nremain > 0) {
-      size_t n = write(buf + nwrote, nremain);
+      std::size_t n = write(buf + nwrote, nremain);
       if (0 == n) {
-        int err = ferror(stream_);
-        if (0 != err)
-          fprintf(stderr, "AppendFile::append - failed %s\n", Chaos::strerror_tl(err));
+        int err = std::ferror(stream_);
+        if (0 != err) {
+          std::fprintf(stderr,
+              "AppendFile::append - failed %s\n", Chaos::strerror_tl(err));
+        }
         break;
       }
       nwrote += n;
@@ -153,10 +160,10 @@ namespace FileUtil {
   }
 
   void AppendFile::flush(void) {
-    fflush(stream_);
+    std::fflush(stream_);
   }
 
-  int AppendFile::write(const char* buf, size_t len) {
+  int AppendFile::write(const char* buf, std::size_t len) {
     return Chaos::io::kern_fwrite_unlocked(buf, 1, len, stream_);
   }
 }

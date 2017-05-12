@@ -44,7 +44,12 @@ namespace FileUtil {
     ~ReadSmallFile(void);
 
     template <typename String>
-    int read_to_string(int maxsz, String* content, int64_t* filesz, int64_t* modify_time, int64_t* create_time);
+    int read_to_string(
+        int maxsz,
+        String* content,
+        std::int64_t* filesz,
+        std::int64_t* modify_time,
+        std::int64_t* create_time);
     int read_to_buffer(int* size);
 
     const char* get_buffer(void) const {
@@ -53,26 +58,31 @@ namespace FileUtil {
   };
 
   template <typename String>
-  int read_file(StringArg fname, int maxsz, String* content,
-      int64_t* filesz = nullptr, int64_t* modify_time = nullptr, int64_t* create_time = nullptr) {
+  int read_file(StringArg fname,
+      int maxsz,
+      String* content,
+      std::int64_t* filesz = nullptr,
+      std::int64_t* modify_time = nullptr,
+      std::int64_t* create_time = nullptr) {
     ReadSmallFile file(fname);
-    return file.read_to_string(maxsz, content, filesz, modify_time, create_time);
+    return file.read_to_string(
+        maxsz, content, filesz, modify_time, create_time);
   }
 
   class AppendFile : private UnCopyable {
     FILE* stream_{};
-    size_t written_bytes_{};
+    std::size_t written_bytes_{};
     char buffer_[kBufferSize];
 
-    int write(const char* buf, size_t len);
+    int write(const char* buf, std::size_t len);
   public:
     explicit AppendFile(StringArg fname);
     ~AppendFile(void);
 
-    void append(const char* buf, size_t len);
+    void append(const char* buf, std::size_t len);
     void flush(void);
 
-    size_t get_written_bytes(void) const {
+    std::size_t get_written_bytes(void) const {
       return written_bytes_;
     }
   };

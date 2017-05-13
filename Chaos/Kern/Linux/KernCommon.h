@@ -32,14 +32,14 @@
 #include <sys/time.h>
 #include <sys/timerfd.h>
 #include <unistd.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
 
 namespace Chaos {
 
-inline char* kern_strerror(int errnum, char* buf, size_t buflen) {
+inline char* kern_strerror(int errnum, char* buf, std::size_t buflen) {
   return strerror_r(errnum, buf, buflen);
 }
 
@@ -61,7 +61,8 @@ inline int kern_gettime(struct timespec* timep) {
 
 namespace io {
   // Stream-IO methods wrapper
-  inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
+  inline std::size_t kern_fwrite_unlocked(
+      const void* buf, std::size_t size, std::size_t count, std::FILE* stream) {
     return fwrite_unlocked(buf, size, count, stream);
   }
 }
@@ -76,16 +77,16 @@ namespace timer {
     close(timerfd);
   }
 
-  inline int kern_gettime(int timerfd, size_t len, void* buf) {
+  inline int kern_gettime(int timerfd, std::size_t len, void* buf) {
     return static_cast<int>(read(timerfd, buf, len));
   }
 
-  inline int kern_settime(int timerfd, int64_t msec) {
+  inline int kern_settime(int timerfd, std::int64_t msec) {
     struct itimerspec oldt{};
     struct itimerspec newt{};
 
     struct timespec ts;
-    ts.tv_sec = static_cast<time_t>(msec / 1000000);
+    ts.tv_sec = static_cast<std::time_t>(msec / 1000000);
     ts.tv_nsec = static_cast<long>((msec % 1000000) * 1000);
     newt.it_value = ts;
     return timerfd_settime(timerfd, 0, &newt, &oldt);

@@ -33,18 +33,19 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
 #include <string>
 
 namespace Chaos {
 
-inline struct tm* kern_gmtime(const time_t* timep, struct tm* result) {
+inline struct std::tm* kern_gmtime(
+    const std::time_t* timep, struct std::tm* result) {
   return gmtime_r(timep, result);
 }
 
-inline time_t kern_timegm(struct tm* timep) {
+inline std::time_t kern_timegm(struct std::tm* timep) {
   return timegm(timep);
 }
 
@@ -61,7 +62,8 @@ int kern_backtrace(std::string& bt);
 // Posix thread methods wrapper
 typedef pthread_t _Thread_t;
 
-inline int kern_thread_create(_Thread_t* thread, void* (*start_routine)(void*), void* arg) {
+inline int kern_thread_create(
+    _Thread_t* thread, void* (*start_routine)(void*), void* arg) {
   return pthread_create(thread, nullptr, start_routine, arg);
 }
 
@@ -73,7 +75,8 @@ inline int kern_thread_detach(_Thread_t thread) {
   return pthread_detach(thread);
 }
 
-inline int kern_thread_atfork(void (*prepare)(void), void (*parent)(void), void (*child)(void)) {
+inline int kern_thread_atfork(
+    void (*prepare)(void), void (*parent)(void), void (*child)(void)) {
   return pthread_atfork(prepare, parent, child);
 }
 
@@ -126,11 +129,11 @@ namespace io {
     return close(fileds);
   }
 
-  inline ssize_t kern_read(int fd, void* buf, size_t len) {
+  inline ssize_t kern_read(int fd, void* buf, std::size_t len) {
     return read(fd, buf, len);
   }
 
-  inline ssize_t kern_pread(int fd, void* buf, size_t len, off_t offset) {
+  inline ssize_t kern_pread(int fd, void* buf, std::size_t len, off_t offset) {
     return pread(fd, buf, len, offset);
   }
 

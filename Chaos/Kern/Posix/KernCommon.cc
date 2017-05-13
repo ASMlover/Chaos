@@ -25,8 +25,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <execinfo.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <Chaos/Kern/Posix/KernCommon.h>
 
 namespace Chaos {
@@ -39,10 +38,14 @@ int kern_backtrace(std::string& bt) {
   if (messages) {
     char message[1024];
     for (int i = 0; i < nptrs; ++i) {
-      snprintf(message, sizeof(message), "%i: %s\n", nptrs - i - 1, messages[i]);
+      std::snprintf(message,
+          sizeof(message),
+          "%i: %s\n",
+          nptrs - i - 1,
+          messages[i]);
       bt.append(message);
     }
-    free(messages);
+    std::free(messages);
   }
 
   return 0;

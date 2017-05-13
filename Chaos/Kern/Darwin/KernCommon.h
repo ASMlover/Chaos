@@ -32,13 +32,13 @@
 #include <sys/time.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <time.h>
+#include <cstdio>
+#include <ctime>
 #include <Chaos/Types.h>
 
 namespace Chaos {
 
-inline int kern_strerror(int errnum, char* buf, size_t buflen) {
+inline int kern_strerror(int errnum, char* buf, std::size_t buflen) {
   return strerror_r(errnum, buf, buflen);
 }
 
@@ -58,7 +58,7 @@ inline int kern_gettime(struct timespec* timep) {
   mach_timebase_info_data_t info;
   if (mach_timebase_info(&info) != KERN_SUCCESS)
     abort();
-  uint64_t realtime = mach_absolute_time() * info.numer / info.denom;
+  std::uint64_t realtime = mach_absolute_time() * info.numer / info.denom;
   timep->tv_sec = realtime / CHAOS_NANOSEC;
   timep->tv_nsec = realtime % CHAOS_NANOSEC;
   return 0;
@@ -66,8 +66,9 @@ inline int kern_gettime(struct timespec* timep) {
 
 namespace io {
   // Stream-IO methods wrapper
-  inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
-    return fwrite(buf, size, count, stream);
+  inline std::size_t kern_fwrite_unlocked(
+      const void* buf, std::size_t size, std::size_t count, std::FILE* stream) {
+    return std::fwrite(buf, size, count, stream);
   }
 }
 
@@ -80,11 +81,11 @@ namespace timer {
   inline void kern_close(int /*timerfd*/) {
   }
 
-  inline int kern_gettime(int /*timerfd*/, size_t /*len*/, void* /*buf*/) {
+  inline int kern_gettime(int /*timerfd*/, std::size_t /*len*/, void* /*buf*/) {
     return 0;
   }
 
-  inline int kern_settime(int /*timerfd*/, int64_t /*msec*/) {
+  inline int kern_settime(int /*timerfd*/, std::int64_t /*msec*/) {
     return 0;
   }
 }

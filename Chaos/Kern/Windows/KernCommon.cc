@@ -27,14 +27,12 @@
 #include <Windows.h>
 #include <DbgHelp.h>
 #include <process.h>
-#include <stdint.h>
-#include <stdio.h>
 #include <Chaos/Utility/Memory.h>
 #include <Chaos/Kern/Windows/KernCommon.h>
 
 namespace Chaos {
 
-static const uint64_t kEpoch = 116444736000000000ULL;
+static const std::uint64_t kEpoch = 116444736000000000ULL;
 static const DWORD kMSVCException = 0x406D1388;
 static const int kMaxBacktrace = 256;
 static const HANDLE kMainProc = GetCurrentProcess();
@@ -79,7 +77,8 @@ int kern_this_thread_setname(const char* name) {
   tn.dwThreadID = GetCurrentThreadId();
   tn.dwFlags = 0;
   __try {
-    RaiseException(kMSVCException, 0, sizeof(tn) / sizeof(ULONG_PTR), (ULONG_PTR*)&tn);
+    RaiseException(
+        kMSVCException, 0, sizeof(tn) / sizeof(ULONG_PTR), (ULONG_PTR*)&tn);
   }
   __except (EXCEPTION_EXECUTE_HANDLER) {
   }
@@ -98,7 +97,12 @@ int kern_backtrace(std::string& bt) {
   char message[1024];
   for (int i = 0; i < frames; ++i) {
     SymFromAddr(kMainProc, (DWORD)stack[i], 0, symbol);
-    snprintf(message, sizeof(message), "%i: %s - 0x%p\n", frames - i - 1, symbol->Name, (void*)symbol->Address);
+    std::snprintf(message,
+        sizeof(message),
+        "%i: %s - 0x%p\n",
+        frames - i - 1,
+        symbol->Name,
+        (void*)symbol->Address);
     bt.append(message);
   }
 
@@ -117,7 +121,8 @@ static UINT CALLBACK kern_thread_start_routine(void* arg) {
   return 0;
 }
 
-int kern_thread_create(_Thread_t* thread, void* (*start_routine)(void*), void* arg) {
+int kern_thread_create(
+    _Thread_t* thread, void* (*start_routine)(void*), void* arg) {
   thread->notify_start = CreateEvent(NULL, TRUE, FALSE, NULL);
   if (!thread->notify_start)
     return -1;
@@ -145,7 +150,8 @@ _Exit:
   return result;
 }
 
-static BOOL CALLBACK kern_once_callback(PINIT_ONCE /*once_control*/, PVOID arg, PVOID* /*context*/) {
+static BOOL CALLBACK kern_once_callback(
+    PINIT_ONCE /*once_control*/, PVOID arg, PVOID* /*context*/) {
   typedef void (*_InitCallback)(void);
   _InitCallback init_routine = (_InitCallback)arg;
 
@@ -156,7 +162,8 @@ static BOOL CALLBACK kern_once_callback(PINIT_ONCE /*once_control*/, PVOID arg, 
 }
 
 int kern_once(_Once_t* once_control, void (*init_routine)(void)) {
-  return InitOnceExecuteOnce(once_control, kern_once_callback, (PVOID)init_routine, nullptr) ? 0 : -1;
+  return InitOnceExecuteOnce(
+      once_control, kern_once_callback, (PVOID)init_routine, nullptr) ? 0 : -1;
 }
 
 }

@@ -33,15 +33,15 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <io.h>
-#include <errno.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <string.h>
-#include <time.h>
+#include <cerrno>
+#include <cstdio>
+#include <cstdint>
+#include <cstring>
+#include <ctime>
 #include <string>
 
 typedef int pid_t;
-typedef uint16_t mode_t;
+typedef std::uint16_t mode_t;
 typedef SSIZE_T ssize_t;
 
 struct timezone {
@@ -55,15 +55,15 @@ namespace Chaos {
 # define __builtin_expect(exp, c) (exp)
 #endif
 
-inline errno_t kern_gmtime(const time_t* timep, struct tm* result) {
+inline errno_t kern_gmtime(const std::time_t* timep, struct std::tm* result) {
   return gmtime_s(result, timep);
 }
 
-inline errno_t kern_strerror(int errnum, char* buf, size_t buflen) {
+inline errno_t kern_strerror(int errnum, char* buf, std::size_t buflen) {
   return strerror_s(buf, buflen, errnum);
 }
 
-inline time_t kern_timegm(struct tm* timep) {
+inline std::time_t kern_timegm(struct std::tm* timep) {
   return _mkgmtime(timep);
 }
 
@@ -101,7 +101,8 @@ struct _Thread_t {
   }
 };
 
-int kern_thread_create(_Thread_t* thread, void* (*start_routine)(void*), void* arg);
+int kern_thread_create(
+    _Thread_t* thread, void* (*start_routine)(void*), void* arg);
 
 inline int kern_thread_join(_Thread_t thread) {
   if (thread.is_valid()) {
@@ -117,7 +118,8 @@ inline int kern_thread_detach(_Thread_t thread) {
   return 0;
 }
 
-inline int kern_thread_atfork(void (*prepare)(void), void (*parent)(void), void (*child)(void)) {
+inline int kern_thread_atfork(
+    void (*prepare)(void), void (*parent)(void), void (*child)(void)) {
   return 0;
 }
 
@@ -131,7 +133,8 @@ void WINAPI _kern_tls_destructor_callback(T* obj) {
 }
 
 inline int kern_tls_create(_Tls_t* tls, void (*)(void*)) {
-  return *tls = FlsAlloc((PFLS_CALLBACK_FUNCTION)_kern_tls_destructor_callback), 0;
+  return *tls = FlsAlloc(
+      (PFLS_CALLBACK_FUNCTION)_kern_tls_destructor_callback), 0;
 }
 
 inline int kern_tls_delete(_Tls_t tls) {
@@ -178,11 +181,11 @@ namespace io {
     return _close(fileds);
   }
 
-  inline ssize_t kern_read(int fd, void* buf, size_t len) {
+  inline ssize_t kern_read(int fd, void* buf, std::size_t len) {
     return _read(fd, buf, len);
   }
 
-  inline ssize_t kern_pread(int fd, void* buf, size_t len, off_t offset) {
+  inline ssize_t kern_pread(int fd, void* buf, std::size_t len, off_t offset) {
     if (_lseek(fd, offset, SEEK_SET) == -1)
       return -1;
     return _read(fd, buf, len);
@@ -194,7 +197,8 @@ namespace io {
   }
 
   // Stream-IO methods wrapper
-  inline size_t kern_fwrite_unlocked(const void* buf, size_t size, size_t count, FILE* stream) {
+  inline std::size_t kern_fwrite_unlocked(
+      const void* buf, std::size_t size, std::size_t count, std::FILE* stream) {
     return _fwrite_nolock(buf, size, count, stream);
   }
 }
@@ -208,11 +212,11 @@ namespace timer {
   inline void kern_close(int /*timerfd*/) {
   }
 
-  inline int kern_gettime(int /*timerfd*/, size_t /*len*/, void* /*buf*/) {
+  inline int kern_gettime(int /*timerfd*/, std::size_t /*len*/, void* /*buf*/) {
     return 0;
   }
 
-  inline int kern_settime(int /*timerfd*/, int64_t /*msec*/) {
+  inline int kern_settime(int /*timerfd*/, std::int64_t /*msec*/) {
     return 0;
   }
 }

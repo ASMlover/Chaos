@@ -101,7 +101,7 @@ inline void fill_time(std::uint32_t sec, struct std::tm& utc) {
 }
 
 class TZFile : private UnCopyable {
-  FILE* stream_{};
+  std::FILE* stream_{};
 public:
   TZFile(const char* fname)
     : stream_(std::fopen(fname, "rb")) {

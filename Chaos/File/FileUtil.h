@@ -70,7 +70,7 @@ namespace FileUtil {
   }
 
   class AppendFile : private UnCopyable {
-    FILE* stream_{};
+    std::FILE* stream_{};
     std::size_t written_bytes_{};
     char buffer_[kBufferSize];
 

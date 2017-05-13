@@ -39,10 +39,11 @@ namespace ColorIO {
     COLORTYPE_GREEN,
   };
 
-  int vfprintf(FILE* stream, ColorType color, const char* format, va_list ap);
+  int vfprintf(
+      std::FILE* stream, ColorType color, const char* format, std::va_list ap);
 
   int printf(ColorType color, const char* format, ...);
-  int fprintf(FILE* stream, ColorType color, const char* format, ...);
+  int fprintf(std::FILE* stream, ColorType color, const char* format, ...);
 }
 
 }

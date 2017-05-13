@@ -33,7 +33,8 @@ namespace Chaos {
 namespace ColorIO {
   static Mutex g_color_mutex;
 
-  int vfprintf(FILE* stream, ColorType color, const char* format, va_list ap) {
+  int vfprintf(
+      std::FILE* stream, ColorType color, const char* format, std::va_list ap) {
     const char* new_color = "\033[0m";
     switch (color) {
     case ColorType::COLORTYPE_INVALID:

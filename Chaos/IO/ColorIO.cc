@@ -30,7 +30,7 @@ namespace Chaos {
 
 namespace ColorIO {
   int printf(ColorType color, const char* format, ...) {
-    va_list ap;
+    std::va_list ap;
 
     va_start(ap, format);
     int n = ColorIO::vfprintf(stdout, color, format, ap);
@@ -39,8 +39,8 @@ namespace ColorIO {
     return n;
   }
 
-  int fprintf(FILE* stream, ColorType color, const char* format, ...) {
-    va_list ap;
+  int fprintf(std::FILE* stream, ColorType color, const char* format, ...) {
+    std::va_list ap;
 
     va_start(ap, format);
     int n = ColorIO::vfprintf(stream, color, format, ap);

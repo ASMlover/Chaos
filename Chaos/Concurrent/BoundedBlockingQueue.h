@@ -41,7 +41,7 @@ class BoundedBlockingQueue : private UnCopyable {
   Condition non_full_;
   CircularBuffer<T> queue_;
 public:
-  explicit BoundedBlockingQueue(size_t capacity)
+  explicit BoundedBlockingQueue(std::size_t capacity)
     : mtx_()
     , non_empty_(mtx_)
     , non_full_(mtx_)
@@ -58,12 +58,12 @@ public:
     return queue_.full();
   }
 
-  size_t size(void) const {
+  std::size_t size(void) const {
     ScopedLock<Mutex> guard(mtx_);
     return queue_.size();
   }
 
-  size_t capacity(void) const {
+  std::size_t capacity(void) const {
     ScopedLock<Mutex> guard(mtx_);
     return queue_.capacity();
   }
@@ -73,7 +73,8 @@ public:
 
     while (queue_.full())
       non_full_.wait();
-    CHAOS_CHECK(!queue_.full(), "BoundedBlockingQueue::put_in(const T&) - queue should be not full");
+    CHAOS_CHECK(!queue_.full(),
+        "BoundedBlockingQueue::put_in(const T&) - queue should be not full");
 
     queue_.push_back(x);
     non_empty_.notify_one();
@@ -84,7 +85,8 @@ public:
 
     while (queue_.full())
       non_full_.wait();
-    CHAOS_CHECK(!queue_.full(), "BoundedBlockingQueue::put_in(T&&) - queue should be not full");
+    CHAOS_CHECK(!queue_.full(),
+        "BoundedBlockingQueue::put_in(T&&) - queue should be not full");
 
     queue_.push_back(std::forward<T>(x));
     non_empty_.notify_one();
@@ -95,7 +97,8 @@ public:
 
     while (queue_.empty())
       non_empty_.wait();
-    CHAOS_CHECK(!queue_.empty(), "BoundedBlockingQueue::fetch_out - queue should be not empty");
+    CHAOS_CHECK(!queue_.empty(),
+        "BoundedBlockingQueue::fetch_out - queue should be not empty");
 
     T front(queue_.front());
     queue_.pop_front();

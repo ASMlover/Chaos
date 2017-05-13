@@ -24,8 +24,8 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <Chaos/Except/Exception.h>
 #include <Chaos/IO/ColorIO.h>
 #include <Chaos/Logging/Logging.h>
@@ -58,7 +58,10 @@ struct ThreadData {
   std::string _name;
   std::weak_ptr<pid_t> _wk_tid;
 
-  ThreadData(const ThreadCallback& fn, const std::string& name, const std::shared_ptr<pid_t>& tid)
+  ThreadData(
+      const ThreadCallback& fn,
+      const std::string& name,
+      const std::shared_ptr<pid_t>& tid)
     : _fn(fn)
     , _name(name)
     , _wk_tid(tid) {
@@ -72,7 +75,8 @@ struct ThreadData {
       tidp.reset();
     }
 
-    CurrentThread::Unexposed::set_name(_name.empty() ? "ChaosThread" : _name.c_str());
+    CurrentThread::Unexposed::set_name(
+        _name.empty() ? "ChaosThread" : _name.c_str());
     Chaos::kern_this_thread_setname(CurrentThread::get_name());
     try {
       _fn();
@@ -88,7 +92,7 @@ struct ThreadData {
           _name.c_str(),
           ex.what(),
           ex.get_traceback());
-      abort();
+      std::abort();
     }
     catch (const std::exception& ex) {
       CurrentThread::Unexposed::set_name("crashed");
@@ -98,7 +102,7 @@ struct ThreadData {
           "reason: %s\n",
           _name.c_str(),
           ex.what());
-      abort();
+      std::abort();
     }
     catch (...) {
       CurrentThread::Unexposed::set_name("crashed");
@@ -118,13 +122,13 @@ static void* start_thread(void* arg) {
   return nullptr;
 }
 
-std::atomic<int32_t> Thread::num_created_;
+std::atomic<std::int32_t> Thread::num_created_;
 
 void Thread::set_default_name(void) {
-  int32_t n = ++num_created_;
+  std::int32_t n = ++num_created_;
   if (name_.empty()) {
     char buf[32];
-    snprintf(buf, sizeof(buf), "Thread%d", n);
+    std::snprintf(buf, sizeof(buf), "Thread%d", n);
     name_ = buf;
   }
 }
@@ -158,7 +162,8 @@ void Thread::start(void) {
 }
 
 bool Thread::join(void) {
-  CHAOS_CHECK(started_ && !joined_, "Thread::join - thread should started and not joined");
+  CHAOS_CHECK(started_ && !joined_,
+      "Thread::join - thread should started and not joined");
 
   joined_ = true;
   return 0 == Chaos::kern_thread_join(thread_);

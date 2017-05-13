@@ -63,7 +63,8 @@ namespace Unexposed {
 
   template <> struct ActomicImpl<1> {
     char get_impl(const void* value) const volatile {
-      return static_cast<char>(InterlockedCompareExchange((volatile LONG*)value, 0, 0));
+      return static_cast<char>(
+          InterlockedCompareExchange((volatile LONG*)value, 0, 0));
     }
 
     char set_impl(const void* value, char arg) const volatile {
@@ -71,11 +72,13 @@ namespace Unexposed {
     }
 
     char fetch_add_impl(const void* value, char arg) const volatile {
-      return static_cast<char>(InterlockedExchangeAdd((volatile LONG*)value, arg));
+      return static_cast<char>(
+          InterlockedExchangeAdd((volatile LONG*)value, arg));
     }
 
     char fetch_sub_impl(const void* value, char arg) const volatile {
-      return static_cast<char>(InterlockedExchangeAdd((volatile LONG*)value, -arg));
+      return static_cast<char>(
+          InterlockedExchangeAdd((volatile LONG*)value, -arg));
     }
 
     char increment_impl(const void* value) const volatile {
@@ -97,11 +100,13 @@ namespace Unexposed {
     }
 
     short fetch_add_impl(const void* value, short arg) const volatile {
-      return static_cast<short>(InterlockedExchangeAdd((volatile LONG*)value, arg));
+      return static_cast<short>(
+          InterlockedExchangeAdd((volatile LONG*)value, arg));
     }
 
     short fetch_sub_impl(const void* value, short arg) const volatile {
-      return static_cast<short>(InterlockedExchangeAdd((volatile LONG*)value, -arg));
+      return static_cast<short>(
+          InterlockedExchangeAdd((volatile LONG*)value, -arg));
     }
 
     short increment_impl(const void* value) const volatile {
@@ -144,7 +149,8 @@ template <typename T>
 class Atomic : public Unexposed::ActomicImpl<sizeof(T)> , private UnCopyable {
   T value_{};
 
-  static_assert(sizeof(T) == 1 || sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8,
+  static_assert(
+      sizeof(T) == 1 || sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8,
       "Chaos::Atomic value type's size must be `1`, `2`, `4` or `8`");
 public:
   T get(void) {

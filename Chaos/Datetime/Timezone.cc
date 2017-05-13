@@ -212,8 +212,7 @@ const Localtime* find_localtime(
         tzdata.transitions.begin(), tzdata.transitions.end(), sentry, cmp);
     if (trans_iter != tzdata.transitions.end()) {
       if (!cmp.equal(sentry, *trans_iter)) {
-        CHAOS_CHECK(
-            trans_iter != tzdata.transitions.begin(),
+        CHAOS_CHECK(trans_iter != tzdata.transitions.begin(),
             "TZData's transitions error");
         --trans_iter;
       }
@@ -244,8 +243,7 @@ bool Timezone::is_valid(void) const {
 
 struct std::tm Timezone::to_localtime(std::time_t sec_since_epoch) const {
   struct std::tm ltime{};
-  CHAOS_CHECK(
-      nullptr != data_,
+  CHAOS_CHECK(nullptr != data_,
       "Timezone::to_localtime - `data_` should not be null");
   const TZData& data(*data_);
 
@@ -266,8 +264,7 @@ struct std::tm Timezone::to_localtime(std::time_t sec_since_epoch) const {
 }
 
 std::time_t Timezone::from_localtime(const struct std::tm& t) const {
-  CHAOS_CHECK(
-      nullptr != data_,
+  CHAOS_CHECK(nullptr != data_,
       "Timezone::from_localtime - `data_` should not be null");
   const TZData data(*data_);
 

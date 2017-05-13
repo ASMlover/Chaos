@@ -204,12 +204,14 @@ public:
   }
 
   void lock(void) {
-    while (std::atomic_flag_test_and_set_explicit(&m_, std::memory_order_acquire)) {
+    while (std::atomic_flag_test_and_set_explicit(
+          &m_, std::memory_order_acquire)) {
     }
   }
 
   bool try_lock(void) {
-    return !std::atomic_flag_test_and_set_explicit(&m_, std::memory_order_acquire);
+    return !std::atomic_flag_test_and_set_explicit(
+        &m_, std::memory_order_acquire);
   }
 
   void unlock(void) {

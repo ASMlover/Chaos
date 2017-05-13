@@ -27,7 +27,7 @@
 #ifndef CHAOS_CONCURRENT_ATOMIC_H
 #define CHAOS_CONCURRENT_ATOMIC_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <Chaos/Platform.h>
 
 #if defined(CHAOS_WINDOWS)
@@ -38,9 +38,9 @@
 
 namespace Chaos {
 
-typedef Atomic<int16_t> AtomicI16;
-typedef Atomic<int32_t> AtomicI32;
-typedef Atomic<int64_t> AtomicI64;
+typedef Atomic<std::int16_t> AtomicI16;
+typedef Atomic<std::int32_t> AtomicI32;
+typedef Atomic<std::int64_t> AtomicI64;
 
 }
 

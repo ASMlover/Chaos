@@ -24,7 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdlib.h>
+#include <cstdlib>
 #include <Chaos/Types.h>
 #include <Chaos/Except/Exception.h>
 #include <Chaos/IO/ColorIO.h>
@@ -42,18 +42,21 @@ ThreadPool::~ThreadPool(void) {
     stop();
 }
 
-size_t ThreadPool::get_tasks_count(void) const {
+std::size_t ThreadPool::get_tasks_count(void) const {
   std::unique_lock<std::mutex> guard(mtx_);
   return tasks_.size();
 }
 
 void ThreadPool::start(int nthreads) {
-  CHAOS_CHECK(threads_.empty(), "ThreadPool::start - threads queue should be empty");
+  CHAOS_CHECK(threads_.empty(),
+      "ThreadPool::start - threads queue should be empty");
 
   running_ = true;
   threads_.reserve(nthreads);
-  for (int i = 0; i < nthreads; ++i)
-    threads_.emplace_back(new std::thread(std::bind(&ThreadPool::run_thread_callback, this)));
+  for (int i = 0; i < nthreads; ++i) {
+    threads_.emplace_back(
+        new std::thread(std::bind(&ThreadPool::run_thread_callback, this)));
+  }
 
   if (nthreads == 0 && initialize_fn_)
     initialize_fn_();
@@ -141,7 +144,7 @@ void ThreadPool::run_thread_callback(void) {
         name_.c_str(),
         ex.what(),
         ex.get_traceback());
-    abort();
+    std::abort();
   }
   catch (const std::exception& ex) {
     ColorIO::fprintf(stderr,
@@ -150,7 +153,7 @@ void ThreadPool::run_thread_callback(void) {
         "reason: %s\n",
         name_.c_str(),
         ex.what());
-    abort();
+    std::abort();
   }
   catch (...) {
     ColorIO::fprintf(stderr,

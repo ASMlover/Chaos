@@ -46,11 +46,12 @@ class Thread : private UnCopyable {
   ThreadCallback routine_;
   std::string name_;
 
-  static std::atomic<int32_t> num_created_;
+  static std::atomic<std::int32_t> num_created_;
 private:
   void set_default_name(void);
 public:
-  explicit Thread(const ThreadCallback& fn, const std::string& name = std::string());
+  explicit Thread(
+      const ThreadCallback& fn, const std::string& name = std::string());
   explicit Thread(ThreadCallback&& fn, const std::string& name = std::string());
 
   ~Thread(void) {
@@ -77,7 +78,7 @@ public:
     return name_;
   }
 
-  static int32_t get_num_created(void) {
+  static std::int32_t get_num_created(void) {
     return num_created_.load();
   }
 };

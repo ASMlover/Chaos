@@ -46,7 +46,7 @@ public:
     , queue_() {
   }
 
-  size_t size(void) const {
+  std::size_t size(void) const {
     ScopedLock<Mutex> guard(mtx_);
     return queue_.size();
   }
@@ -70,7 +70,8 @@ public:
 
     while (queue_.empty())
       non_empty_.wait();
-    CHAOS_CHECK(!queue_.empty(), "BlockingQueue::fetch_out - queue should be not empty");
+    CHAOS_CHECK(!queue_.empty(),
+        "BlockingQueue::fetch_out - queue should be not empty");
 
     T front(std::move(queue_.front()));
     queue_.pop_front();

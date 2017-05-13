@@ -24,7 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdio.h>
+#include <cstdio>
 #include <chrono>
 #include <thread>
 #include <type_traits>
@@ -55,7 +55,8 @@ namespace CurrentThread {
   void cached_tid(void) {
     if (0 == t_cachaed_tid) {
       t_cachaed_tid = Chaos::kern_gettid();
-      t_strftid_length = snprintf(t_strftid, sizeof(t_strftid), "%11d ", t_cachaed_tid);
+      t_strftid_length =
+        std::snprintf(t_strftid, sizeof(t_strftid), "%11d ", t_cachaed_tid);
     }
   }
 
@@ -81,7 +82,7 @@ namespace CurrentThread {
     return get_tid() == kMainTid;
   }
 
-  void sleep_usec(uint64_t usec) {
+  void sleep_usec(std::uint64_t usec) {
     // use C++11 chrono on windows
     std::this_thread::sleep_for(std::chrono::microseconds(usec));
   }

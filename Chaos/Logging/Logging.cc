@@ -81,8 +81,7 @@ public:
   ValueT(const char* s, std::size_t n)
     : str_(s)
     , len_(n) {
-    CHAOS_CHECK(
-        strlen(str_) == len_,
+    CHAOS_CHECK(strlen(str_) == len_,
         "ValueT - length of `str_` must be equal to `len_`");
   }
 };
@@ -161,22 +160,19 @@ void Logger::LoggerImpl::format_time(void) {
         t.tm_hour,
         t.tm_min,
         t.tm_sec);
-    CHAOS_CHECK(
-        n == 17,
+    CHAOS_CHECK(n == 17,
         "Logger::LoggerImpl::format_time: `t_timebuf` length error");
   }
 
   if (g_logging_tzone.is_valid()) {
     Format fmt(".%06d ", msec);
-    CHAOS_CHECK(
-        fmt.size() == 8,
+    CHAOS_CHECK(fmt.size() == 8,
         "Logger::LoggerImpl::format_time: format size should be `8`");
     stream_ << ValueT(t_timebuf, 17) << ValueT(fmt.data(), fmt.size());
   }
   else {
     Format fmt(".%06dZ ", msec);
-    CHAOS_CHECK(
-        fmt.size() == 9,
+    CHAOS_CHECK(fmt.size() == 9,
         "Logger::LoggerImpl::format_time: format size should be `9`");
     stream_ << ValueT(t_timebuf, 17) << ValueT(fmt.data(), fmt.size());
   }

@@ -43,7 +43,7 @@ class ThreadPool : private UnCopyable {
   using TaskFunction = std::function<void (void)>;
   using ThreadEntity = std::unique_ptr<std::thread>;
 
-  size_t tasks_capacity_{};
+  std::size_t tasks_capacity_{};
   bool running_{};
   mutable std::mutex mtx_;
   std::condition_variable non_empty_;
@@ -60,7 +60,7 @@ public:
   explicit ThreadPool(const std::string& name = "ThreadPool");
   ~ThreadPool(void);
 
-  size_t get_tasks_count(void) const;
+  std::size_t get_tasks_count(void) const;
   void start(int nthreads);
   void stop(void);
   void run(const TaskFunction& fn);
@@ -78,7 +78,7 @@ public:
     return name_;
   }
 
-  void set_tasks_capacity(size_t capacity) {
+  void set_tasks_capacity(std::size_t capacity) {
     tasks_capacity_ = capacity;
   }
 };

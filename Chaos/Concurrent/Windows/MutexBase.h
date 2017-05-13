@@ -48,7 +48,8 @@ private:
   };
 
   inline int CHECK_RETURN(int ret, int desired = MUTEX_SUCCESS) {
-    CHAOS_CHECK((ret == MUTEX_SUCCESS || ret == desired), "Mutex::CHECK_RETURN: mutex operation failed");
+    CHAOS_CHECK((ret == MUTEX_SUCCESS || ret == desired),
+        "Mutex::CHECK_RETURN: mutex operation failed");
     return ret;
   }
 

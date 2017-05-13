@@ -24,7 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdio.h>
+#include <cstdio>
 #include <type_traits>
 #if CHAOS_USE_CPP11
 # include <chrono>
@@ -57,7 +57,8 @@ namespace CurrentThread {
   void cached_tid(void) {
     if (0 == t_cachaed_tid) {
       t_cachaed_tid = Chaos::kern_gettid();
-      t_strftid_length = snprintf(t_strftid, sizeof(t_strftid), "%5d ", t_cachaed_tid);
+      t_strftid_length =
+        std::snprintf(t_strftid, sizeof(t_strftid), "%5d ", t_cachaed_tid);
     }
   }
 
@@ -79,13 +80,14 @@ namespace CurrentThread {
     return t_thread_name;
   }
 
-  void sleep_usec(uint64_t usec) {
+  void sleep_usec(std::uint64_t usec) {
 #if CHAOS_USE_CPP11
     std::this_thread::sleep_for(std::chrono::microseconds(usec));
 #else
     struct timespec ts;
     ts.tv_sec = static_cast<time_t>(usec / Timestamp::kMicrosecondsPerSecond);
-    ts.tv_nsec = static_cast<long>(usec % Timestamp::kMicrosecondsPerSecond * 1000);
+    ts.tv_nsec =
+      static_cast<long>(usec % Timestamp::kMicrosecondsPerSecond * 1000);
     nanosleep(&ts, nullptr);
 #endif
   }

@@ -24,8 +24,8 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <Chaos/Except/Exception.h>
 #include <Chaos/IO/ColorIO.h>
 #include <Chaos/Concurrent/Thread.h>
@@ -45,20 +45,23 @@ ThreadPool::~ThreadPool(void) {
     stop();
 }
 
-size_t ThreadPool::get_tasks_count(void) const {
+std::size_t ThreadPool::get_tasks_count(void) const {
   ScopedLock<Mutex> guard(mtx_);
   return tasks_.size();
 }
 
 void ThreadPool::start(int nthreads) {
-  CHAOS_CHECK(threads_.empty(), "ThreadPool::start - threads queue should be empty");
+  CHAOS_CHECK(threads_.empty(),
+      "ThreadPool::start - threads queue should be empty");
 
   running_ = true;
   threads_.reserve(nthreads);
   for (int i = 0; i < nthreads; ++i) {
     char thread_id[32];
-    snprintf(thread_id, sizeof(thread_id), "%d", i + 1);
-    threads_.emplace_back(new Thread(std::bind(&ThreadPool::run_thread_callback, this), name_ + thread_id));
+    std::snprintf(thread_id, sizeof(thread_id), "%d", i + 1);
+    threads_.emplace_back(new Thread(
+          std::bind(&ThreadPool::run_thread_callback, this),
+          name_ + thread_id));
     threads_[i]->start();
   }
 
@@ -148,7 +151,7 @@ void ThreadPool::run_thread_callback(void) {
         name_.c_str(),
         ex.what(),
         ex.get_traceback());
-    abort();
+    std::abort();
   }
   catch (const std::exception& ex) {
     ColorIO::fprintf(stderr,
@@ -157,7 +160,7 @@ void ThreadPool::run_thread_callback(void) {
         "reason: %s\n",
         name_.c_str(),
         ex.what());
-    abort();
+    std::abort();
   }
   catch (...) {
     ColorIO::fprintf(stderr,

@@ -27,8 +27,6 @@
 #ifndef CHAOS_UNITTEST_TESTHARNESS_H
 #define CHAOS_UNITTEST_TESTHARNESS_H
 
-#include <cstdio>
-#include <cstdlib>
 #include <sstream>
 #include <Chaos/IO/ColorIO.h>
 

@@ -27,7 +27,8 @@
 #ifndef CHAOS_PLATFORM_H
 #define CHAOS_PLATFORM_H
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS_) || defined(_MSC_VER)
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS_) || \
+  defined(_MSC_VER) || defined(__MINGW32__) || defined(__MINGW64__)
 # define CHAOS_WINDOWS
 #elif defined(linux) || defined(__linux) || defined(__linux__)
 # define CHAOS_LINUX
@@ -45,14 +46,16 @@
 # define CHAOS_CC_VER         _MSC_VER
 # define CHAOS_CC_VER_LIMIT   1900
 #elif defined(__GNUC__)
-# define CHAOS_CC_VER         (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+# define CHAOS_CC_VER         \
+  (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 # if defined(CHAOS_DARWIN)
 #   define CHAOS_CC_VER_LIMIT 30300
 # else
 #   define CHAOS_CC_VER_LIMIT 40801
 # endif
 #elif defined(__clang__)
-# define CHAOS_CC_VER         (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
+# define CHAOS_CC_VER         \
+  (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
 # if defined(CHAOS_DARWIN)
 #   define CHAOS_CC_VER_LIMIT 80000
 # else
@@ -97,7 +100,8 @@
 // #define CHAOS_ENABLE_FAST_CAST (0)
 
 #if defined(CHAOS_WINDOWS)
-# define CHAOS_ARRAY(type, name, count) type* name = (type*)_alloca((count) * sizeof(type))
+# define CHAOS_ARRAY(type, name, count) \
+  type* name = (type*)_alloca((count) * sizeof(type))
 #else
 # define CHAOS_ARRAY(type, name, count) type name[count]
 #endif

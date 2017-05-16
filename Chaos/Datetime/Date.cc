@@ -30,8 +30,8 @@
 
 namespace Chaos {
 
-static_assert(
-    sizeof(Date) >= sizeof(int32_t), "require 32 bit integer at least");
+static_assert(sizeof(Date) >= sizeof(std::int32_t),
+    "require 32 bit integer at least");
 
 int get_unix_day(int year, int month, int day) {
   int a = (14 - month) / 12;
@@ -67,8 +67,8 @@ Date::Date(const struct std::tm& t)
 std::string Date::to_iso_string(void) const {
   char buf[32];
   DateValue date(get_date());
-  std::snprintf(
-      buf, sizeof(buf), "%4d-%02d-%02d", date.year, date.month, date.day);
+  std::snprintf(buf,
+      sizeof(buf), "%4d-%02d-%02d", date.year, date.month, date.day);
   return buf;
 }
 

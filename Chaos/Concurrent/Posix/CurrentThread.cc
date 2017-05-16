@@ -38,10 +38,10 @@
 namespace Chaos {
 
 namespace CurrentThread {
-  __thread int t_cachaed_tid = 0;
-  __thread char t_strftid[32];
-  __thread int t_strftid_length = 6;
-  __thread const char* t_thread_name = "unknown";
+  __chaos_tl int t_cachaed_tid = 0;
+  __chaos_tl char t_strftid[32];
+  __chaos_tl int t_strftid_length = 6;
+  __chaos_tl const char* t_thread_name = "unknown";
   static_assert(std::is_same<int, pid_t>::value, "pid_t should be `int`");
 
   namespace Unexposed {
@@ -57,8 +57,8 @@ namespace CurrentThread {
   void cached_tid(void) {
     if (0 == t_cachaed_tid) {
       t_cachaed_tid = Chaos::kern_gettid();
-      t_strftid_length =
-        std::snprintf(t_strftid, sizeof(t_strftid), "%5d ", t_cachaed_tid);
+      t_strftid_length = std::snprintf(t_strftid,
+          sizeof(t_strftid), "%5d ", t_cachaed_tid);
     }
   }
 
@@ -85,9 +85,10 @@ namespace CurrentThread {
     std::this_thread::sleep_for(std::chrono::microseconds(usec));
 #else
     struct timespec ts;
-    ts.tv_sec = static_cast<time_t>(usec / Timestamp::kMicrosecondsPerSecond);
-    ts.tv_nsec =
-      static_cast<long>(usec % Timestamp::kMicrosecondsPerSecond * 1000);
+    ts.tv_sec = static_cast<std::time_t>(
+        usec / Timestamp::kMicrosecondsPerSecond);
+    ts.tv_nsec = static_cast<long>(
+        usec % Timestamp::kMicrosecondsPerSecond * 1000);
     nanosleep(&ts, nullptr);
 #endif
   }

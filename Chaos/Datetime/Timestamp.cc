@@ -34,9 +34,8 @@
 
 namespace Chaos {
 
-static_assert(
-    sizeof(Timestamp) == sizeof(int64_t),
-    "Timestamp should be same size as `int64_t`");
+static_assert(sizeof(Timestamp) == sizeof(std::int64_t),
+    "Timestamp should be same size as `std::int64_t`");
 
 std::string Timestamp::to_string(void) const {
   char buf[32];

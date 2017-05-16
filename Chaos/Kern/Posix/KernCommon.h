@@ -33,8 +33,6 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <cstdio>
-#include <cstring>
 #include <ctime>
 #include <string>
 

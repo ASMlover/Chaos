@@ -212,7 +212,8 @@ LogStream& LogStream::operator<<(const buffer_type& buf) {
 
 template <typename T>
 Format::Format(const char* fmt, T value) {
-  static_assert(std::is_arithmetic<T>::value == true, "must be arithmetic type");
+  static_assert(std::is_arithmetic<T>::value == true,
+      "must be arithmetic type");
   size_ = snprintf(data_, sizeof(data_), fmt, value);
   CHAOS_CHECK(size_ < sizeof(data_), "`data_` space must be enough");
 }

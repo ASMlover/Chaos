@@ -74,12 +74,12 @@ namespace FileUtil {
     std::size_t written_bytes_{};
     char buffer_[kBufferSize];
 
-    int write(const char* buf, std::size_t len);
+    int write(const char* buf, std::size_t buflen);
   public:
     explicit AppendFile(StringArg fname);
     ~AppendFile(void);
 
-    void append(const char* buf, std::size_t len);
+    void append(const char* buf, std::size_t buflen);
     void flush(void);
 
     std::size_t get_written_bytes(void) const {

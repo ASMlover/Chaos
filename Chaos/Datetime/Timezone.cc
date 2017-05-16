@@ -193,8 +193,8 @@ bool read_timezone_file(const char* zonefile, struct TZData* tzdata) {
       CHAOS_UNUSED(isgmtcnt);
     }
     catch (std::logic_error& e) {
-      ColorIO::fprintf(
-          stderr, ColorIO::ColorType::COLORTYPE_RED, "%s\n", e.what());
+      ColorIO::fprintf(stderr,
+          ColorIO::ColorType::COLORTYPE_RED, "%s\n", e.what());
     }
   }
   return true;
@@ -309,13 +309,8 @@ struct std::tm Timezone::to_utc_time(std::time_t sec_since_epoch, bool yday) {
 }
 
 std::time_t Timezone::from_utc_time(const struct std::tm& utc) {
-  return from_utc_time(
-      utc.tm_year + 1900,
-      utc.tm_mon + 1,
-      utc.tm_mday,
-      utc.tm_hour,
-      utc.tm_min,
-      utc.tm_sec);
+  return from_utc_time(utc.tm_year + 1900,
+      utc.tm_mon + 1, utc.tm_mday, utc.tm_hour, utc.tm_min, utc.tm_sec);
 }
 
 std::time_t Timezone::from_utc_time(

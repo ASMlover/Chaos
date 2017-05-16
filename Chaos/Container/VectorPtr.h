@@ -255,11 +255,13 @@ public:
   }
 
   template <typename InputIterator>
-  iterator insert(const_iterator position, InputIterator from, InputIterator to) {
+  iterator insert(
+      const_iterator position, InputIterator from, InputIterator to) {
     return vec_->insert(position, from, to);
   }
 
-  iterator insert(const_iterator position, std::initializer_list<value_type> il) {
+  iterator insert(
+      const_iterator position, std::initializer_list<value_type> il) {
     return vec_->insert(position, il);
   }
 

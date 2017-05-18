@@ -32,7 +32,9 @@
 #include <iostream>
 
 static void do_print(void) {
-  std::cout << "Chaos::ThreadPool unittest, @tid=" << Chaos::CurrentThread::get_tid() << std::endl;
+  std::cout
+    << "Chaos::ThreadPool unittest, @tid=" << Chaos::CurrentThread::get_tid()
+    << std::endl;
 }
 
 static void do_test(int max_count) {

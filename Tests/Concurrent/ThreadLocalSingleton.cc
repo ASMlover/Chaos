@@ -38,11 +38,15 @@ class Useless : private Chaos::UnCopyable {
   std::string message_;
 public:
   Useless(void) {
-    std::cout << "Chaos::ThreadLocalSingleton unittest - Useless::Useless @tid=" << cc::get_tid() << std::endl;
+    std::cout
+      << "Chaos::ThreadLocalSingleton unittest - Useless::Useless @tid="
+      << cc::get_tid() << std::endl;
   }
 
   ~Useless(void) {
-    std::cout << "Chaos::ThreadLocalSingleton unittest - Useless::~Useless @tid=" << cc::get_tid() << std::endl;
+    std::cout
+      << "Chaos::ThreadLocalSingleton unittest - Useless::~Useless @tid="
+      << cc::get_tid() << std::endl;
   }
 
   void set_message(const std::string& msg) {
@@ -56,19 +60,24 @@ public:
 
 CHAOS_TEST(ThreadLocalSingleton, Chaos::FakeTester) {
   {
+#define USELESS_INS Chaos::ThreadLocalSingleton<Useless>::get_instance()
     Chaos::ThreadLocalSingleton<Useless>::get_instance().set_message("Main#1");
 
     Chaos::Thread t([] {
-          std::cout << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
-            << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message() << std::endl;
-          Chaos::ThreadLocalSingleton<Useless>::get_instance().set_message("Thread#1");
-          std::cout << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
-            << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message() << std::endl;
+          std::cout
+            << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
+            << ", @message=" << USELESS_INS.get_message() << std::endl;
+          USELESS_INS.set_message("Thread#1");
+          std::cout
+            << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
+            << ", @message=" << USELESS_INS.get_message() << std::endl;
         });
     t.start();
     t.join();
 
-    std::cout << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
-      << ", @message=" << Chaos::ThreadLocalSingleton<Useless>::get_instance().get_message() << std::endl;
+    std::cout
+      << "Chaos::ThreadLocalSingleton unittest - @tid=" << cc::get_tid()
+      << ", @message=" << USELESS_INS.get_message() << std::endl;
+#undef USELESS_INS
   }
 }

@@ -31,14 +31,19 @@
 
 CHAOS_TEST(Thread, Chaos::FakeTester) {
   Chaos::Thread t1([] {
-        CHAOSLOG_INFO << "Chaos::Thread unittest - @tid=" << Chaos::CurrentThread::get_tid();
+        CHAOSLOG_INFO
+          << "Chaos::Thread unittest - @tid="
+          << Chaos::CurrentThread::get_tid();
       }, "Thread1");
   t1.start();
   t1.join();
 
   auto x = 42;
   Chaos::Thread t2([x] {
-        CHAOSLOG_INFO << "Chaos::Thread unittest - @tid=" << Chaos::CurrentThread::get_tid() << ", @x=" << x;
+        CHAOSLOG_INFO
+          << "Chaos::Thread unittest - @tid="
+          << Chaos::CurrentThread::get_tid()
+          << ", @x=" << x;
       }, "Thread2");
   t2.start();
   t2.join();

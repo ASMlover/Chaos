@@ -38,8 +38,12 @@ CHAOS_TEST(FileUtil, Chaos::FakeTester) {
   const char* fname = "/proc/self";
 #endif
   int err = Chaos::FileUtil::read_file(fname, 1024, &result, &size);
-  CHAOSLOG_INFO << "Chaos::FileUtil unittest - read_file @err=" << err << ", @size=" << size << ", @result=\n" << result;
+  CHAOSLOG_INFO
+    << "Chaos::FileUtil unittest - read_file @err=" << err
+    << ", @size=" << size << ", @result=\n" << result;
 
   err = Chaos::FileUtil::read_file(fname, 1024, &result, nullptr);
-  CHAOSLOG_INFO << "Chaos::FileUtil unittest - read_file @err=" << err << ", @size=" << size << ", @result=\n" << result;
+  CHAOSLOG_INFO
+    << "Chaos::FileUtil unittest - read_file @err=" << err
+    << ", @size=" << size << ", @result=\n" << result;
 }

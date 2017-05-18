@@ -33,6 +33,8 @@ CHAOS_TEST(Exception, Chaos::FakeTester) {
     throw Chaos::Exception("Chaos::Exception");
   }
   catch (const Chaos::Exception& ex) {
-    CHAOSLOG_INFO << "Chaos::Exception unittest - @what=" << ex.what() << ", Traceback >>>\n" << ex.get_traceback();
+    CHAOSLOG_INFO
+      << "Chaos::Exception unittest - @what=" << ex.what()
+      << ", Traceback >>>\n" << ex.get_traceback();
   }
 }

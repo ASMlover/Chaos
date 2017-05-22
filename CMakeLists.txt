@@ -81,7 +81,7 @@ else()
       return()
     endif()
   endif()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O2 -std=c++11 -Wall -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O2 -std=c++1y -Wall -Werror")
 endif()
 message(STATUS "`ChaosPROJ` CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 

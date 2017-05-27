@@ -40,9 +40,9 @@
 #include <ctime>
 #include <string>
 
-typedef int pid_t;
-typedef std::uint16_t mode_t;
-typedef SSIZE_T ssize_t;
+using pid_t   = int;
+using mode_t  = std::uint16_t;
+using ssize_t = SSIZE_T;
 
 struct timezone {
   int tz_minuteswest;

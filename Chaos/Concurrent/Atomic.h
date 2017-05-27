@@ -38,9 +38,9 @@
 
 namespace Chaos {
 
-typedef Atomic<std::int16_t> AtomicI16;
-typedef Atomic<std::int32_t> AtomicI32;
-typedef Atomic<std::int64_t> AtomicI64;
+using AtomicI16 = Atomic<std::int16_t>;
+using AtomicI32 = Atomic<std::int32_t>;
+using AtomicI64 = Atomic<std::int64_t>;
 
 }
 

@@ -41,7 +41,7 @@ public:
     int month;
     int day;
   };
-  static const int kDaysPerWeek = 7;
+  static constexpr int kDaysPerWeek = 7;
   static const int kEpochDay19700101;
 
   Date(void) = default;

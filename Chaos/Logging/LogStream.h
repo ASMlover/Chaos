@@ -32,8 +32,8 @@
 
 namespace Chaos {
 
-const int kSmallBuffer = 4096;
-const int kLargeBuffer = 4096000; // 4906 * 1000
+constexpr int kSmallBuffer = 4096;
+constexpr int kLargeBuffer = 4096000; // 4906 * 1000
 
 template <int N>
 class FixedBuffer : private UnCopyable {

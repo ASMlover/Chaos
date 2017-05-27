@@ -84,7 +84,7 @@ struct Localtime {
   }
 };
 
-static const int kSecondsPerDay = 86400; // 24 * 60 * 60
+static constexpr int kSecondsPerDay = 86400; // 24 * 60 * 60
 
 struct TZData {
   std::vector<Transition> transitions;

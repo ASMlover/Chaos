@@ -25,6 +25,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <cstdint>
+#include <cstring>
 #include <Chaos/Codecs/Crc32c.h>
 #include <Chaos/Unittest/TestHarness.h>
 
@@ -34,7 +35,7 @@ CHAOS_TEST(Crc32c, Chaos::FakeTester) {
   char buf[32]{};
   CHAOS_CHECK_EQ(0x8a9136aau, cc::value(buf, sizeof(buf)));
 
-  memset(buf, 0xff, sizeof(buf));
+  std::memset(buf, 0xff, sizeof(buf));
   CHAOS_CHECK_EQ(0x62a8ab43u, cc::value(buf, sizeof(buf)));
 
   for (auto i = 0; i < 32; ++i)

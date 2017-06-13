@@ -67,7 +67,7 @@ public:
   static Timestamp invalid(void);
   static Timestamp from_unix_time(std::time_t t);
   static Timestamp from_unix_time(std::time_t t, int msec);
-  static const int kMicrosecondsPerSecond = 1000 * 1000;
+  static constexpr int kMicrosecondsPerSecond = 1000 * 1000;
 };
 
 inline bool operator==(Timestamp a, Timestamp b) {

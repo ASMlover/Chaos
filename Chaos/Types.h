@@ -58,7 +58,7 @@
 } while (0)
 #endif
 
-typedef unsigned char byte_t;
+using byte_t = std::uint8_t;
 
 namespace Chaos {
 

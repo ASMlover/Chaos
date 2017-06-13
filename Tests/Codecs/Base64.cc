@@ -32,20 +32,26 @@ CHAOS_TEST(Base64, Chaos::FakeTester) {
   std::string s("Chaos::Base64");
 
   std::string ens = Chaos::Base64::encode(s.data(), s.size());
-  std::cout << "Chaos::Base64 unittest encode`" << s << "` is: " << ens << std::endl;
+  std::cout
+    << "Chaos::Base64 unittest encode`" << s << "` is: " << ens << std::endl;
   std::string des = Chaos::Base64::decode(ens.data(), ens.size());
-  std::cout << "Chaos::Base64 unittest decode`" << ens << "` is: " << des << std::endl;
+  std::cout
+    << "Chaos::Base64 unittest decode`" << ens << "` is: " << des << std::endl;
   CHAOS_CHECK_EQ(s, des);
 
   ens = Chaos::Base64::encode(s.data());
-  std::cout << "Chaos::Base64 unittest encode`" << s << "` is: " << ens << std::endl;
+  std::cout
+    << "Chaos::Base64 unittest encode`" << s << "` is: " << ens << std::endl;
   des = Chaos::Base64::decode(ens.data());
-  std::cout << "Chaos::Base64 unittest decode`" << ens << "` is: " << des << std::endl;
+  std::cout
+    << "Chaos::Base64 unittest decode`" << ens << "` is: " << des << std::endl;
   CHAOS_CHECK_EQ(s, des);
 
   ens = Chaos::Base64::encode(s);
-  std::cout << "Chaos::Base64 unittest encode`" << s << "` is: " << ens << std::endl;
+  std::cout
+    << "Chaos::Base64 unittest encode`" << s << "` is: " << ens << std::endl;
   des = Chaos::Base64::decode(ens);
-  std::cout << "Chaos::Base64 unittest encode`" << ens << "` is: " << des << std::endl;
+  std::cout
+    << "Chaos::Base64 unittest encode`" << ens << "` is: " << des << std::endl;
   CHAOS_CHECK_EQ(s, des);
 }

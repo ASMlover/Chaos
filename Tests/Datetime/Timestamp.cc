@@ -32,7 +32,9 @@
 CHAOS_TEST(Timestamp, Chaos::FakeTester) {
   {
     Chaos::Timestamp t;
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - " << t.to_string() << "|" << t.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - " << t.to_string()
+      << "|" << t.to_formatted_string(true);
     CHAOS_CHECK_TRUE(!t.is_valid());
     CHAOS_CHECK_TRUE(t.msec_since_epoch() == 0);
     CHAOS_CHECK_TRUE(t.sec_since_epoch() == 0);
@@ -41,38 +43,62 @@ CHAOS_TEST(Timestamp, Chaos::FakeTester) {
   {
     auto epoch = std::time(nullptr) * Chaos::Timestamp::kMicrosecondsPerSecond;
     Chaos::Timestamp t(epoch);
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - " << t.to_string() << "|" << t.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - " << t.to_string()
+      << "|" << t.to_formatted_string(true);
     CHAOS_CHECK_TRUE(t.is_valid());
     CHAOS_CHECK_TRUE(t.msec_since_epoch() == epoch);
-    CHAOS_CHECK_TRUE(t.sec_since_epoch() == epoch / Chaos::Timestamp::kMicrosecondsPerSecond);
+    CHAOS_CHECK_TRUE(t.sec_since_epoch() ==
+        epoch / Chaos::Timestamp::kMicrosecondsPerSecond);
   }
 
   {
     Chaos::Timestamp t1(Chaos::Timestamp::invalid());
     Chaos::Timestamp t2(Chaos::Timestamp::now());
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @t1=" << t1.to_string() << "|" << t1.to_formatted_string(true);
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @t2=" << t2.to_string() << "|" << t2.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @t1=" << t1.to_string()
+      << "|" << t1.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @t2=" << t2.to_string()
+      << "|" << t2.to_formatted_string(true);
     CHAOS_CHECK_TRUE(t1 < t2);
     t1.swap(t2);
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @t1=" << t1.to_string() << "|" << t1.to_formatted_string(true);
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @t2=" << t2.to_string() << "|" << t2.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @t1=" << t1.to_string()
+      << "|" << t1.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @t2=" << t2.to_string()
+      << "|" << t2.to_formatted_string(true);
     CHAOS_CHECK_TRUE(t2 < t1);
   }
 
   {
     Chaos::Timestamp t1(Chaos::Timestamp::from_unix_time(std::time(nullptr)));
-    Chaos::Timestamp t2(Chaos::Timestamp::from_unix_time(std::time(nullptr), 100));
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @t1=" << t1.to_string() << "|" << t1.to_formatted_string(true);
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @t2=" << t2.to_string() << "|" << t2.to_formatted_string(true);
+    Chaos::Timestamp t2(
+        Chaos::Timestamp::from_unix_time(std::time(nullptr), 100));
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @t1=" << t1.to_string()
+      << "|" << t1.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @t2=" << t2.to_string()
+      << "|" << t2.to_formatted_string(true);
     CHAOS_CHECK_TRUE(t1 < t2);
     t1.swap(t2);
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @t1=" << t1.to_string() << "|" << t1.to_formatted_string(true);
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @t2=" << t2.to_string() << "|" << t2.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @t1=" << t1.to_string()
+      << "|" << t1.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @t2=" << t2.to_string()
+      << "|" << t2.to_formatted_string(true);
     CHAOS_CHECK_TRUE(t2 < t1);
 
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @diff(t1-t2)=" << Chaos::time_difference(t1, t2);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @diff(t1-t2)="
+      << Chaos::time_difference(t1, t2);
     Chaos::Timestamp t3(Chaos::time_add(t2, 0.0001));
-    CHAOSLOG_INFO << "Chaos::Timestamp unittest - @t3=" << t3.to_string() << "|" << t3.to_formatted_string(true);
+    CHAOSLOG_INFO
+      << "Chaos::Timestamp unittest - @t3=" << t3.to_string()
+      << "|" << t3.to_formatted_string(true);
     CHAOS_CHECK_TRUE(t1 == t3 && t2 < t3);
   }
 }

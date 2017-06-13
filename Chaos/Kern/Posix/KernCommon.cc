@@ -31,7 +31,7 @@
 namespace Chaos {
 
 int kern_backtrace(std::string& bt) {
-  static const int kMaxBacktrace = 256;
+  static constexpr int kMaxBacktrace = 256;
   void* buff[kMaxBacktrace];
   int nptrs = backtrace(buff, kMaxBacktrace);
   char** messages = backtrace_symbols(buff, nptrs);

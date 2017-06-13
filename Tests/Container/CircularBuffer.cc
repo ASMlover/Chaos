@@ -31,7 +31,9 @@
 CHAOS_TEST(CircularBuffer, Chaos::FakeTester) {
   {
     Chaos::CircularBuffer<int> c;
-    CHAOSLOG_INFO << "Chaos::CircularBuffer unittest - @size=" << c.size() << ", @capacity=" << c.capacity();
+    CHAOSLOG_INFO
+      << "Chaos::CircularBuffer unittest - @size=" << c.size()
+      << ", @capacity=" << c.capacity();
     CHAOS_CHECK_TRUE(!c);
     CHAOS_CHECK_TRUE(c.empty());
     CHAOS_CHECK_TRUE(c.full());
@@ -44,7 +46,9 @@ CHAOS_TEST(CircularBuffer, Chaos::FakeTester) {
 
   {
     Chaos::CircularBuffer<int> c(5);
-    CHAOSLOG_INFO << "Chaos::CircularBuffer unittest - @size=" << c.size() << ", @capacity=" << c.capacity();
+    CHAOSLOG_INFO
+      << "Chaos::CircularBuffer unittest - @size=" << c.size()
+      << ", @capacity=" << c.capacity();
     CHAOS_CHECK_TRUE(static_cast<bool>(c));
     CHAOS_CHECK_TRUE(c.empty());
     CHAOS_CHECK_TRUE(!c.full());
@@ -57,7 +61,9 @@ CHAOS_TEST(CircularBuffer, Chaos::FakeTester) {
 
   {
     Chaos::CircularBuffer<int> c(5);
-    CHAOSLOG_INFO << "Chaos::CircularBuffer unittest - @size=" << c.size() << ", @capacity=" << c.capacity();
+    CHAOSLOG_INFO
+      << "Chaos::CircularBuffer unittest - @size=" << c.size()
+      << ", @capacity=" << c.capacity();
     c.push_back(1);
     CHAOS_CHECK_TRUE(static_cast<bool>(c));
     CHAOS_CHECK_TRUE(!c.empty());

@@ -32,9 +32,9 @@
 
 namespace Chaos {
 
-static const std::uint64_t kEpoch = 116444736000000000ULL;
-static const DWORD kMSVCException = 0x406D1388;
-static const int kMaxBacktrace = 256;
+static constexpr std::uint64_t kEpoch = 116444736000000000ULL;
+static constexpr DWORD kMSVCException = 0x406D1388;
+static constexpr int kMaxBacktrace = 256;
 static const HANDLE kMainProc = GetCurrentProcess();
 static const BOOL kBTIgnoredInit = SymInitialize(kMainProc, NULL, TRUE);
 

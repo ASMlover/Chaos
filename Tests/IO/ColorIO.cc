@@ -30,8 +30,14 @@
 CHAOS_TEST(ColorIO, Chaos::FakeTester) {
   namespace cc = ::Chaos::ColorIO;
 
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_GREEN, "Chaos::ColorIO unittest - green information with `fprintf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_GREEN, "Chaos::ColorIO unittest - green information with `printf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_RED, "Chaos::ColorIO unittest - red information with `fprintf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_RED, "Chaos::ColorIO unittest - red information with `printf`\n");
+  cc::fprintf(stdout,
+      cc::ColorType::COLORTYPE_GREEN,
+      "Chaos::ColorIO unittest - green information with `fprintf`\n");
+  cc::printf(cc::ColorType::COLORTYPE_GREEN,
+      "Chaos::ColorIO unittest - green information with `printf`\n");
+  cc::fprintf(stdout,
+      cc::ColorType::COLORTYPE_RED,
+      "Chaos::ColorIO unittest - red information with `fprintf`\n");
+  cc::printf(cc::ColorType::COLORTYPE_RED,
+      "Chaos::ColorIO unittest - red information with `printf`\n");
 }

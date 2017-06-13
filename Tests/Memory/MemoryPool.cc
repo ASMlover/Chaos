@@ -40,7 +40,9 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
       free(p);
     }
     end = Chaos::Timestamp::now().msec_since_epoch();
-    std::cout << "Chaos::MemoryPool unittest - [system C allocator] use: " << end - beg << std::endl;
+    std::cout
+      << "Chaos::MemoryPool unittest - [system C allocator] use: "
+      << end - beg << std::endl;
   }
 
   {
@@ -50,7 +52,9 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
       delete p;
     }
     end = Chaos::Timestamp::now().msec_since_epoch();
-    std::cout << "Chaos::MemoryPool unittest - [system C++ allocator] use: " << end - beg << std::endl;
+    std::cout
+      << "Chaos::MemoryPool unittest - [system C++ allocator] use: "
+      << end - beg << std::endl;
   }
 
   {
@@ -61,6 +65,8 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
       pool.dealloc(p, sizeof(int));
     }
     end = Chaos::Timestamp::now().msec_since_epoch();
-    std::cout << "Chaos::MemoryPool unittest - [memort pool allocator] use: " << end - beg << std::endl;
+    std::cout
+      << "Chaos::MemoryPool unittest - [memort pool allocator] use: "
+      << end - beg << std::endl;
   }
 }

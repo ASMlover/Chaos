@@ -24,8 +24,8 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <stdint.h>
-#include <string.h>
+#include <cstdint>
+#include <cstring>
 #include <Chaos/Codecs/Crc32c.h>
 #include <Chaos/Unittest/TestHarness.h>
 
@@ -35,7 +35,7 @@ CHAOS_TEST(Crc32c, Chaos::FakeTester) {
   char buf[32]{};
   CHAOS_CHECK_EQ(0x8a9136aau, cc::value(buf, sizeof(buf)));
 
-  memset(buf, 0xff, sizeof(buf));
+  std::memset(buf, 0xff, sizeof(buf));
   CHAOS_CHECK_EQ(0x62a8ab43u, cc::value(buf, sizeof(buf)));
 
   for (auto i = 0; i < 32; ++i)
@@ -47,11 +47,13 @@ CHAOS_TEST(Crc32c, Chaos::FakeTester) {
   CHAOS_CHECK_EQ(0x113fdb5cu, cc::value(buf, sizeof(buf)));
 
   CHAOS_CHECK_NE(cc::value("a", 1), cc::value("foo", 3));
-  CHAOS_CHECK_EQ(cc::value("ChaosCrc32c", 11), cc::extend(cc::value("Chaos", 5), "Crc32c", 6));
+  CHAOS_CHECK_EQ(cc::value("ChaosCrc32c", 11),
+      cc::extend(cc::value("Chaos", 5), "Crc32c", 6));
 
-  uint32_t init_crc = cc::value("foo", 3);
+  std::uint32_t init_crc = cc::value("foo", 3);
   CHAOS_CHECK_NE(init_crc, cc::mask(init_crc));
   CHAOS_CHECK_NE(init_crc, cc::mask(cc::mask(init_crc)));
   CHAOS_CHECK_EQ(init_crc, cc::unmask(cc::mask(init_crc)));
-  CHAOS_CHECK_EQ(init_crc, cc::unmask(cc::unmask(cc::mask(cc::mask(init_crc)))));
+  CHAOS_CHECK_EQ(init_crc,
+      cc::unmask(cc::unmask(cc::mask(cc::mask(init_crc)))));
 }

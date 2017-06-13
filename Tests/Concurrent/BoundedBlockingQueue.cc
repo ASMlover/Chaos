@@ -45,23 +45,30 @@ CHAOS_TEST(BoundedBlockingQueue, Chaos::FakeTester) {
       std::string name(buf);
       threads.emplace_back(new std::thread([&latch, &queue, name] {
               Chaos::CurrentThread::cached_tid();
-              CHAOSLOG_INFO << "Chaos::BoundedBlockingQueue unitest - thread [" << name << "] running ...";
+              CHAOSLOG_INFO
+                << "Chaos::BoundedBlockingQueue unitest - thread ["
+                << name << "] running ...";
 
               latch.countdown();
               bool running = true;
               while (running) {
                 auto x(queue.fetch_out());
-                CHAOSLOG_INFO << "Chaos::BoundedBlockingQueue unittest - fetch_out @x=" << x;
+                CHAOSLOG_INFO
+                  << "Chaos::BoundedBlockingQueue unittest - fetch_out @x="
+                  << x;
                 running = (x != 0);
               }
-              CHAOSLOG_INFO << "Chaos::BoundedBlockingQueue unittest - thread [" << name << "] stoping ...";
+              CHAOSLOG_INFO
+                << "Chaos::BoundedBlockingQueue unittest - thread ["
+                << name << "] stoping ...";
             }));
     }
 
     latch.wait();
     for (auto i = 0; i < 100; ++i) {
       queue.put_in(i + 1);
-      CHAOSLOG_INFO << "Chaos::BoundedBlockingQueue unittest - @size=" << queue.size();
+      CHAOSLOG_INFO
+        << "Chaos::BoundedBlockingQueue unittest - @size=" << queue.size();
     }
 
     for (auto i = 0; i < COUNT; ++i)

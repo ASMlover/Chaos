@@ -80,7 +80,7 @@ public:
   }
 
   void set_tasks_capacity(std::size_t capacity) {
-    // should be called before start
+    // should be called before calling start()
     tasks_capacity_ = capacity;
   }
 };

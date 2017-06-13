@@ -34,8 +34,11 @@ CHAOS_TEST(Timezone, Chaos::FakeTester) {
     Chaos::Timezone t;
     CHAOS_CHECK_TRUE(!t.is_valid());
     std::tm utc(Chaos::Timezone::to_utc_time(std::time(nullptr), true));
-    CHAOSLOG_INFO << "Chaos::Timezone unittest - @from_utc_time=" << Chaos::Timezone::from_utc_time(utc);
-    CHAOSLOG_INFO << "Chaos::Timezone unittest - @from_utc_time(2017-2-24 17:30:30)="
+    CHAOSLOG_INFO
+      << "Chaos::Timezone unittest - @from_utc_time="
+      << Chaos::Timezone::from_utc_time(utc);
+    CHAOSLOG_INFO
+      << "Chaos::Timezone unittest - @from_utc_time(2017-2-24 17:30:30)="
       << Chaos::Timezone::from_utc_time(2017, 2, 24, 17, 30, 30);
   }
 
@@ -43,6 +46,7 @@ CHAOS_TEST(Timezone, Chaos::FakeTester) {
     Chaos::Timezone t(8 * 3600, "CST");
     std::tm utc = t.to_localtime(std::time(nullptr));
     CHAOS_CHECK_TRUE(t.is_valid());
-    CHAOSLOG_INFO << "Chaos::Timezone unittest - @localtime=" << t.from_localtime(utc);
+    CHAOSLOG_INFO
+      << "Chaos::Timezone unittest - @localtime=" << t.from_localtime(utc);
   }
 }

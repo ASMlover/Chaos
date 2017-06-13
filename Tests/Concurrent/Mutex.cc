@@ -55,8 +55,10 @@ CHAOS_TEST(FastMutex, Chaos::FakeTester) {
   std::thread t([&] {
       Chaos::ScopedLock<Chaos::FastMutex> guard(mtx);
 
-      for (int i = 0; i < 10; ++i)
-        std::cout << "Chaos::FastMutex unittest, @i: " << ++counter << std::endl;
+      for (int i = 0; i < 10; ++i) {
+        std::cout
+          << "Chaos::FastMutex unittest, @i: " << ++counter << std::endl;
+      }
   });
   t.join();
 

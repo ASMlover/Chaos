@@ -33,7 +33,7 @@
 namespace Chaos {
 
 namespace FileUtil {
-  static const int kBufferSize = 65536; // 64 * 1024
+  static constexpr int kBufferSize = 65536; // 64 * 1024
 
   class ReadSmallFile : private UnCopyable {
     int fd_{};

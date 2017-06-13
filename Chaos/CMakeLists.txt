@@ -26,47 +26,41 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 set(CHAOSLIB_NAME "chaos")
-set(CHAOS_SOURCES
 
-  Codecs/Base16.cc
-  Codecs/Base32.cc
-  Codecs/Base64.cc
-  Codecs/Crc32c.cc
-  Concurrent/CountdownLatch.cc
-  Concurrent/Thread.cc
-  Concurrent/ThreadPool.cc
-  Concurrent/Cpp11/ThreadPool.cc
-  Container/StringPiece.cc
-  Datetime/Date.cc
-  Datetime/Timestamp.cc
-  Datetime/Timezone.cc
-  Except/Exception.cc
-  File/FileUtil.cc
-  IO/ColorIO.cc
-  Logging/Logging.cc
-  Logging/LogStream.cc
-  Memory/MemoryPool.cc
-  Unittest/TestHarness.cc
+file(GLOB CHAOS_SOURCES
+  *.cc
+  Codecs/*.cc
+  Concurrent/*.cc
+  Concurrent/Cpp11/*.cc
+  Container/*.cc
+  Datetime/*.cc
+  Except/*.cc
+  File/*.cc
+  IO/*.cc
+  Logging/*.cc
+  Memory/*.cc
+  Unittest/*.cc
   )
-
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
-  set(CHAOS_SOURCES ${CHAOS_SOURCES}
-
-    Concurrent/Windows/CurrentThread.cc
-    IO/Windows/ColorIO.cc
-    Kern/Windows/KernCommon.cc
+  file(GLOB_RECURSE CHAOS_WINDOWS_SOURCES
+    Concurrent/Windows/*.cc
+    IO/Windows/*.cc
+    Kern/Windows/*.cc
     )
+  set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_WINDOWS_SOURCES})
 else()
-  set(CHAOS_SOURCES ${CHAOS_SOURCES}
-
-    Concurrent/Posix/CurrentThread.cc
-    IO/Posix/ColorIO.cc
-    Kern/Posix/KernCommon.cc
+  file(GLOB_RECURSE CHAOS_POSIX_SOURCES
+    Concurrent/Posix/*.cc
+    IO/Posix/*.cc
+    Kern/Posix/*.cc
     )
+  set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_POSIX_SOURCES})
   if (CMAKE_SYSTEM_NAME MATCHES "Linux")
-    set(CHAOS_SOURCES ${CHAOS_SOURCES} Concurrent/Linux/CurrentThread.cc)
+    file(GLOB_RECURSE CHAOS_LINUX_SOURCES Concurrent/Linux/*.cc)
+    set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_LINUX_SOURCES})
   elseif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-    set(CHAOS_SOURCES ${CHAOS_SOURCES} Concurrent/Darwin/CurrentThread.cc)
+    file(GLOB_RECURSE CHAOS_DARWIN_SOURCES Concurrent/Darwin/*.cc)
+    set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_DARWIN_SOURCES})
   endif()
 endif()
 message(STATUS "`ChaosPROJ` CHAOS_SOURCES: ${CHAOS_SOURCES}")

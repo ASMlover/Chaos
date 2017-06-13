@@ -38,11 +38,15 @@ class Useless : private Chaos::UnCopyable {
   std::string message_;
 public:
   Useless(void) {
-    std::cout << "Chaos::ThreadLocal unittest - Useless:Useless @tid=" << cc::get_tid() << std::endl;
+    std::cout
+      << "Chaos::ThreadLocal unittest - Useless:Useless @tid="
+      << cc::get_tid() << std::endl;
   }
 
   ~Useless(void) {
-    std::cout << "Chaos::ThreadLocal unittest - Useless:~Useless @tid=" << cc::get_tid() << std::endl;
+    std::cout
+      << "Chaos::ThreadLocal unittest - Useless:~Useless @tid="
+      << cc::get_tid() << std::endl;
   }
 
   void set_message(const std::string& msg) {
@@ -58,10 +62,14 @@ Chaos::ThreadLocal<Useless> _useless_obj1;
 Chaos::ThreadLocal<Useless> _useless_obj2;
 
 static void show_useless(void) {
-  std::cout << "Chaos::ThreadLocal unittest - _useless_obj1 @message="
-    << _useless_obj1.get_value().get_message() << ", @tid=" << cc::get_tid() << std::endl;
-  std::cout << "Chaos::ThreadLocal unittest - _useless_obj2 @message="
-    << _useless_obj2.get_value().get_message() << ", @tid=" << cc::get_tid() << std::endl;
+  std::cout
+    << "Chaos::ThreadLocal unittest - _useless_obj1 @message="
+    << _useless_obj1.get_value().get_message() << ", @tid=" << cc::get_tid()
+    << std::endl;
+  std::cout
+    << "Chaos::ThreadLocal unittest - _useless_obj2 @message="
+    << _useless_obj2.get_value().get_message() << ", @tid=" << cc::get_tid()
+    << std::endl;
 }
 
 CHAOS_TEST(ThreadLocal, Chaos::FakeTester) {

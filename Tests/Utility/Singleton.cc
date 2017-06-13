@@ -38,11 +38,14 @@ class _Useless : private Chaos::UnCopyable {
   std::string message_;
 public:
   _Useless(void) {
-    std::cout << "Chaos::Singleton unittest  - _Useless::_Useless @tid=" << cc::get_tid() << std::endl;
+    std::cout
+      << "Chaos::Singleton unittest  - _Useless::_Useless @tid="
+      << cc::get_tid() << std::endl;
   }
 
   ~_Useless(void) {
-    std::cout << "Chaos::Singleton unittest - _Useless::~_Useless @tid="
+    std::cout
+      << "Chaos::Singleton unittest - _Useless::~_Useless @tid="
       << cc::get_tid() << ", @message=" << message_ << std::endl;
   }
 
@@ -59,12 +62,16 @@ CHAOS_TEST(Singleton, Chaos::FakeTester) {
   {
     Chaos::Singleton<_Useless>::get_instance().set_message("_Useless.Main");
     std::thread t([] {
-        std::cout << "Chaos::Singleton unittest - @tid=" << cc::get_tid()
-          << ", @message=" << Chaos::Singleton<_Useless>::get_instance().get_message() << std::endl;
+        std::cout
+          << "Chaos::Singleton unittest - @tid=" << cc::get_tid()
+          << ", @message="
+          << Chaos::Singleton<_Useless>::get_instance().get_message()
+          << std::endl;
         Chaos::Singleton<_Useless>::get_instance().set_message("_Useless.Changed");
         });
     t.join();
-    std::cout << "Chaos::Singleton unittest - @tid=" << cc::get_tid() << ", @message="
+    std::cout
+      << "Chaos::Singleton unittest - @tid=" << cc::get_tid() << ", @message="
       << Chaos::Singleton<_Useless>::get_instance().get_message() << std::endl;
   }
 }

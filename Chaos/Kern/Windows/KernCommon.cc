@@ -96,7 +96,7 @@ int kern_backtrace(std::string& bt) {
 
   char message[1024];
   for (int i = 0; i < frames; ++i) {
-    SymFromAddr(kMainProc, (DWORD)stack[i], 0, symbol);
+    SymFromAddr(kMainProc, *reinterpret_cast<DWORD*>(stack[i]), 0, symbol);
     std::snprintf(message,
         sizeof(message),
         "%i: %s - 0x%p\n",

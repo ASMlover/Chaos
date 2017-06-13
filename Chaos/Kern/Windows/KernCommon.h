@@ -182,13 +182,13 @@ namespace io {
   }
 
   inline ssize_t kern_read(int fd, void* buf, std::size_t len) {
-    return _read(fd, buf, len);
+    return _read(fd, buf, static_cast<unsigned int>(len));
   }
 
   inline ssize_t kern_pread(int fd, void* buf, std::size_t len, off_t offset) {
     if (_lseek(fd, offset, SEEK_SET) == -1)
       return -1;
-    return _read(fd, buf, len);
+    return _read(fd, buf, static_cast<unsigned int>(len));
   }
 
   typedef struct _stat _Stat_t;

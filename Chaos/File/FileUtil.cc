@@ -164,7 +164,8 @@ namespace FileUtil {
   }
 
   int AppendFile::write(const char* buf, std::size_t len) {
-    return Chaos::io::kern_fwrite_unlocked(buf, 1, len, stream_);
+    return static_cast<int>(
+        Chaos::io::kern_fwrite_unlocked(buf, 1, len, stream_));
   }
 }
 

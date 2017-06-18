@@ -41,6 +41,7 @@
 
   # Building Chaos using VS2015 solution
   \> mkdir cmake-build & cd cmake-build
-  \> cmake ..
+  \> cmake .. # for x86
+  \> cmake -A x64 .. # for x64
   \> msbuild ChaosPROJ.sln
 ```

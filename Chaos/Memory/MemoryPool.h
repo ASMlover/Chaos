@@ -29,6 +29,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <Chaos/Platform.h>
 #include <Chaos/UnCopyable.h>
 
 namespace Chaos {
@@ -38,8 +39,13 @@ struct MemoryBlock;
 // An easy memory pool with not thread-safe.
 class MemoryPool : private UnCopyable {
   enum {
+#if defined(CHAOS_ARCH32)
+    ALIGNMENT = 4, // must be 2^N
+    ALIGNMENT_SHIFT = 2,
+#elif defined(CHAOS_ARCH64)
     ALIGNMENT = 8, // must be 2^N
     ALIGNMENT_SHIFT = 3,
+#endif
     SMALL_REQUEST_THRESHOLD = 512,
     NB_SMALL_SIZE_CLASSES = (SMALL_REQUEST_THRESHOLD / ALIGNMENT),
     SYSTEM_PAGE_SIZE = (4 << 10),

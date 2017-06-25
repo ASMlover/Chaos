@@ -58,7 +58,7 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
   }
 
   {
-    Chaos::MemoryPool& pool = Chaos::MemoryPool::get_instace();
+    Chaos::MemoryPool& pool = Chaos::MemoryPool::get_instance();
     beg = Chaos::Timestamp::now().msec_since_epoch();
     for (int i = 0; i < ALLOC_COUNT; ++i) {
       int* p = (int*)pool.alloc(sizeof(int));

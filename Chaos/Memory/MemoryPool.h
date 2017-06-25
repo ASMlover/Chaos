@@ -69,7 +69,7 @@ class MemoryPool : private UnCopyable {
   MemoryPool(void);
   ~MemoryPool(void);
 public:
-  static MemoryPool& get_instace(void) {
+  static MemoryPool& get_instance(void) {
     static MemoryPool ins;
     return ins;
   }

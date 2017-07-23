@@ -93,7 +93,7 @@ using DisableIf_t = typename DisableIf<B, T>::type;
   using RemoveRef_t = std::remove_reference_t<T>;
 
   template <bool B, typename T = void>
-  using EnableIf_t = typedef std::enable_if_t<B, T>;
+  using EnableIf_t = std::enable_if_t<B, T>;
 
   template <typename T>
   using RemoveCV_t = std::remove_cv_t<T>;

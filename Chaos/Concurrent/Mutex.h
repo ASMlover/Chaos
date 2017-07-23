@@ -146,11 +146,17 @@ public:
   }
 };
 
+class FakeMutex : private UnCopyable {
+public:
+  void lock(void) {}
+  bool try_lock(void) { return true; }
+  void unlock(void) {}
+};
+
 class Mutex : public MutexBase {
   pid_t holder_{};
-
   friend class UnassignScopedMutex;
-private:
+
   void assign_holder(void) {
     holder_ = CurrentThread::get_tid();
   }

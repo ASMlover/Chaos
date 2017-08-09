@@ -50,6 +50,7 @@ class MemoryPool : private UnCopyable {
     SYSTEM_PAGE_SIZE = (4 << 10),
     SYSTEM_PAGE_SIZE_MASK = (SYSTEM_PAGE_SIZE - 1),
     POOL_SIZE = (256 << 10), // default one pool size (256K)
+    PAGE_COUNT = (POOL_SIZE / SYSTEM_PAGE_SIZE),
   };
 
   MemoryBlock* freeblocks_[NB_SMALL_SIZE_CLASSES]{};

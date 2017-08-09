@@ -38,8 +38,10 @@ MemoryPool::MemoryPool(void) {
 }
 
 MemoryPool::~MemoryPool(void) {
-  for (auto& b : blocks_)
-    std::free(b.second.first);
+  for (auto& b : blocks_) {
+    if (b.second.first != nullptr)
+      std::free(b.second.first);
+  }
   blocks_.clear();
 }
 
@@ -55,6 +57,11 @@ void* MemoryPool::alloc(std::size_t nbytes) {
 
     p = freeblocks_[index];
     freeblocks_[index] = freeblocks_[index]->next;
+
+    auto* aligned_block = reinterpret_cast<MemoryBlock*>(
+      (std::uintptr_t)p & ~SYSTEM_PAGE_SIZE_MASK);
+    if (blocks_.find(aligned_block) == blocks_.end())
+      blocks_[aligned_block] = std::make_pair(nullptr, index);
   }
   else {
     p = std::malloc(nbytes);
@@ -95,7 +102,7 @@ MemoryBlock* MemoryPool::new_block(int index) {
     if (excess != 0) {
       freeblocks_[index] = reinterpret_cast<MemoryBlock*>(
           (char*)blockobj + SYSTEM_PAGE_SIZE - excess);
-      alignment_bytes = POOL_SIZE - (SYSTEM_PAGE_SIZE - excess + nbytes);
+      alignment_bytes = (PAGE_COUNT - 1) * SYSTEM_PAGE_SIZE - nbytes;
     }
     else {
       freeblocks_[index] = blockobj;

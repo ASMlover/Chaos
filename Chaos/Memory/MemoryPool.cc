@@ -25,78 +25,88 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <cstdlib>
+#include <Chaos/Types.h>
 #include <Chaos/Memory/MemoryPool.h>
 
 namespace Chaos {
 
 struct MemoryBlock {
-  MemoryBlock* nextblock;
+  MemoryBlock* next;
 };
 
 MemoryPool::MemoryPool(void) {
 }
 
 MemoryPool::~MemoryPool(void) {
-  for (auto* pool : pools_)
-    std::free(pool);
-  pools_.clear();
+  for (auto& b : blocks_)
+    std::free(b.second.first);
+  blocks_.clear();
 }
 
-void* MemoryPool::alloc(std::size_t bytes) {
-  void* p;
+void* MemoryPool::alloc(std::size_t nbytes) {
+  void* p{};
 
-  if (bytes <= SMALL_REQUEST_THRESHOLD) {
-    std::size_t index = bytes_to_index(bytes);
-    if (freeblocks_[index] == nullptr)
-      alloc_new_pool(index);
+  if ((nbytes - 1) < SMALL_REQUEST_THRESHOLD) {
+    auto index = bytes2index(nbytes);
+    if (freeblocks_[index] == nullptr) {
+      auto* bp = new_block(index);
+      CHAOS_CHECK(bp != nullptr, "create new MemoryBlock failed ...");
+    }
 
     p = freeblocks_[index];
-    freeblocks_[index] = freeblocks_[index]->nextblock;
+    freeblocks_[index] = freeblocks_[index]->next;
   }
   else {
-    p = std::malloc(bytes);
+    p = std::malloc(nbytes);
   }
 
   return p;
 }
 
-void MemoryPool::dealloc(void* p, std::size_t bytes) {
-  if (bytes <= SMALL_REQUEST_THRESHOLD) {
-    std::size_t index = bytes_to_index(bytes);
-    auto* free_block = reinterpret_cast<MemoryBlock*>(p);
-    free_block->nextblock = freeblocks_[index];
-    freeblocks_[index] = free_block;
+void MemoryPool::dealloc(void* p) {
+  if (p == nullptr)
+    return;
+
+  auto* aligned_block = reinterpret_cast<MemoryBlock*>(
+      (std::uintptr_t)p & ~SYSTEM_PAGE_SIZE_MASK);
+  auto iter = blocks_.find(aligned_block);
+  if (iter == blocks_.end()) {
+    std::free(p);
   }
   else {
-    std::free(p);
+    auto index = iter->second.second;
+    auto* free_block = reinterpret_cast<MemoryBlock*>(p);
+    free_block->next = freeblocks_[index];
+    freeblocks_[index] = free_block;
   }
 }
 
-MemoryBlock* MemoryPool::alloc_new_pool(std::size_t index) {
-  std::size_t block_bytes = index_to_bytes(index);
+MemoryBlock* MemoryPool::new_block(int index) {
+  auto nbytes = index2bytes(index);
 
   if (freeblocks_[index] == nullptr) {
-    auto* new_pool = (MemoryBlock*)std::malloc(POOL_SIZE);
-    if (new_pool == nullptr)
+    auto* blockobj = (MemoryBlock*)std::malloc(POOL_SIZE);
+    if (blockobj == nullptr)
       return nullptr;
-    pools_.push_back(new_pool);
 
-    std::size_t excess = (size_t)new_pool & SYSTEM_PAGE_SIZE_MASK;
+    std::size_t excess = static_cast<std::size_t>(
+        (std::uintptr_t)blockobj & SYSTEM_PAGE_SIZE_MASK);
     std::size_t alignment_bytes;
     if (excess != 0) {
-      freeblocks_[index] =
-        (MemoryBlock*)((char*)new_pool + SYSTEM_PAGE_SIZE - excess);
-      alignment_bytes = POOL_SIZE - (SYSTEM_PAGE_SIZE - excess + block_bytes);
+      freeblocks_[index] = reinterpret_cast<MemoryBlock*>(
+          (char*)blockobj + SYSTEM_PAGE_SIZE - excess);
+      alignment_bytes = POOL_SIZE - (SYSTEM_PAGE_SIZE - excess + nbytes);
     }
     else {
-      freeblocks_[index] = new_pool;
-      alignment_bytes = POOL_SIZE - block_bytes;
+      freeblocks_[index] = blockobj;
+      alignment_bytes = POOL_SIZE - nbytes;
     }
-
     auto* block = freeblocks_[index];
-    for (std::size_t i = 0; i < alignment_bytes; i += block_bytes)
-      block = block->nextblock = block + block_bytes / sizeof(MemoryBlock);
-    block->nextblock = nullptr;
+    blocks_[block] = std::make_pair(blockobj, index);
+
+    for (std::size_t i = 0; i < alignment_bytes; i += nbytes)
+      block = block->next = block + nbytes / sizeof(MemoryBlock);
+    block->next = nullptr;
   }
 
   return freeblocks_[index];

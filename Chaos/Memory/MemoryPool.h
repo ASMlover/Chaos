@@ -27,7 +27,7 @@
 #ifndef CHAOS_MEMORY_MEMORYPOOL_H
 #define CHAOS_MEMORY_MEMORYPOOL_H
 
-#include <vector>
+#include <unordered_map>
 #include <Chaos/Platform.h>
 #include <Chaos/UnCopyable.h>
 
@@ -35,7 +35,7 @@ namespace Chaos {
 
 struct MemoryBlock;
 
-// An easy memory pool with not thread-safe.
+// An easy memory pool without thread-safe.
 class MemoryPool : private UnCopyable {
   enum {
 #if defined(CHAOS_ARCH32)
@@ -53,17 +53,18 @@ class MemoryPool : private UnCopyable {
   };
 
   MemoryBlock* freeblocks_[NB_SMALL_SIZE_CLASSES]{};
-  std::vector<MemoryBlock*> pools_;
+  // {alingmented block : (allcated memory address, size index)}
+  std::unordered_map<MemoryBlock*, std::pair<void*, int>> blocks_;
 
-  std::size_t index_to_bytes(std::size_t index) {
-    return (index + 1) << ALIGNMENT_SHIFT;
+  inline std::size_t index2bytes(int index) {
+    return static_cast<std::size_t>((index + 1) << ALIGNMENT_SHIFT);
   }
 
-  std::size_t bytes_to_index(std::size_t bytes) {
-    return (bytes - 1) >> ALIGNMENT_SHIFT;
+  inline int bytes2index(std::size_t nbytes) {
+    return static_cast<int>((nbytes - 1) >> ALIGNMENT_SHIFT);
   }
 
-  MemoryBlock* alloc_new_pool(std::size_t index);
+  MemoryBlock* new_block(int index);
 
   MemoryPool(void);
   ~MemoryPool(void);
@@ -73,8 +74,8 @@ public:
     return ins;
   }
 
-  void* alloc(std::size_t bytes);
-  void dealloc(void* p, std::size_t bytes);
+  void* alloc(std::size_t nbytes);
+  void dealloc(void* p);
 };
 
 }

@@ -60,7 +60,7 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
     beg = Chaos::Timestamp::now().msec_since_epoch();
     for (auto sz : alloc_bytes_list) {
       p = (int*)pool.alloc(sz);
-      pool.dealloc(p, sz);
+      pool.dealloc(p);
     }
     end = Chaos::Timestamp::now().msec_since_epoch();
     std::cout

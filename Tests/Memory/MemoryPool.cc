@@ -40,12 +40,13 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
       alloc_bytes_list[i] = 1;
   }
 
-  int64_t beg, end;
+  std::int64_t beg, end;
+  void* p{};
+
   {
-    int* p{};
     beg = Chaos::Timestamp::now().msec_since_epoch();
     for (auto sz : alloc_bytes_list) {
-      p = (int*)std::malloc(sz);
+      p = std::malloc(sz);
       std::free(p);
     }
     end = Chaos::Timestamp::now().msec_since_epoch();
@@ -55,11 +56,10 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
   }
 
   {
-    int* p{};
     Chaos::MemoryPool& pool = Chaos::MemoryPool::get_instance();
     beg = Chaos::Timestamp::now().msec_since_epoch();
     for (auto sz : alloc_bytes_list) {
-      p = (int*)pool.alloc(sz);
+      p = pool.alloc(sz);
       pool.dealloc(p);
     }
     end = Chaos::Timestamp::now().msec_since_epoch();

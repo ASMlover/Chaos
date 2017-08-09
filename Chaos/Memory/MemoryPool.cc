@@ -38,7 +38,7 @@ MemoryPool::MemoryPool(void) {
 
 MemoryPool::~MemoryPool(void) {
   for (auto* pool : pools_)
-    free(pool);
+    std::free(pool);
   pools_.clear();
 }
 
@@ -76,7 +76,7 @@ MemoryBlock* MemoryPool::alloc_new_pool(std::size_t index) {
   std::size_t block_bytes = index_to_bytes(index);
 
   if (freeblocks_[index] == nullptr) {
-    auto* new_pool = (MemoryBlock*)malloc(POOL_SIZE);
+    auto* new_pool = (MemoryBlock*)std::malloc(POOL_SIZE);
     if (new_pool == nullptr)
       return nullptr;
     pools_.push_back(new_pool);

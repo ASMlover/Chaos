@@ -30,14 +30,23 @@
 #include <Chaos/Unittest/TestHarness.h>
 
 CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
-  static const int ALLOC_COUNT = 100000;
+  static constexpr int ALLOC_COUNT = 100000;
+  static int alloc_bytes_list[ALLOC_COUNT]{};
+
+  std::srand(Chaos::Timestamp::now().msec_since_epoch());
+  for (auto i = 0; i < ALLOC_COUNT; ++i) {
+    alloc_bytes_list[i] = rand() % 512;
+    if (alloc_bytes_list[i] == 0)
+      alloc_bytes_list[i] = 1;
+  }
 
   int64_t beg, end;
   {
+    int* p{};
     beg = Chaos::Timestamp::now().msec_since_epoch();
-    for (int i = 0; i < ALLOC_COUNT; ++i) {
-      int* p = (int*)malloc(sizeof(int));
-      free(p);
+    for (auto sz : alloc_bytes_list) {
+      p = (int*)std::malloc(sz);
+      std::free(p);
     }
     end = Chaos::Timestamp::now().msec_since_epoch();
     std::cout
@@ -46,23 +55,12 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
   }
 
   {
-    beg = Chaos::Timestamp::now().msec_since_epoch();
-    for (int i = 0; i < ALLOC_COUNT; ++i) {
-      int* p = new int;
-      delete p;
-    }
-    end = Chaos::Timestamp::now().msec_since_epoch();
-    std::cout
-      << "Chaos::MemoryPool unittest - [system C++ allocator] use: "
-      << end - beg << std::endl;
-  }
-
-  {
+    int* p{};
     Chaos::MemoryPool& pool = Chaos::MemoryPool::get_instance();
     beg = Chaos::Timestamp::now().msec_since_epoch();
-    for (int i = 0; i < ALLOC_COUNT; ++i) {
-      int* p = (int*)pool.alloc(sizeof(int));
-      pool.dealloc(p, sizeof(int));
+    for (auto sz : alloc_bytes_list) {
+      p = (int*)pool.alloc(sz);
+      pool.dealloc(p, sz);
     }
     end = Chaos::Timestamp::now().msec_since_epoch();
     std::cout

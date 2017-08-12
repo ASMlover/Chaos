@@ -61,6 +61,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   endif()
 
   add_definitions(
+    /DUNICODE
     /D_UNICODE
     /D_CRT_SECURE_NO_WARNINGS
     /D_CRT_NONSTDC_NO_WARNINGS
@@ -69,6 +70,8 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     /wd4800
     /wd4996)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3 /GF /GS /Gs /Zi /EHsc")
+  set(CMAKE_CXX_FLAGS_DEBUG "/D_DEBUG /MDd")
+  set(CMAKE_CXX_FLAGS_RELEASE "/DNDEBUG /Ox /MD")
 else()
   if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.1")
@@ -81,9 +84,12 @@ else()
       return()
     endif()
   endif()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -ggdb -O2 -std=c++1y -Wall -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Werror -march=native")
+  set(CMAKE_CXX_FLAGS_DEBUG "-g -ggdb -O0")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 endif()
-message(STATUS "`ChaosPROJ` CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+string(TOUPPER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+message(STATUS "`ChaosPROJ` CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_${BUILD_TYPE}}")
 
 include_directories(${PROJECT_SOURCE_DIR})
 add_subdirectory(Chaos)

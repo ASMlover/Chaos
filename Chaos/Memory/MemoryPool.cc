@@ -30,6 +30,12 @@
 
 namespace Chaos {
 
+struct BlockHeader {
+  std::uintptr_t address;
+  int index;
+  int szindex;
+};
+
 struct MemoryBlock {
   MemoryBlock* next;
 };
@@ -38,10 +44,8 @@ MemoryPool::MemoryPool(void) {
 }
 
 MemoryPool::~MemoryPool(void) {
-  for (auto& b : blocks_) {
-    if (b.second.first != nullptr)
-      std::free(b.second.first);
-  }
+  for (auto* p : blocks_)
+    std::free(p);
   blocks_.clear();
 }
 
@@ -52,16 +56,12 @@ void* MemoryPool::alloc(std::size_t nbytes) {
     auto index = bytes2index(nbytes);
     if (freeblocks_[index] == nullptr) {
       auto* bp = new_block(index);
-      CHAOS_CHECK(bp != nullptr, "create new MemoryBlock failed ...");
+      CHAOS_CHECK(bp != nullptr, "create new block failed ...");
     }
 
     p = freeblocks_[index];
-    freeblocks_[index] = freeblocks_[index]->next;
-
-    auto* aligned_block = reinterpret_cast<MemoryBlock*>(
-      (std::uintptr_t)p & ~SYSTEM_PAGE_SIZE_MASK);
-    if (blocks_.find(aligned_block) == blocks_.end())
-      blocks_[aligned_block] = std::make_pair(nullptr, index);
+    if (p != nullptr)
+      freeblocks_[index] = freeblocks_[index]->next;
   }
   else {
     p = std::malloc(nbytes);
@@ -74,46 +74,55 @@ void MemoryPool::dealloc(void* p) {
   if (p == nullptr)
     return;
 
-  auto* aligned_block = reinterpret_cast<MemoryBlock*>(
+  auto* header = reinterpret_cast<BlockHeader*>(
       (std::uintptr_t)p & ~SYSTEM_PAGE_SIZE_MASK);
-  auto iter = blocks_.find(aligned_block);
-  if (iter == blocks_.end()) {
-    std::free(p);
+  if (header->index < PAGE_COUNT
+      && header->address != 0
+      && (std::uintptr_t)p - header->address < POOL_SIZE) {
+    auto index = header->szindex;
+    auto* reclaim_block = reinterpret_cast<MemoryBlock*>(p);
+    reclaim_block->next = freeblocks_[index];
+    freeblocks_[index] = reclaim_block;
   }
   else {
-    auto index = iter->second.second;
-    auto* free_block = reinterpret_cast<MemoryBlock*>(p);
-    free_block->next = freeblocks_[index];
-    freeblocks_[index] = free_block;
+    std::free(p);
   }
 }
 
 MemoryBlock* MemoryPool::new_block(int index) {
+  auto* address = reinterpret_cast<byte_t*>(std::malloc(POOL_SIZE));
+  if (address == nullptr)
+    return nullptr;
+  blocks_.push_back(address);
+
+  std::size_t excess = static_cast<std::size_t>(
+      (std::uintptr_t)address & SYSTEM_PAGE_SIZE_MASK);
+  byte_t* alignment_address = address;
+  std::size_t alignment_count = PAGE_COUNT;
+  std::size_t alignment_bytes = POOL_SIZE;
+  if (excess != 0) {
+    alignment_address = address + SYSTEM_PAGE_SIZE - excess;
+    alignment_count = PAGE_COUNT - 1;
+    alignment_bytes = alignment_count * SYSTEM_PAGE_SIZE;
+  }
+  auto headsz = sizeof(BlockHeader);
+  freeblocks_[index] =
+    reinterpret_cast<MemoryBlock*>(alignment_address + headsz);
+
   auto nbytes = index2bytes(index);
+  for (auto i = 0; i < static_cast<int>(alignment_count); ++i) {
+    auto* header = reinterpret_cast<BlockHeader*>(alignment_address);
+    header->address = (std::uintptr_t)address;
+    header->index = i;
+    header->szindex = index;
 
-  if (freeblocks_[index] == nullptr) {
-    auto* blockobj = (MemoryBlock*)std::malloc(POOL_SIZE);
-    if (blockobj == nullptr)
-      return nullptr;
-
-    std::size_t excess = static_cast<std::size_t>(
-        (std::uintptr_t)blockobj & SYSTEM_PAGE_SIZE_MASK);
-    std::size_t alignment_bytes;
-    if (excess != 0) {
-      freeblocks_[index] = reinterpret_cast<MemoryBlock*>(
-          (char*)blockobj + SYSTEM_PAGE_SIZE - excess);
-      alignment_bytes = (PAGE_COUNT - 1) * SYSTEM_PAGE_SIZE - nbytes;
-    }
-    else {
-      freeblocks_[index] = blockobj;
-      alignment_bytes = POOL_SIZE - nbytes;
-    }
-    auto* block = freeblocks_[index];
-    blocks_[block] = std::make_pair(blockobj, index);
-
-    for (std::size_t i = 0; i < alignment_bytes; i += nbytes)
+    auto* block = reinterpret_cast<MemoryBlock*>(alignment_address + headsz);
+    auto block_bytes = SYSTEM_PAGE_SIZE - headsz - nbytes;
+    for (std::size_t sz = 0u; sz < block_bytes; sz += nbytes)
       block = block->next = block + nbytes / sizeof(MemoryBlock);
     block->next = nullptr;
+
+    alignment_address += SYSTEM_PAGE_SIZE;
   }
 
   return freeblocks_[index];

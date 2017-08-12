@@ -27,7 +27,7 @@
 #ifndef CHAOS_MEMORY_MEMORYPOOL_H
 #define CHAOS_MEMORY_MEMORYPOOL_H
 
-#include <unordered_map>
+#include <vector>
 #include <Chaos/Platform.h>
 #include <Chaos/UnCopyable.h>
 
@@ -54,8 +54,10 @@ class MemoryPool : private UnCopyable {
   };
 
   MemoryBlock* freeblocks_[NB_SMALL_SIZE_CLASSES]{};
-  // {alingmented block : (allcated memory address, size index)}
-  std::unordered_map<MemoryBlock*, std::pair<void*, int>> blocks_;
+  std::vector<void*> blocks_;
+
+  MemoryPool(void);
+  ~MemoryPool(void);
 
   inline std::size_t index2bytes(int index) {
     return static_cast<std::size_t>((index + 1) << ALIGNMENT_SHIFT);
@@ -66,9 +68,6 @@ class MemoryPool : private UnCopyable {
   }
 
   MemoryBlock* new_block(int index);
-
-  MemoryPool(void);
-  ~MemoryPool(void);
 public:
   static MemoryPool& get_instance(void) {
     static MemoryPool ins;

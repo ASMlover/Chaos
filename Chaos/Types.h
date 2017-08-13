@@ -58,6 +58,10 @@
 } while (0)
 #endif
 
+#if !defined(CHAOS_COUNTOF)
+# define CHAOS_COUNTOF(array) sizeof(Chaos::__countof_impl(array).elements)
+#endif
+
 using byte_t = std::uint8_t;
 
 namespace Chaos {
@@ -105,6 +109,10 @@ template <typename Target, typename Source>
 inline std::shared_ptr<Target> down_cast_ptr(const std::shared_ptr<Source>& p) {
   return std::static_pointer_cast<Target>(p);
 }
+
+template <std::ptrdiff_t N> struct Sizer { char elements[N]; };
+template <typename T, std::ptrdiff_t N>
+Sizer<N> __countof_impl(T (&array)[N]);
 
 }
 

@@ -99,11 +99,9 @@ MemoryBlock* MemoryPool::new_block(int index) {
       (std::uintptr_t)address & SYSTEM_PAGE_SIZE_MASK);
   byte_t* alignment_address = address;
   std::size_t alignment_count = PAGE_COUNT;
-  std::size_t alignment_bytes = POOL_SIZE;
   if (excess != 0) {
     alignment_address = address + SYSTEM_PAGE_SIZE - excess;
     alignment_count = PAGE_COUNT - 1;
-    alignment_bytes = alignment_count * SYSTEM_PAGE_SIZE;
   }
   auto headsz = sizeof(BlockHeader);
   freeblocks_[index] =

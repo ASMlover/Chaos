@@ -47,7 +47,9 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "`ChaosPROJ` CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
-# build all binaries in a separate directory
+# build all binaries into a specified directory
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # set building options

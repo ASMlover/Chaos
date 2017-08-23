@@ -36,57 +36,62 @@
 namespace Chaos {
 
 class Timestamp : public Copyable {
-  std::int64_t epoch_msec_{};
+  std::int64_t epoch_microsec_{};
 public:
   Timestamp(void) = default;
 
-  explicit Timestamp(std::int64_t epoch_msec)
-    : epoch_msec_(epoch_msec) {
+  explicit Timestamp(std::int64_t microsec)
+    : epoch_microsec_(microsec) {
   }
 
   void swap(Timestamp& r) {
-    std::swap(epoch_msec_, r.epoch_msec_);
+    std::swap(epoch_microsec_, r.epoch_microsec_);
   }
 
   bool is_valid(void) const {
-    return epoch_msec_ > 0;
+    return epoch_microsec_ > 0;
   }
 
-  std::int64_t msec_since_epoch(void) const {
-    return epoch_msec_;
+  std::int64_t microsec_since_epoch(void) const {
+    return epoch_microsec_;
+  }
+
+  std::int64_t millisec_since_epoch(void) const {
+    return epoch_microsec_ / kMillisecondsPerSecond;
   }
 
   std::time_t sec_since_epoch(void) const {
-    return static_cast<std::time_t>(epoch_msec_ / kMicrosecondsPerSecond);
+    return static_cast<std::time_t>(epoch_microsec_ / kMicrosecondsPerSecond);
   }
 
   std::string to_string(void) const;
-  std::string to_formatted_string(bool show_msec = true) const;
+  std::string to_formatted_string(bool show_microsec = true) const;
 
   static Timestamp now(void);
   static Timestamp invalid(void);
   static Timestamp from_unix_time(std::time_t t);
-  static Timestamp from_unix_time(std::time_t t, int msec);
+  static Timestamp from_unix_time(std::time_t t, int microsec);
+  static constexpr int kMillisecondsPerSecond = 1000;
   static constexpr int kMicrosecondsPerSecond = 1000 * 1000;
 };
 
 inline bool operator==(Timestamp a, Timestamp b) {
-  return a.msec_since_epoch() == b.msec_since_epoch();
+  return a.microsec_since_epoch() == b.microsec_since_epoch();
 }
 
 inline bool operator<(Timestamp a, Timestamp b) {
-  return a.msec_since_epoch() < b.msec_since_epoch();
+  return a.microsec_since_epoch() < b.microsec_since_epoch();
 }
 
 inline double time_difference(Timestamp a, Timestamp b) {
-  std::int64_t diff = a.msec_since_epoch() - b.msec_since_epoch();
+  std::int64_t diff = a.microsec_since_epoch() - b.microsec_since_epoch();
   return static_cast<double>(diff) / Timestamp::kMicrosecondsPerSecond;
 }
 
 inline Timestamp time_add(Timestamp t, double sec) {
   std::int64_t delta =
     static_cast<int64_t>(sec * Timestamp::kMicrosecondsPerSecond);
-  return Timestamp(t.msec_since_epoch() + delta);
+  return Timestamp(t.microsec_since_epoch() + delta);
 }
 
 }

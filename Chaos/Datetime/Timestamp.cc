@@ -39,21 +39,21 @@ static_assert(sizeof(Timestamp) == sizeof(std::int64_t),
 
 std::string Timestamp::to_string(void) const {
   char buf[32];
-  std::int64_t sec = epoch_msec_ / kMicrosecondsPerSecond;
-  std::int64_t msec = epoch_msec_ % kMicrosecondsPerSecond;
-  std::snprintf(buf, sizeof(buf), "%" PRId64 ".%06" PRId64 "", sec, msec);
+  std::int64_t sec = epoch_microsec_ / kMicrosecondsPerSecond;
+  std::int64_t microsec = epoch_microsec_ % kMicrosecondsPerSecond;
+  std::snprintf(buf, sizeof(buf), "%" PRId64 ".%06" PRId64 "", sec, microsec);
   return buf;
 }
 
-std::string Timestamp::to_formatted_string(bool show_msec) const {
+std::string Timestamp::to_formatted_string(bool show_microsec) const {
   char buf[32];
   std::time_t time =
-    static_cast<std::time_t>(epoch_msec_ / kMicrosecondsPerSecond);
+    static_cast<std::time_t>(epoch_microsec_ / kMicrosecondsPerSecond);
   struct std::tm result;
   Chaos::kern_gmtime(&time, &result);
 
-  if (show_msec) {
-    int msec = static_cast<int>(epoch_msec_ % kMicrosecondsPerSecond);
+  if (show_microsec) {
+    int microsec = static_cast<int>(epoch_microsec_ % kMicrosecondsPerSecond);
     std::snprintf(buf,
         sizeof(buf),
         "%04d%02d%02d %02d:%02d:%02d.%06d",
@@ -63,7 +63,7 @@ std::string Timestamp::to_formatted_string(bool show_msec) const {
         result.tm_hour,
         result.tm_min,
         result.tm_sec,
-        msec);
+        microsec);
   }
   else {
     std::snprintf(buf,
@@ -95,9 +95,9 @@ Timestamp Timestamp::from_unix_time(std::time_t t) {
   return from_unix_time(t, 0);
 }
 
-Timestamp Timestamp::from_unix_time(std::time_t t, int msec) {
+Timestamp Timestamp::from_unix_time(std::time_t t, int microsec) {
   return Timestamp(
-      static_cast<std::int64_t>(t) * kMicrosecondsPerSecond + msec);
+      static_cast<std::int64_t>(t) * kMicrosecondsPerSecond + microsec);
 }
 
 }

@@ -33,7 +33,7 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
   static constexpr int ALLOC_COUNT = 1000000;
   int* alloc_bytes_array = new int[ALLOC_COUNT];
 
-  std::srand(Chaos::Timestamp::now().msec_since_epoch());
+  std::srand(Chaos::Timestamp::now().microsec_since_epoch());
   for (auto i = 0; i < ALLOC_COUNT; ++i) {
     alloc_bytes_array[i] = rand() % 512;
     if (alloc_bytes_array[i] == 0)
@@ -44,28 +44,28 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
   void* p{};
 
   {
-    beg = Chaos::Timestamp::now().msec_since_epoch();
+    beg = Chaos::Timestamp::now().microsec_since_epoch();
     for (auto i = 0; i < ALLOC_COUNT; ++i) {
       p = std::malloc(alloc_bytes_array[i]);
       std::free(p);
     }
-    end = Chaos::Timestamp::now().msec_since_epoch();
+    end = Chaos::Timestamp::now().microsec_since_epoch();
     std::cout
       << "Chaos::MemoryPool unittest - [system C allocator] use: "
-      << end - beg << std::endl;
+      << end - beg << " microseconds" << std::endl;
   }
 
   {
     Chaos::MemoryPool& pool = Chaos::MemoryPool::get_instance();
-    beg = Chaos::Timestamp::now().msec_since_epoch();
+    beg = Chaos::Timestamp::now().microsec_since_epoch();
     for (auto i = 0; i < ALLOC_COUNT; ++i) {
       p = pool.alloc(alloc_bytes_array[i]);
       pool.dealloc(p);
     }
-    end = Chaos::Timestamp::now().msec_since_epoch();
+    end = Chaos::Timestamp::now().microsec_since_epoch();
     std::cout
       << "Chaos::MemoryPool unittest - [memort pool allocator] use: "
-      << end - beg << std::endl;
+      << end - beg << " microseconds" << std::endl;
   }
 
   delete [] alloc_bytes_array;

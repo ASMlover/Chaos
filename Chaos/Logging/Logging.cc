@@ -138,11 +138,11 @@ Logger::LoggerImpl::LoggerImpl(
 }
 
 void Logger::LoggerImpl::format_time(void) {
-  int64_t msec_since_epoch = time_.msec_since_epoch();
-  time_t seconds =
-    static_cast<time_t>(msec_since_epoch / Timestamp::kMicrosecondsPerSecond);
-  int msec =
-    static_cast<int>(msec_since_epoch % Timestamp::kMicrosecondsPerSecond);
+  int64_t microsec_since_epoch = time_.microsec_since_epoch();
+  time_t seconds = static_cast<time_t>(
+      microsec_since_epoch / Timestamp::kMicrosecondsPerSecond);
+  int microsec = static_cast<int>(
+      microsec_since_epoch % Timestamp::kMicrosecondsPerSecond);
   if (seconds != t_last_seconds) {
     t_last_seconds = seconds;
     struct std::tm t;
@@ -165,13 +165,13 @@ void Logger::LoggerImpl::format_time(void) {
   }
 
   if (g_logging_tzone.is_valid()) {
-    Format fmt(".%06d ", msec);
+    Format fmt(".%06d ", microsec);
     CHAOS_CHECK(fmt.size() == 8,
         "Logger::LoggerImpl::format_time: format size should be `8`");
     stream_ << ValueT(t_timebuf, 17) << ValueT(fmt.data(), fmt.size());
   }
   else {
-    Format fmt(".%06dZ ", msec);
+    Format fmt(".%06dZ ", microsec);
     CHAOS_CHECK(fmt.size() == 9,
         "Logger::LoggerImpl::format_time: format size should be `9`");
     stream_ << ValueT(t_timebuf, 17) << ValueT(fmt.data(), fmt.size());

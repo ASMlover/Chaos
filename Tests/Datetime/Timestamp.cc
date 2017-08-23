@@ -36,7 +36,8 @@ CHAOS_TEST(Timestamp, Chaos::FakeTester) {
       << "Chaos::Timestamp unittest - " << t.to_string()
       << "|" << t.to_formatted_string(true);
     CHAOS_CHECK_TRUE(!t.is_valid());
-    CHAOS_CHECK_TRUE(t.msec_since_epoch() == 0);
+    CHAOS_CHECK_TRUE(t.microsec_since_epoch() == 0);
+    CHAOS_CHECK_TRUE(t.millisec_since_epoch() == 0);
     CHAOS_CHECK_TRUE(t.sec_since_epoch() == 0);
   }
 
@@ -47,7 +48,9 @@ CHAOS_TEST(Timestamp, Chaos::FakeTester) {
       << "Chaos::Timestamp unittest - " << t.to_string()
       << "|" << t.to_formatted_string(true);
     CHAOS_CHECK_TRUE(t.is_valid());
-    CHAOS_CHECK_TRUE(t.msec_since_epoch() == epoch);
+    CHAOS_CHECK_TRUE(t.microsec_since_epoch() == epoch);
+    CHAOS_CHECK_TRUE(t.millisec_since_epoch() ==
+        epoch / Chaos::Timestamp::kMillisecondsPerSecond);
     CHAOS_CHECK_TRUE(t.sec_since_epoch() ==
         epoch / Chaos::Timestamp::kMicrosecondsPerSecond);
   }

@@ -94,6 +94,14 @@ inline Timestamp time_add(Timestamp t, double sec) {
   return Timestamp(t.microsec_since_epoch() + delta);
 }
 
+inline std::uint64_t get_millisec(void) {
+  return Timestamp::now().millisec_since_epoch();
+}
+
+inline std::uint64_t get_microsec(void) {
+  return Timestamp::now().microsec_since_epoch();
+}
+
 }
 
 #endif // CHAOS_DATETIME_TIMESTAMP_H

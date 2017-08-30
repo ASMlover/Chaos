@@ -77,6 +77,8 @@ inline pid_t kern_gettid(void) {
 
 // int kern_getppid(void); // not support on Windows
 int kern_gettimeofday(struct timeval* tv, struct timezone* tz);
+// 100 nanosecond intervals sleep
+int kern_100nanosleep(std::int64_t nanosec);
 int kern_this_thread_setname(const char* name);
 int kern_backtrace(std::string& bt);
 

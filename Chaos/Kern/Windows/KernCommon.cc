@@ -70,6 +70,25 @@ int kern_gettimeofday(struct timeval* tv, struct timezone* /*tz*/) {
   return 0;
 }
 
+int kern_100nanosleep(std::int64_t nanosec) {
+  HANDLE timer;
+  if ((timer = CreateWaitableTimer(NULL, TRUE, NULL)) == NULL)
+    return -1;
+
+  __try {
+    LARGE_INTEGER li;
+    li.QuadPart = -static_cast<LONGLONG>(nanosec);
+    if (!SetWaitableTimer(timer, &li, 0, NULL, NULL, FALSE))
+      return -1;
+
+    WaitForSingleObject(timer, INFINITE);
+  }
+  __finally {
+    CloseHandle(timer);
+  }
+  return 0;
+}
+
 int kern_this_thread_setname(const char* name) {
   _ThreadName_t tn;
   tn.dwType = 0x1000;

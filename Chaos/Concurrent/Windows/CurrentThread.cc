@@ -25,8 +25,10 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <cstdio>
-#include <chrono>
-#include <thread>
+#if defined(CHAOS_USE_CPP11)
+# include <chrono>
+# include <thread>
+#endif
 #include <type_traits>
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Concurrent/Unexposed/CurrentThread.h>
@@ -83,8 +85,12 @@ namespace CurrentThread {
   }
 
   void sleep_usec(std::uint64_t usec) {
+#if defined(CHAOS_USE_CPP11)
     // use C++11 chrono on windows
     std::this_thread::sleep_for(std::chrono::microseconds(usec));
+#else
+    Chaos::kern_100nanosleep(10 * usec);
+#endif
   }
 }
 

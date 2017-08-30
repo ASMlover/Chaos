@@ -54,12 +54,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # set building options
 option(CHAOS_BUILD_TEST "build Chaos examples and unittests" ON)
+option(CHAOS_USE_CPP11 "implementation some module use cpp11 library" OFF)
 
 # set building CMAKE_CXX_FLAGS
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   if (MSVC_VERSION LESS 1900)
     message(FATAL_ERROR "you need Visual Studio 2015 or later")
     return()
+  endif()
+  if (CHAOS_USE_CPP11)
+    add_compile_options(/DCHAOS_USE_CPP11)
   endif()
 
   add_definitions(
@@ -86,6 +90,10 @@ else()
       return()
     endif()
   endif()
+  if (CHAOS_USE_CPP11)
+    add_compile_options(-DCHAOS_USE_CPP11)
+  endif()
+
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Werror -march=native")
   set(CMAKE_CXX_FLAGS_DEBUG "-g -ggdb -O0")
   set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")

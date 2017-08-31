@@ -84,12 +84,12 @@ namespace CurrentThread {
     return get_tid() == kMainTid;
   }
 
-  void sleep_usec(std::uint64_t usec) {
+  void sleep_microsec(std::uint64_t microsec) {
 #if defined(CHAOS_USE_CPP11)
     // use C++11 chrono on windows
-    std::this_thread::sleep_for(std::chrono::microseconds(usec));
+    std::this_thread::sleep_for(std::chrono::microseconds(microsec));
 #else
-    Chaos::kern_100nanosleep(10 * usec);
+    Chaos::kern_100nanosleep(10 * microsec);
 #endif
   }
 }

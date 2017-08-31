@@ -38,7 +38,7 @@ namespace CurrentThread {
   int get_strftid_length(void); // length of string format tid
   const char* get_name(void); // get name of current thread
   bool is_main_thread(void);
-  void sleep_usec(std::uint64_t usec);
+  void sleep_microsec(std::uint64_t microsec);
 }
 
 }

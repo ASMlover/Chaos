@@ -80,15 +80,15 @@ namespace CurrentThread {
     return t_thread_name;
   }
 
-  void sleep_usec(std::uint64_t usec) {
+  void sleep_microsec(std::uint64_t microsec) {
 #if CHAOS_USE_CPP11
-    std::this_thread::sleep_for(std::chrono::microseconds(usec));
+    std::this_thread::sleep_for(std::chrono::microseconds(microsec));
 #else
     struct timespec ts;
     ts.tv_sec = static_cast<std::time_t>(
-        usec / Timestamp::kMicrosecondsPerSecond);
+        microsec / Timestamp::kMicrosecondsPerSecond);
     ts.tv_nsec = static_cast<long>(
-        usec % Timestamp::kMicrosecondsPerSecond * 1000);
+        microsec % Timestamp::kMicrosecondsPerSecond * 1000);
     nanosleep(&ts, nullptr);
 #endif
   }

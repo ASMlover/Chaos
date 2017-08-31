@@ -52,7 +52,7 @@ static void do_test(int max_count) {
     snprintf(buf, sizeof(buf), "task#%d", i + 1);
     pool.run([&buf] {
       CHAOSLOG_INFO << "Chaos::ThreadPool unittest, @buf=" <<  buf;
-      Chaos::CurrentThread::sleep_usec(1000 * 100);
+      Chaos::CurrentThread::sleep_microsec(1000 * 100);
     });
   }
 

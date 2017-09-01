@@ -47,10 +47,47 @@ namespace ColorIO {
       __chaos_throw_exception(std::logic_error("invalid color type"));
       break;
     case ColorType::COLORTYPE_RED:
-      new_color = FOREGROUND_INTENSITY | FOREGROUND_RED;
+      new_color = FOREGROUND_RED;
       break;
     case ColorType::COLORTYPE_GREEN:
-      new_color = FOREGROUND_INTENSITY | FOREGROUND_GREEN;
+      new_color = FOREGROUND_GREEN;
+      break;
+    case ColorType::COLORTYPE_YELLOW:
+      new_color = FOREGROUND_RED | FOREGROUND_GREEN;
+      break;
+    case ColorType::COLORTYPE_BLUE:
+      new_color = FOREGROUND_BLUE;
+      break;
+    case ColorType::COLORTYPE_MAGENTA:
+      new_color = FOREGROUND_RED | FOREGROUND_BLUE;
+      break;
+    case ColorType::COLORTYPE_CYAN:
+      new_color = FOREGROUND_GREEN | FOREGROUND_BLUE;
+      break;
+    case ColorType::COLORTYPE_WHITE:
+      new_color = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+      break;
+    case ColorType::COLORTYPE_LIGHTRED:
+      new_color = FOREGROUND_RED | FOREGROUND_INTENSITY;
+      break;
+    case ColorType::COLORTYPE_LIGHTGREEN:
+      new_color = FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+      break;
+    case ColorType::COLORTYPE_LIGHTYELLOW:
+      new_color = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+      break;
+    case ColorType::COLORTYPE_LIGHTBLUE:
+      new_color = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+      break;
+    case ColorType::COLORTYPE_LIGHTMAGENTA:
+      new_color = FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+      break;
+    case ColorType::COLORTYPE_LIGHTCYAN:
+      new_color = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+      break;
+    case ColorType::COLORTYPE_LIGHTWHITE:
+      new_color = FOREGROUND_RED |
+        FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
       break;
     }
 

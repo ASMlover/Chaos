@@ -41,10 +41,46 @@ namespace ColorIO {
       __chaos_throw_exception(std::logic_error("invalid color type"));
       break;
     case ColorType::COLORTYPE_RED:
-      new_color = "\033[31;1m";
+      new_color = "\033[31m";
       break;
     case ColorType::COLORTYPE_GREEN:
-      new_color = "\033[32;1m";
+      new_color = "\033[32m";
+      break;
+    case ColorType::COLORTYPE_YELLOW:
+      new_color = "\033[33m";
+      break;
+    case ColorType::COLORTYPE_BLUE:
+      new_color = "\033[34m";
+      break;
+    case ColorType::COLORTYPE_MAGENTA:
+      new_color = "\033[35m";
+      break;
+    case ColorType::COLORTYPE_CYAN:
+      new_color = "\033[36m";
+      break;
+    case ColorType::COLORTYPE_WHITE:
+      new_color = "\033[37m";
+      break;
+    case ColorType::COLORTYPE_LIGHTRED:
+      new_color = "\033[91m";
+      break;
+    case ColorType::COLORTYPE_LIGHTGREEN:
+      new_color = "\033[92m";
+      break;
+    case ColorType::COLORTYPE_LIGHTYELLOW:
+      new_color = "\033[93m";
+      break;
+    case ColorType::COLORTYPE_LIGHTBLUE:
+      new_color = "\033[94m";
+      break;
+    case ColorType::COLORTYPE_LIGHTMAGENTA:
+      new_color = "\033[95m";
+      break;
+    case ColorType::COLORTYPE_LIGHTCYAN:
+      new_color = "\033[96m";
+      break;
+    case ColorType::COLORTYPE_LIGHTWHITE:
+      new_color = "\033[97m";
       break;
     }
 

@@ -29,13 +29,6 @@
 #include <Chaos/Datetime/Timestamp.h>
 #include <iostream>
 
-  // void cached_tid(void);
-  // int get_tid(void); // get tid of current thread
-  // const char* get_strftid(void); // string format tid
-  // int get_strftid_length(void); // length of string format tid
-  // const char* get_name(void); // get name of current thread
-  // bool is_main_thread(void);
-  // void sleep_microsec(std::uint64_t microsec);
 CHAOS_TEST(CurrentThread, Chaos::FakeTester) {
   Chaos::CurrentThread::cached_tid();
   std::cout
@@ -47,11 +40,12 @@ CHAOS_TEST(CurrentThread, Chaos::FakeTester) {
     << "@is_main_thread=" << Chaos::CurrentThread::is_main_thread()
     << std::endl;
 
-  std::cout
-    << "Chaos::CurrentThread unittest, @beg.time="
-    << Chaos::get_microsec() << std::endl;
+  auto beg = Chaos::get_microsec();
   Chaos::CurrentThread::sleep_microsec(100);
+  auto end = Chaos::get_microsec();
   std::cout
-    << "Chaos::CurrentThread unittest, @end.time="
-    << Chaos::get_microsec() << std::endl;
+    << "Chaos::CurrentThread unittest, "
+    << "@beg.time=" << beg << ", "
+    << "@end.time=" << end << ", "
+    << "@duration=" << end - beg << std::endl;
 }

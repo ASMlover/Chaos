@@ -39,11 +39,32 @@ namespace ColorIO {
     return n;
   }
 
+  int printf(ColorType fcolor, ColorType bcolor, const char* format, ...) {
+    std::va_list ap;
+
+    va_start(ap, format);
+    int n = ColorIO::vfprintf(stdout, fcolor, bcolor, format, ap);
+    va_end(ap);
+
+    return n;
+  }
+
   int fprintf(std::FILE* stream, ColorType color, const char* format, ...) {
     std::va_list ap;
 
     va_start(ap, format);
     int n = ColorIO::vfprintf(stream, color, format, ap);
+    va_end(ap);
+
+    return n;
+  }
+
+  int fprintf(std::FILE* stream,
+      ColorType fcolor, ColorType bcolor, const char* format, ...) {
+    std::va_list ap;
+
+    va_start(ap, format);
+    int n = ColorIO::vfprintf(stream, fcolor, bcolor, format, ap);
     va_end(ap);
 
     return n;

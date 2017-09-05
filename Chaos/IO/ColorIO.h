@@ -35,6 +35,7 @@ namespace Chaos {
 namespace ColorIO {
   enum class ColorType {
     COLORTYPE_INVALID = -1,
+
     COLORTYPE_FG_BLACK,
     COLORTYPE_FG_RED,
     COLORTYPE_FG_GREEN,

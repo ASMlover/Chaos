@@ -85,7 +85,7 @@ struct ThreadData {
     catch (const Exception& ex) {
       CurrentThread::Unexposed::set_name("crashed");
       ColorIO::fprintf(stderr,
-          ColorIO::ColorType::COLORTYPE_RED,
+          ColorIO::ColorType::COLORTYPE_FG_RED,
           "exception caught in Chaos.Thread %s\n"
           "reason: %s\n"
           "stack traceback: %s\n",
@@ -97,7 +97,7 @@ struct ThreadData {
     catch (const std::exception& ex) {
       CurrentThread::Unexposed::set_name("crashed");
       ColorIO::fprintf(stderr,
-          ColorIO::ColorType::COLORTYPE_RED,
+          ColorIO::ColorType::COLORTYPE_FG_RED,
           "exception caught in Chaos.Thread %s\n"
           "reason: %s\n",
           _name.c_str(),
@@ -107,7 +107,7 @@ struct ThreadData {
     catch (...) {
       CurrentThread::Unexposed::set_name("crashed");
       ColorIO::fprintf(stderr,
-          ColorIO::ColorType::COLORTYPE_RED,
+          ColorIO::ColorType::COLORTYPE_FG_RED,
           "unknown exception caught in Chaos.Thread %s\n",
           _name.c_str());
       throw;

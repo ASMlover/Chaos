@@ -30,61 +30,65 @@
 CHAOS_TEST(ColorIO, Chaos::FakeTester) {
   namespace cc = ::Chaos::ColorIO;
 
-  cc::printf(cc::ColorType::COLORTYPE_RED,
+  cc::printf(cc::ColorType::COLORTYPE_FG_RED,
       "Chaos::ColorIO unittest - red information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_LIGHTRED,
+  cc::printf(cc::ColorType::COLORTYPE_FG_LIGHTRED,
       "Chaos::ColorIO unittest - light red information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_GREEN,
+  cc::printf(cc::ColorType::COLORTYPE_FG_GREEN,
       "Chaos::ColorIO unittest - green information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_LIGHTGREEN,
+  cc::printf(cc::ColorType::COLORTYPE_FG_LIGHTGREEN,
       "Chaos::ColorIO unittest - light green information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_YELLOW,
+  cc::printf(cc::ColorType::COLORTYPE_FG_YELLOW,
       "Chaos::ColorIO unittest - yellow information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_LIGHTYELLOW,
+  cc::printf(cc::ColorType::COLORTYPE_FG_LIGHTYELLOW,
       "Chaos::ColorIO unittest - light yellow information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_BLUE,
+  cc::printf(cc::ColorType::COLORTYPE_FG_BLUE,
       "Chaos::ColorIO unittest - blue information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_LIGHTBLUE,
+  cc::printf(cc::ColorType::COLORTYPE_FG_LIGHTBLUE,
       "Chaos::ColorIO unittest - light blue information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_MAGENTA,
+  cc::printf(cc::ColorType::COLORTYPE_FG_MAGENTA,
       "Chaos::ColorIO unittest - magenta information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_LIGHTMAGENTA,
+  cc::printf(cc::ColorType::COLORTYPE_FG_LIGHTMAGENTA,
       "Chaos::ColorIO unittest - light magenta information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_CYAN,
+  cc::printf(cc::ColorType::COLORTYPE_FG_CYAN,
       "Chaos::ColorIO unittest - cyan information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_LIGHTCYAN,
+  cc::printf(cc::ColorType::COLORTYPE_FG_LIGHTCYAN,
       "Chaos::ColorIO unittest - light cyan information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_WHITE,
+  cc::printf(cc::ColorType::COLORTYPE_FG_WHITE,
       "Chaos::ColorIO unittest - white information with `printf`\n");
-  cc::printf(cc::ColorType::COLORTYPE_LIGHTWHITE,
+  cc::printf(cc::ColorType::COLORTYPE_FG_LIGHTWHITE,
       "Chaos::ColorIO unittest - light white information with `printf`\n");
+  cc::printf(cc::ColorType::COLORTYPE_FG_GRAY,
+      "Chaos::ColorIO unittest - gray information with `printf`\n");
 
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_RED,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_RED,
       "Chaos::ColorIO unittest - red information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_LIGHTRED,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_LIGHTRED,
       "Chaos::ColorIO unittest - light red information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_GREEN,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_GREEN,
       "Chaos::ColorIO unittest - green information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_LIGHTGREEN,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_LIGHTGREEN,
       "Chaos::ColorIO unittest - light green information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_YELLOW,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_YELLOW,
       "Chaos::ColorIO unittest - yellow information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_LIGHTYELLOW,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_LIGHTYELLOW,
       "Chaos::ColorIO unittest - light yellow information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_BLUE,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_BLUE,
       "Chaos::ColorIO unittest - blue information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_LIGHTBLUE,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_LIGHTBLUE,
       "Chaos::ColorIO unittest - light blue information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_MAGENTA,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_MAGENTA,
       "Chaos::ColorIO unittest - magenta information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_LIGHTMAGENTA,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_LIGHTMAGENTA,
       "Chaos::ColorIO unittest - light magenta information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_CYAN,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_CYAN,
       "Chaos::ColorIO unittest - cyan information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_LIGHTCYAN,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_LIGHTCYAN,
       "Chaos::ColorIO unittest - light cyan information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_WHITE,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_WHITE,
       "Chaos::ColorIO unittest - white information with `fprintf`\n");
-  cc::fprintf(stdout, cc::ColorType::COLORTYPE_LIGHTWHITE,
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_LIGHTWHITE,
       "Chaos::ColorIO unittest - light white information with `fprintf`\n");
+  cc::fprintf(stdout, cc::ColorType::COLORTYPE_FG_GRAY,
+      "Chaos::ColorIO unittest - gray information with `fprintf`\n");
 }

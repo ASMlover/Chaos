@@ -48,7 +48,7 @@ public:
 
   ~Tester(void) {
     if (!ok_) {
-      ColorIO::fprintf(stderr, ColorIO::ColorType::COLORTYPE_RED,
+      ColorIO::fprintf(stderr, ColorIO::ColorType::COLORTYPE_FG_RED,
           "%s:%d - %s\n", fname_, lineno_, ss_.str().c_str());
       std::exit(1);
     }

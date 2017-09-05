@@ -144,7 +144,7 @@ void ThreadPool::run_thread_callback(void) {
   }
   catch (const Exception& ex) {
     ColorIO::fprintf(stderr,
-        ColorIO::ColorType::COLORTYPE_RED,
+        ColorIO::ColorType::COLORTYPE_FG_RED,
         "exception caught in ThreadPool %s\n"
         "reason: %s\n"
         "stack traceback: %s\n",
@@ -155,7 +155,7 @@ void ThreadPool::run_thread_callback(void) {
   }
   catch (const std::exception& ex) {
     ColorIO::fprintf(stderr,
-        ColorIO::ColorType::COLORTYPE_RED,
+        ColorIO::ColorType::COLORTYPE_FG_RED,
         "exception caught in ThreadPool %s\n"
         "reason: %s\n",
         name_.c_str(),
@@ -164,7 +164,7 @@ void ThreadPool::run_thread_callback(void) {
   }
   catch (...) {
     ColorIO::fprintf(stderr,
-        ColorIO::ColorType::COLORTYPE_RED,
+        ColorIO::ColorType::COLORTYPE_FG_RED,
         "unknown exception caught in ThreadPool %s\n",
         name_.c_str());
     throw;

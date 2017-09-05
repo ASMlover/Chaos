@@ -194,7 +194,7 @@ bool read_timezone_file(const char* zonefile, struct TZData* tzdata) {
     }
     catch (std::logic_error& e) {
       ColorIO::fprintf(stderr,
-          ColorIO::ColorType::COLORTYPE_RED, "%s\n", e.what());
+          ColorIO::ColorType::COLORTYPE_FG_RED, "%s\n", e.what());
     }
   }
   return true;

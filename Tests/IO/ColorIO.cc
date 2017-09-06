@@ -30,40 +30,35 @@
 CHAOS_TEST(ColorIO, Chaos::FakeTester) {
   namespace cc = ::Chaos::ColorIO;
 
-  static const char* color_names[] = {
-    "ColorType::COLORTYPE_FG_BLACK",
-    "ColorType::COLORTYPE_FG_RED",
-    "ColorType::COLORTYPE_FG_GREEN",
-    "ColorType::COLORTYPE_FG_YELLOW",
-    "ColorType::COLORTYPE_FG_BLUE",
-    "ColorType::COLORTYPE_FG_MAGENTA",
-    "ColorType::COLORTYPE_FG_CYAN",
-    "ColorType::COLORTYPE_FG_WHITE",
-    "ColorType::COLORTYPE_FG_GRAY",
-    "ColorType::COLORTYPE_FG_LIGHTRED",
-    "ColorType::COLORTYPE_FG_LIGHTGREEN",
-    "ColorType::COLORTYPE_FG_LIGHTYELLOW",
-    "ColorType::COLORTYPE_FG_LIGHTBLUE",
-    "ColorType::COLORTYPE_FG_LIGHTMAGENTA",
-    "ColorType::COLORTYPE_FG_LIGHTCYAN",
-    "ColorType::COLORTYPE_FG_LIGHTWHITE",
-    "ColorType::COLORTYPE_BG_BLACK",
-    "ColorType::COLORTYPE_BG_RED",
-    "ColorType::COLORTYPE_BG_GREEN",
-    "ColorType::COLORTYPE_BG_YELLOW",
-    "ColorType::COLORTYPE_BG_BLUE",
-    "ColorType::COLORTYPE_BG_MAGENTA",
-    "ColorType::COLORTYPE_BG_CYAN",
-    "ColorType::COLORTYPE_BG_WHITE",
-    "ColorType::COLORTYPE_BG_GRAY",
-    "ColorType::COLORTYPE_BG_LIGHTRED",
-    "ColorType::COLORTYPE_BG_LIGHTGREEN",
-    "ColorType::COLORTYPE_BG_LIGHTYELLOW",
-    "ColorType::COLORTYPE_BG_LIGHTBLUE",
-    "ColorType::COLORTYPE_BG_LIGHTMAGENTA",
-    "ColorType::COLORTYPE_BG_LIGHTCYAN",
-    "ColorType::COLORTYPE_BG_LIGHTWHITE",
-  };
+#define CLRP(c)\
+  cc::printf((c),\
+      "Chaos::ColorIO unittest - `printf` %s", cc::color_as_string((c)));\
+  std::printf("\n")
+#define CLRP2(c, bc)\
+  cc::printf((c), (bc),\
+      "Chaos::ColorIO unittest - `printf` %s", cc::color_as_string((c)));\
+  std::printf("\n")
+#define CLRP3(fc, bc)\
+  cc::printf((fc), (bc),\
+      "Chaos::ColorIO unittest - `printf` {%s : %s}",\
+      cc::color_as_string((fc)), cc::color_as_string((bc)));\
+  std::printf("\n")
+
+#define CLRFP(fp, c)\
+  cc::fprintf((fp), (c),\
+      "Chaos::ColorIO unittest - `fprintf(" #fp ")` %s",\
+      cc::color_as_string((c)));\
+  std::printf("\n")
+#define CLRFP2(fp, c, bc)\
+  cc::fprintf((fp), (c), (bc),\
+      "Chaos::ColorIO unittest - `fprintf(" #fp ")` %s",\
+      cc::color_as_string((c)));\
+  std::printf("\n")
+#define CLRFP3(fp, fc, bc)\
+  cc::fprintf((fp), (fc), (bc),\
+      "Chaos::ColorIO unittest - `fprintf(" #fp ")` {%s : %s}",\
+      cc::color_as_string((fc)), cc::color_as_string((bc)));\
+  std::printf("\n")
 
   // unittest for single color
   auto color_count = static_cast<int>(cc::ColorType::COLORTYPE_COUNTER);
@@ -77,19 +72,12 @@ CHAOS_TEST(ColorIO, Chaos::FakeTester) {
         c = cc::ColorType::COLORTYPE_FG_GRAY;
       }
 
-      cc::printf(
-          c, bc, "Chaos::ColorIO unittest - `printf` %s", color_names[i]);
-      std::printf("\n");
-      cc::fprintf(stdout,
-          c, bc, "Chaos::ColorIO unittest - `fprintf` %s", color_names[i]);
-      std::printf("\n");
+      CLRP2(c, bc);
+      CLRFP2(stdout, c, bc); CLRFP2(stderr, c, bc);
     }
     else {
-      cc::printf(c, "Chaos::ColorIO unittest - `printf` %s", color_names[i]);
-      std::printf("\n");
-      cc::fprintf(stdout,
-          c, "Chaos::ColorIO unittest - `fprintf` %s", color_names[i]);
-      std::printf("\n");
+      CLRP(c);
+      CLRFP(stdout, c); CLRFP(stderr, c);
     }
   }
 
@@ -103,12 +91,15 @@ CHAOS_TEST(ColorIO, Chaos::FakeTester) {
 
       auto fc = static_cast<cc::ColorType>(i);
       auto bc = static_cast<cc::ColorType>(bc_beg + j);
-      cc::printf(fc, bc, "Chaos::ColorIO unittest - `printf` {%s, %s}",
-          color_names[i], color_names[bc_beg + j]);
-      std::printf("\n");
-      cc::printf(fc, bc, "Chaos::ColorIO unittest - `fprintf` {%s, %s}",
-          color_names[i], color_names[bc_beg + j]);
-      std::printf("\n");
+      CLRP3(fc, bc);
+      CLRFP3(stdout, fc, bc); CLRFP3(stderr, fc, bc);
     }
   }
+
+#undef CLRP
+#undef CLRP2
+#undef CLRP3
+#undef CLRFP
+#undef CLRFP2
+#undef CLRFP3
 }

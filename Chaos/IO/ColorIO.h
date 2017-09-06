@@ -73,6 +73,8 @@ namespace ColorIO {
     COLORTYPE_COUNTER,
   };
 
+  const char* color_as_string(ColorType color);
+
   int vfprintf(
       std::FILE* stream, ColorType color, const char* format, std::va_list ap);
   int vfprintf(std::FILE* stream,

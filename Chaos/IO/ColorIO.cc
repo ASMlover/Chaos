@@ -29,6 +29,46 @@
 namespace Chaos {
 
 namespace ColorIO {
+  const char* color_as_string(ColorType color) {
+    switch (color) {
+    case ColorType::COLORTYPE_FG_BLACK: return "FOREGROUND_BLACK";
+    case ColorType::COLORTYPE_FG_RED: return "FOREGROUND_RED";
+    case ColorType::COLORTYPE_FG_GREEN: return "FOREGROUND_GREEN";
+    case ColorType::COLORTYPE_FG_YELLOW: return "FOREGROUND_YELLOW";
+    case ColorType::COLORTYPE_FG_BLUE: return "FOREGROUND_BLUE";
+    case ColorType::COLORTYPE_FG_MAGENTA: return "FOREGROUND_MAGENTA";
+    case ColorType::COLORTYPE_FG_CYAN: return "FOREGROUND_CYAN";
+    case ColorType::COLORTYPE_FG_WHITE: return "FOREGROUND_WHITE";
+    case ColorType::COLORTYPE_FG_GRAY: return "FOREGROUND_GRAY";
+    case ColorType::COLORTYPE_FG_LIGHTRED: return "FOREGROUND_LIGHTRED";
+    case ColorType::COLORTYPE_FG_LIGHTGREEN: return "FOREGROUND_LIGHTGREEN";
+    case ColorType::COLORTYPE_FG_LIGHTYELLOW: return "FOREGROUND_LIGHTYELLOW";
+    case ColorType::COLORTYPE_FG_LIGHTBLUE: return "FOREGROUND_LIGHTBLUE";
+    case ColorType::COLORTYPE_FG_LIGHTMAGENTA: return "FOREGROUND_LIGHTMAGENTA";
+    case ColorType::COLORTYPE_FG_LIGHTCYAN: return "FOREGROUND_LIGHTCYAN";
+    case ColorType::COLORTYPE_FG_LIGHTWHITE: return "FOREGROUND_LIGHTWHITE";
+    case ColorType::COLORTYPE_BG_BLACK: return "BACKGROUND_BLACK";
+    case ColorType::COLORTYPE_BG_RED: return "BACKGROUND_RED";
+    case ColorType::COLORTYPE_BG_GREEN: return "BACKGROUND_GREEN";
+    case ColorType::COLORTYPE_BG_YELLOW: return "BACKGROUND_YELLOW";
+    case ColorType::COLORTYPE_BG_BLUE: return "BACKGROUND_BLUE";
+    case ColorType::COLORTYPE_BG_MAGENTA: return "BACKGROUND_MAGENTA";
+    case ColorType::COLORTYPE_BG_CYAN: return "BACKGROUND_CYAN";
+    case ColorType::COLORTYPE_BG_WHITE: return "BACKGROUND_WHITE";
+    case ColorType::COLORTYPE_BG_GRAY: return "BACKGROUND_GRAY";
+    case ColorType::COLORTYPE_BG_LIGHTRED: return "BACKGROUND_LIGHTRED";
+    case ColorType::COLORTYPE_BG_LIGHTGREEN: return "BACKGROUND_LIGHTGREEN";
+    case ColorType::COLORTYPE_BG_LIGHTYELLOW: return "BACKGROUND_LIGHTYELLOW";
+    case ColorType::COLORTYPE_BG_LIGHTBLUE: return "BACKGROUND_LIGHTBLUE";
+    case ColorType::COLORTYPE_BG_LIGHTMAGENTA: return "BACKGROUND_LIGHTMAGENTA";
+    case ColorType::COLORTYPE_BG_LIGHTCYAN: return "BACKGROUND_LIGHTCYAN";
+    case ColorType::COLORTYPE_BG_LIGHTWHITE: return "BACKGROUND_LIGHTWHITE";
+    case ColorType::COLORTYPE_INVALID: return "COLORTYPE_INVALID";
+    case ColorType::COLORTYPE_COUNTER: break;
+    }
+    return "COLORTYPE_UNKNOWN";
+  }
+
   int printf(ColorType color, const char* format, ...) {
     std::va_list ap;
 

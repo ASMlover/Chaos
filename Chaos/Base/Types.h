@@ -24,13 +24,13 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_TYPES_H
-#define CHAOS_TYPES_H
+#ifndef CHAOS_BASE_TYPES_H
+#define CHAOS_BASE_TYPES_H
 
 #include <cstdint>
 #include <memory>
-#include <Chaos/Copyable.h>
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/Copyable.h>
+#include <Chaos/Base/UnCopyable.h>
 
 #if !defined(CHAOS_UNUSED)
 # define CHAOS_UNUSED(x) ((void)x)
@@ -116,4 +116,4 @@ Sizer<N> __countof_impl(T (&array)[N]);
 
 }
 
-#endif // CHAOS_TYPES_H
+#endif // CHAOS_BASE_TYPES_H

@@ -28,7 +28,7 @@
 #define CHAOS_LOGGING_LOGGING_H
 
 #include <memory>
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 #include <Chaos/Datetime/Timestamp.h>
 #include <Chaos/Logging/LogStream.h>
 

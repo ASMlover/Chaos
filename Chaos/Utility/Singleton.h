@@ -28,11 +28,11 @@
 #define CHAOS_UTILITY_SINGLETON_H
 
 #include <cstdlib>
-#include <Chaos/Platform.h>
+#include <Chaos/Base/Platform.h>
 #if defined(CHAOS_IMPL_WITH_STD)
 # include <mutex>
 #endif
-#include <Chaos/Types.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Kern/KernCommon.h>
 
 namespace Chaos {

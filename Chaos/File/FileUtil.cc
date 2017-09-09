@@ -27,8 +27,8 @@
 #include <cerrno>
 #include <cstdio>
 #include <string>
-#include <Chaos/Platform.h>
-#include <Chaos/Types.h>
+#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Logging/Logging.h>
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/File/FileUtil.h>
@@ -57,7 +57,7 @@ namespace FileUtil {
       int maxsz, String* content, std::int64_t* filesz,
       std::int64_t* modify_time, std::int64_t* create_time) {
 #if defined(CHAOS_WINDOWS)
-    static_assert(sizeof(off_t) == 4, "offset bits is `64`");
+    static_assert(sizeof(off_t) == 4, "offset bits is `32`");
 #else
     static_assert(sizeof(off_t) == 8, "offset bits is `64`");
 #endif

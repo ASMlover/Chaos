@@ -24,7 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <Chaos/Types.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Codecs/Base32.h>
 
 namespace Chaos {

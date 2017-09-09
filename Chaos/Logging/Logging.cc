@@ -30,8 +30,8 @@
 #include <cstring>
 #include <ctime>
 #include <sstream>
-#include <Chaos/Platform.h>
-#include <Chaos/Types.h>
+#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Datetime/Timezone.h>
 #include <Chaos/Concurrent/CurrentThread.h>

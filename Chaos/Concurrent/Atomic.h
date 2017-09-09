@@ -28,7 +28,7 @@
 #define CHAOS_CONCURRENT_ATOMIC_H
 
 #include <cstdint>
-#include <Chaos/Platform.h>
+#include <Chaos/Base/Platform.h>
 
 #if defined(CHAOS_WINDOWS)
 # include <Chaos/Concurrent/Windows/Atomic.h>

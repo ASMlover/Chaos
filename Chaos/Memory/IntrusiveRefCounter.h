@@ -29,7 +29,7 @@
 
 #include <cstdint>
 #include <atomic>
-#include <Chaos/Copyable.h>
+#include <Chaos/Base/Copyable.h>
 
 namespace Chaos {
 

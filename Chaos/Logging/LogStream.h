@@ -27,7 +27,7 @@
 #ifndef CHAOS_LOGGING_LOGSTREAM_H
 #define CHAOS_LOGGING_LOGSTREAM_H
 
-#include <Chaos/Types.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Container/StringPiece.h>
 
 namespace Chaos {

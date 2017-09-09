@@ -24,54 +24,44 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#include <iostream>
-#include <string>
-#include <thread>
+#ifndef CHAOS_CHAOS_H
+#define CHAOS_CHAOS_H
+
+#include <Chaos/Base/Copyable.h>
 #include <Chaos/Base/UnCopyable.h>
+#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Types.h>
+#include <Chaos/Codecs/Base16.h>
+#include <Chaos/Codecs/Base32.h>
+#include <Chaos/Codecs/Base64.h>
+#include <Chaos/Codecs/Crc32c.h>
+#include <Chaos/Concurrent/Atomic.h>
+#include <Chaos/Concurrent/BlockingQueue.h>
+#include <Chaos/Concurrent/BoundedBlockingQueue.h>
+#include <Chaos/Concurrent/Condition.h>
+#include <Chaos/Concurrent/Coroutine.h>
+#include <Chaos/Concurrent/CountdownLatch.h>
 #include <Chaos/Concurrent/CurrentThread.h>
-#include <Chaos/Unittest/TestHarness.h>
-#include <Chaos/Utility/Singleton.h>
+#include <Chaos/Concurrent/Mutex.h>
+#include <Chaos/Concurrent/Thread.h>
+#include <Chaos/Concurrent/ThreadLocal.h>
+#include <Chaos/Concurrent/ThreadLocalSingleton.h>
+#include <Chaos/Concurrent/ThreadPool.h>
+#include <Chaos/Container/CircularBuffer.h>
+#include <Chaos/Container/StringPiece.h>
+#include <Chaos/Datetime/Date.h>
+#include <Chaos/Datetime/Timestamp.h>
+#include <Chaos/Datetime/Timezone.h>
+#include <Chaos/Except/Exception.h>
+#include <Chaos/Except/SystemError.h>
+#include <Chaos/File/FileUtil.h>
+#include <Chaos/IO/ColorIO.h>
+#include <Chaos/Logging/Logging.h>
+#include <Chaos/Memory/IntrusivePtr.h>
+#include <Chaos/Memory/Memory.h>
+#include <Chaos/Memory/MemoryPool.h>
+#include <Chaos/Utility/Any.h>
+#include <Chaos/Utility/Memory.h>
+#include <Chaos/Utility/WeakCallback.h>
 
-namespace cc = ::Chaos::CurrentThread;
-
-class _Useless : private Chaos::UnCopyable {
-  std::string message_;
-public:
-  _Useless(void) {
-    std::cout
-      << "Chaos::Singleton unittest  - _Useless::_Useless @tid="
-      << cc::get_tid() << std::endl;
-  }
-
-  ~_Useless(void) {
-    std::cout
-      << "Chaos::Singleton unittest - _Useless::~_Useless @tid="
-      << cc::get_tid() << ", @message=" << message_ << std::endl;
-  }
-
-  void set_message(const std::string& message) {
-    message_ = message;
-  }
-
-  const std::string& get_message(void) const {
-    return message_;
-  }
-};
-
-CHAOS_TEST(Singleton, Chaos::FakeTester) {
-  {
-    Chaos::Singleton<_Useless>::get_instance().set_message("_Useless.Main");
-    std::thread t([] {
-        std::cout
-          << "Chaos::Singleton unittest - @tid=" << cc::get_tid()
-          << ", @message="
-          << Chaos::Singleton<_Useless>::get_instance().get_message()
-          << std::endl;
-        Chaos::Singleton<_Useless>::get_instance().set_message("_Useless.Changed");
-        });
-    t.join();
-    std::cout
-      << "Chaos::Singleton unittest - @tid=" << cc::get_tid() << ", @message="
-      << Chaos::Singleton<_Useless>::get_instance().get_message() << std::endl;
-  }
-}
+#endif // CHAOS_CHAOS_H

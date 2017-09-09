@@ -27,8 +27,8 @@
 #ifndef CHAOS_CONCURRENT_THREADLOCALSINGLETON_H
 #define CHAOS_CONCURRENT_THREADLOCALSINGLETON_H
 
-#include <Chaos/Platform.h>
-#include <Chaos/Types.h>
+#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Kern/KernCommon.h>
 
 namespace Chaos {

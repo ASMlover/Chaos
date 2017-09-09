@@ -29,8 +29,8 @@
 
 #include <atomic>
 #include <utility>
-#include <Chaos/Platform.h>
-#include <Chaos/Types.h>
+#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Except/SystemError.h>
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Concurrent/CurrentThread.h>

@@ -26,7 +26,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <string>
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 #include <Chaos/Concurrent/CurrentThread.h>
 #include <Chaos/Concurrent/Thread.h>
 #include <Chaos/Concurrent/ThreadLocal.h>

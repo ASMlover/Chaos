@@ -27,7 +27,7 @@
 #ifndef CHAOS_FILE_FILEUTIL_H
 #define CHAOS_FILE_FILEUTIL_H
 
-#include <Chaos/Types.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Container/StringPiece.h>
 
 namespace Chaos {

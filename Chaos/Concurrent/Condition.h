@@ -27,12 +27,12 @@
 #ifndef CHAOS_CONCURRENT_CONDITION_H
 #define CHAOS_CONCURRENT_CONDITION_H
 
-#include <Chaos/Platform.h>
+#include <Chaos/Base/Platform.h>
 
 #if defined(CHAOS_WINDOWS)
-# include "Windows/Condition.h"
+# include <Chaos/Concurrent/Windows/Condition.h>
 #else
-# include "Posix/Condition.h"
+# include <Chaos/Concurrent/Posix/Condition.h>
 #endif
 
 #endif // CHAOS_CONCURRENT_CONDITION_H

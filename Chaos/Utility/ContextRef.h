@@ -28,7 +28,7 @@
 #define CHAOS_UTILITY_CONTEXTREF_H
 
 #include <memory>
-#include <Chaos/Copyable.h>
+#include <Chaos/Base/Copyable.h>
 
 namespace Chaos {
 

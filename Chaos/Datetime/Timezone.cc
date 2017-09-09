@@ -28,8 +28,8 @@
 #include <cstring>
 #include <algorithm>
 #include <vector>
-#include <Chaos/Platform.h>
-#include <Chaos/Types.h>
+#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Except/SystemError.h>
 #include <Chaos/IO/ColorIO.h>
 #include <Chaos/Kern/KernCommon.h>

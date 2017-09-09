@@ -27,7 +27,7 @@
 #ifndef CHAOS_CONCURRENT_THREADLOCAL_H
 #define CHAOS_CONCURRENT_THREADLOCAL_H
 
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 #include <Chaos/Kern/KernCommon.h>
 
 namespace Chaos {

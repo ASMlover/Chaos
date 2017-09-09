@@ -27,7 +27,7 @@
 #ifndef CHAOS_KERN_KERNCOMMON_H
 #define CHAOS_KERN_KERNCOMMON_H
 
-#include <Chaos/Platform.h>
+#include <Chaos/Base/Platform.h>
 
 #if defined(CHAOS_WINDOWS)
 # include <Chaos/Kern/Windows/KernCommon.h>

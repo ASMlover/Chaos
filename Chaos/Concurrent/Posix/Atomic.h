@@ -27,7 +27,7 @@
 #ifndef CHAOS_CONCURRENT_POSIX_ATOMIC_H
 #define CHAOS_CONCURRENT_POSIX_ATOMIC_H
 
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 
 namespace Chaos {
 

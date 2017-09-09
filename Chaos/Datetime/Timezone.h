@@ -29,7 +29,7 @@
 
 #include <ctime>
 #include <memory>
-#include <Chaos/Copyable.h>
+#include <Chaos/Base/Copyable.h>
 
 namespace Chaos {
 

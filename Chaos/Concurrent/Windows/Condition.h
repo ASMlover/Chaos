@@ -28,7 +28,7 @@
 #define CHAOS_CONCURRENT_WINDOWS_CONDITION_H
 
 #include <Windows.h>
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 #include <Chaos/Concurrent/Mutex.h>
 
 namespace Chaos {

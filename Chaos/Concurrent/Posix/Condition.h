@@ -28,7 +28,7 @@
 #define CHAOS_CONCURRENT_POSIX_CONDITION_H
 
 #include <pthread.h>
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 #include <Chaos/Concurrent/Mutex.h>
 #include <Chaos/Kern/KernCommon.h>
 

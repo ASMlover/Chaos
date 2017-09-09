@@ -28,7 +28,7 @@
 #define CHAOS_CONCURRENT_WINDOWS_ATOMIC_H
 
 #include <Windows.h>
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 #include <iostream>
 
 namespace Chaos {

@@ -24,8 +24,8 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_PLATFORM_H
-#define CHAOS_PLATFORM_H
+#ifndef CHAOS_BASE_PLATFORM_H
+#define CHAOS_BASE_PLATFORM_H
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS_) || \
   defined(_MSC_VER) || defined(__MINGW32__) || defined(__MINGW64__)
@@ -113,4 +113,4 @@
 # define __chaos_tl __thread
 #endif
 
-#endif // CHAOS_PLATFORM_H
+#endif // CHAOS_BASE_PLATFORM_H

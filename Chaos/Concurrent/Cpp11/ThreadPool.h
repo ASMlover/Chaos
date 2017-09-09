@@ -35,7 +35,7 @@
 #include <mutex>
 #include <thread>
 #include <condition_variable>
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 
 namespace Chaos { namespace Cpp11 {
 

@@ -28,7 +28,7 @@
 #define CHAOS_CONCURRENT_POSIX_MUTEXBASE_H
 
 #include <pthread.h>
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 
 namespace Chaos {
 

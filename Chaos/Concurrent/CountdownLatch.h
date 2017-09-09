@@ -27,7 +27,7 @@
 #ifndef CHAOS_CONCURRENT_COUNTDOWNLATCH_H
 #define CHAOS_CONCURRENT_COUNTDOWNLATCH_H
 
-#include <Chaos/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.h>
 #include <Chaos/Concurrent/Mutex.h>
 #include <Chaos/Concurrent/Condition.h>
 

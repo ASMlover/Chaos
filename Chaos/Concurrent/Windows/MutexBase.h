@@ -28,7 +28,7 @@
 #define CHAOS_CONCURRENT_WINDOWS_MUTEXBASE_H
 
 #include <Windows.h>
-#include <Chaos/Types.h>
+#include <Chaos/Base/Types.h>
 #include <iostream>
 
 namespace Chaos {

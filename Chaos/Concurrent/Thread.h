@@ -31,7 +31,7 @@
 #include <functional>
 #include <memory>
 #include <string>
-#include <Chaos/Types.h>
+#include <Chaos/Base/Types.h>
 #include <Chaos/Kern/KernCommon.h>
 
 namespace Chaos {

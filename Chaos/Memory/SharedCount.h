@@ -293,7 +293,7 @@ public:
   }
 };
 
-SharedCount::SharedCount(const WeakCount& r)
+inline SharedCount::SharedCount(const WeakCount& r)
   : pc_(r.pc_) {
   if (nullptr != pc_ && !pc_->add_ref_lock())
     pc_ = nullptr;

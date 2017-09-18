@@ -197,7 +197,7 @@ public:
   }
 
   void reset(T* p = nullptr) {
-    SelfType(p).swap(*this)
+    SelfType(p).swap(*this);
   }
 
   void swap(ScopedArray& r) noexcept {

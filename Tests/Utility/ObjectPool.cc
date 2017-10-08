@@ -37,16 +37,14 @@ public:
   _Useless*& __prev(void) { return prev_; }
   _Useless*& __next(void) { return next_; }
 
-  // _Useless* __prev{};
-  // _Useless* __next{};
-public:
   _Useless(int id)
     : id_(id) {
   }
 
   void show(void) {
     std::cout
-      << "Chaos::ObjectPool unittest - @_Useless.id=" << id_ << std::endl;
+      << "Chaos::ObjectPool unittest - @_Useless<" << this
+      << ">.id=" << id_ << std::endl;
   }
 };
 

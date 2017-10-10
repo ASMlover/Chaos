@@ -132,7 +132,7 @@ public:
   }
 
   template <typename Y, typename D>
-  SharedCount(Y* p, D& d) {
+  SharedCount(Y* p, D d) {
     try {
       pc_ = new CountedDestructor<Y, D>(p, d);
     }

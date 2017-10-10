@@ -44,14 +44,14 @@ inline void checked_array_delete(T* p) {
 }
 
 template <typename T>
-struct CheckedDeleter : private UnCopyable {
+struct CheckedDeleter {
   void operator()(T* p) {
     checked_delete(p);
   }
 };
 
 template <typename T>
-struct CheckedArrayDeleter : private UnCopyable {
+struct CheckedArrayDeleter {
   void operator()(T* p) {
     checked_array_delete(p);
   }
@@ -557,7 +557,7 @@ public:
   template <typename Y>
   SharedArray(Y* p)
     : px_(p)
-    , pn_(p, CheckedArrayDeleter<Y>(p)) {
+    , pn_(p, CheckedArrayDeleter<Y>()) {
   }
 
   template <typename Y, typename D>

@@ -43,6 +43,20 @@ inline std::unique_ptr<T, std::default_delete<T>> as_unique(Y* p) noexcept {
 }
 
 template <typename T>
+inline std::weak_ptr<T> weaken_ptr(const std::shared_ptr<T>& p) noexcept {
+  return std::weak_ptr<T>(p);
+}
+
+template <typename T>
+inline auto raw_ptr(T&& p) -> decltype(&*p) {
+  return p != nullptr ? &*p : nullptr;
+}
+
+inline std::nullptr_t raw_ptr(std::nullptr_t) {
+  return nullptr;
+}
+
+template <typename T>
 inline T* move_ptr(T*& p) noexcept {
   T* moved = p;
   p = nullptr;
@@ -57,6 +71,11 @@ inline ScopedPtr<T> make_scoped(Args&&... args) {
 template <typename T, typename Y = void>
 inline ScopedPtr<T> as_scoped(Y* p) noexcept {
   return ScopedPtr<T>(static_cast<T*>(p));
+}
+
+template <typename T>
+inline WeakPtr<T> weaken_ptr(const SharedPtr<T>& p) noexcept {
+  return WeakPtr<T>(p);
 }
 
 template <typename T>

@@ -72,11 +72,15 @@ CHAOS_TEST(ScopedPtr, Chaos::FakeTester) {
   u1->show();
   auto u2 = Chaos::ScopedPtr<_UselessDemo>(new _UselessDemo(2));
   u2->show();
+  CHAOS_CHECK_TRUE(nullptr != u1);
+  CHAOS_CHECK_TRUE(nullptr != u2);
   u1.swap(u2);
   u1->show();
   u2->show();
   u1 = nullptr;
   u2.reset();
+  CHAOS_CHECK_TRUE(u1 == nullptr);
+  CHAOS_CHECK_TRUE(u2 == nullptr);
 }
 
 CHAOS_TEST(ScopedArray, Chaos::FakeTester) {
@@ -84,4 +88,89 @@ CHAOS_TEST(ScopedArray, Chaos::FakeTester) {
   for (auto i = 0; i < 5; ++i)
     u[i].show();
   u.reset();
+}
+
+CHAOS_TEST(SharedPtr, Chaos::FakeTester) {
+  auto p1 = new _UselessDemo(11);
+  auto u1 = Chaos::SharedPtr<_UselessDemo>(p1);
+  CHAOS_CHECK_EQ(p1, u1.get());
+  CHAOS_CHECK_TRUE(nullptr != u1);
+  CHAOS_CHECK_TRUE(u1 != nullptr);
+
+  auto p2 = new _UselessDemo(22);
+  auto u2 = Chaos::SharedPtr<_UselessDemo>(p2);
+  CHAOS_CHECK_EQ(p2, u2.get());
+  CHAOS_CHECK_TRUE(nullptr != u2);
+  CHAOS_CHECK_TRUE(u2 != nullptr);
+
+  CHAOS_CHECK_TRUE(u1 != u2);
+
+  Chaos::SharedPtr<_UselessDemo> u1x(u1);
+  CHAOS_CHECK_TRUE(u1 == u1x);
+  Chaos::SharedPtr<_UselessDemo> u2x(u2);
+  CHAOS_CHECK_TRUE(u2 == u2x);
+
+  u1.swap(u2);
+  CHAOS_CHECK_TRUE(u1 == u2x);
+  CHAOS_CHECK_TRUE(u2 == u1x);
+
+  u1x.reset();
+  u2x.reset();
+  CHAOS_CHECK_TRUE(u1x == u2x);
+  CHAOS_CHECK_TRUE(u1x == nullptr);
+  CHAOS_CHECK_TRUE(u2x == nullptr);
+
+  Chaos::SharedPtr<_UselessDemo> u1y(std::move(u1));
+  CHAOS_CHECK_TRUE(u1 == nullptr);
+  Chaos::SharedPtr<_UselessDemo> u2y(std::move(u2));
+  CHAOS_CHECK_TRUE(u2 == nullptr);
+
+  u1y.swap(u2y);
+  u1y->show();
+  u2y->show();
+
+  u1y = nullptr;
+  u2y.reset();
+}
+
+CHAOS_TEST(SharedArray, Chaos::FakeTester) {
+  auto u1 = Chaos::SharedArray<_UselessDemo>(new _UselessDemo[5]);
+  for (auto i = 0; i < 5; ++i)
+    u1[i].show();
+
+  auto u2 = Chaos::SharedArray<_UselessDemo>(new _UselessDemo[5]);
+  for (auto i = 0; i < 5; ++i)
+    u2[i].show();
+
+  CHAOS_CHECK_TRUE(nullptr != u1 && nullptr != u2);
+  CHAOS_CHECK_TRUE(u1 != u2);
+
+  Chaos::SharedArray<_UselessDemo> u1x(u1);
+  Chaos::SharedArray<_UselessDemo> u2x(u2);
+  CHAOS_CHECK_TRUE(u1 == u1x);
+  CHAOS_CHECK_TRUE(u2 == u2x);
+
+  u1x.swap(u2x);
+  CHAOS_CHECK_TRUE(u1 == u2x && u2 == u1x);
+
+  u1x = nullptr;
+  u2x.reset();
+  CHAOS_CHECK_TRUE(nullptr == u1x && u2x == nullptr);
+
+  Chaos::SharedArray<_UselessDemo> u1y(std::move(u1));
+  Chaos::SharedArray<_UselessDemo> u2y(std::move(u2));
+  CHAOS_CHECK_TRUE(u1 == u2);
+  CHAOS_CHECK_TRUE(u1 == nullptr && nullptr == u2 && !u1 && !u2);
+
+  u1y.reset();
+  u2y.reset();
+  CHAOS_CHECK_TRUE(u1y == u2y && !u1y && !u2y);
+}
+
+CHAOS_TEST(WeakPtr, Chaos::FakeTester) {
+  auto sp = Chaos::SharedPtr<_UselessDemo>(new _UselessDemo(555));
+  auto wp = Chaos::WeakPtr<_UselessDemo>(sp);
+  CHAOS_CHECK_TRUE(sp.get() == wp.lock().get());
+  sp.reset();
+  CHAOS_CHECK_TRUE(wp.expired());
 }

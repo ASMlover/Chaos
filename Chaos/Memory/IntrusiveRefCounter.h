@@ -107,7 +107,8 @@ inline void intrusive_ptr_add_ref(
 template <typename DerivedT, typename CounterPolicyT>
 inline void intrusive_ptr_del_ref(
     const IntrusiveRefCounter<DerivedT, CounterPolicyT>* p) {
-  CounterPolicyT::decrement(p->ref_counter_);
+  if (CounterPolicyT::decrement(p->ref_counter_) == 0)
+    delete static_cast<const DerivedT*>(p);
 }
 
 }

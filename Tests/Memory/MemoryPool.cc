@@ -30,7 +30,7 @@
 #include <Chaos/Unittest/TestHarness.h>
 
 CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
-  static constexpr int ALLOC_COUNT = 1000000;
+  static constexpr int ALLOC_COUNT = 100000;
   int* alloc_bytes_array = new int[ALLOC_COUNT];
 
   std::srand(Chaos::Timestamp::now().microsec_since_epoch());
@@ -42,30 +42,110 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
 
   std::int64_t beg, end;
   void* p{};
+  Chaos::MemoryPool& pool = Chaos::MemoryPool::get_instance();
 
   {
-    beg = Chaos::Timestamp::now().microsec_since_epoch();
-    for (auto i = 0; i < ALLOC_COUNT; ++i) {
-      p = std::malloc(alloc_bytes_array[i]);
-      std::free(p);
+    // test fixed size
+    std::size_t sz = 15;
+    {
+      beg = Chaos::Timestamp::now().microsec_since_epoch();
+      for (auto i = 0; i < ALLOC_COUNT; ++i) {
+        p = std::malloc(sz);
+        std::free(p);
+      }
+      end = Chaos::Timestamp::now().microsec_since_epoch();
+      std::cout
+        << "Chaos::MemoryPool unittest - [system C allocator] fixed size"
+        << "(free immediately) use: "
+        << end - beg << " microseconds" << std::endl;
     }
-    end = Chaos::Timestamp::now().microsec_since_epoch();
-    std::cout
-      << "Chaos::MemoryPool unittest - [system C allocator] use: "
-      << end - beg << " microseconds" << std::endl;
+    {
+      beg = Chaos::Timestamp::now().microsec_since_epoch();
+      for (auto i = 0; i < ALLOC_COUNT; ++i) {
+        p = pool.alloc(sz);
+        pool.dealloc(p);
+      }
+      end = Chaos::Timestamp::now().microsec_since_epoch();
+      std::cout
+        << "Chaos::MemoryPool unittest - [memory pool allocator] fixed size"
+        << "(dealloc immediately) use: "
+        << end - beg << " microseconds" << std::endl;
+    }
+
+    void** parray = new void*[ALLOC_COUNT];
+    {
+      beg = Chaos::Timestamp::now().microsec_since_epoch();
+      for (auto i = 0; i < ALLOC_COUNT; ++i)
+        parray[i] = std::malloc(sz);
+      for (auto i = 0; i < ALLOC_COUNT; ++i)
+        std::free(parray[i]);
+      end = Chaos::Timestamp::now().microsec_since_epoch();
+      std::cout
+        << "Chaos::MemoryPool unitest - [system C allocator] fixed size use: "
+        << end - beg << " microseconds" << std::endl;
+    }
+    {
+      beg = Chaos::Timestamp::now().microsec_since_epoch();
+      for (auto i = 0; i < ALLOC_COUNT; ++i)
+        parray[i] = pool.alloc(sz);
+      for (auto i = 0; i < ALLOC_COUNT; ++i)
+        pool.dealloc(parray[i]);
+      end = Chaos::Timestamp::now().microsec_since_epoch();
+    }
+    delete [] parray;
   }
 
   {
-    Chaos::MemoryPool& pool = Chaos::MemoryPool::get_instance();
-    beg = Chaos::Timestamp::now().microsec_since_epoch();
-    for (auto i = 0; i < ALLOC_COUNT; ++i) {
-      p = pool.alloc(alloc_bytes_array[i]);
-      pool.dealloc(p);
+    // test random size
+    {
+      beg = Chaos::Timestamp::now().microsec_since_epoch();
+      for (auto i = 0; i < ALLOC_COUNT; ++i) {
+        p = std::malloc(alloc_bytes_array[i]);
+        std::free(p);
+      }
+      end = Chaos::Timestamp::now().microsec_since_epoch();
+      std::cout
+        << "Chaos::MemoryPool unittest - [system C allocator] random size"
+        << "(free immediately) use: "
+        << end - beg << " microseconds" << std::endl;
     }
-    end = Chaos::Timestamp::now().microsec_since_epoch();
-    std::cout
-      << "Chaos::MemoryPool unittest - [memort pool allocator] use: "
-      << end - beg << " microseconds" << std::endl;
+    {
+      beg = Chaos::Timestamp::now().microsec_since_epoch();
+      for (auto i = 0; i < ALLOC_COUNT; ++i) {
+        p = pool.alloc(alloc_bytes_array[i]);
+        pool.dealloc(p);
+      }
+      end = Chaos::Timestamp::now().microsec_since_epoch();
+      std::cout
+        << "Chaos::MemoryPool unittest - [memory pool allocator] random size"
+        << "(dealloc immediately) use: "
+        << end - beg << " microseconds" << std::endl;
+    }
+
+    void** parray = new void*[ALLOC_COUNT];
+    {
+      beg = Chaos::Timestamp::now().microsec_since_epoch();
+      for (auto i = 0; i < ALLOC_COUNT; ++i)
+        parray[i] = std::malloc(alloc_bytes_array[i]);
+      for (auto i = 0; i < ALLOC_COUNT; ++i)
+        std::free(parray[i]);
+      end = Chaos::Timestamp::now().microsec_since_epoch();
+      std::cout
+        << "Chaos::MemoryPool unittest - [system C allocator] ramond size "
+        << "use: " << end - beg << " microseconds" << std::endl;
+    }
+    {
+      beg = Chaos::Timestamp::now().microsec_since_epoch();
+      for (auto i = 0; i < ALLOC_COUNT; ++i)
+        parray[i] = pool.alloc(alloc_bytes_array[i]);
+      for (auto i = 0; i < ALLOC_COUNT; ++i)
+        pool.dealloc(parray[i]);
+      end = Chaos::Timestamp::now().microsec_since_epoch();
+      std::cout
+        << "Chaos::MemoryPool unittest - [memory pool allocator] ramond size "
+        << "use: " << end - beg << " microseconds" << std::endl;
+    }
+    delete [] parray;
   }
 
   delete [] alloc_bytes_array;

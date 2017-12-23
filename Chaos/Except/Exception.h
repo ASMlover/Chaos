@@ -29,7 +29,6 @@
 
 #include <exception>
 #include <string>
-#include <Chaos/Base/Types.h>
 
 namespace Chaos {
 

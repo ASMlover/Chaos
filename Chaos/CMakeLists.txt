@@ -63,7 +63,7 @@ else()
     set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_DARWIN_SOURCES})
   endif()
 endif()
-message(STATUS "`ChaosPROJ` CHAOS_SOURCES: ${CHAOS_SOURCES}")
+message(STATUS "`${PROJECT_NAME}` CHAOS_SOURCES: ${CHAOS_SOURCES}")
 
 add_library(chaos STATIC ${CHAOS_SOURCES})
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")

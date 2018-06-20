@@ -42,24 +42,27 @@
 # define CHAOS_POSIX
 #endif
 
+// https://docs.microsoft.com/en-us/cpp/visual-cpp-language-conformance
+// https://gcc.gnu.org/projects/cxx-status.html
+// https://clang.llvm.org/cxx_status.html
 #if defined(_MSC_VER)
 # define CHAOS_CC_VER         _MSC_VER
-# define CHAOS_CC_VER_LIMIT   1900
+# define CHAOS_CC_VER_LIMIT   1910
 #elif defined(__GNUC__)
 # define CHAOS_CC_VER         \
   (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 # if defined(CHAOS_DARWIN)
-#   define CHAOS_CC_VER_LIMIT 30300
+#   define CHAOS_CC_VER_LIMIT 50000
 # else
-#   define CHAOS_CC_VER_LIMIT 40801
+#   define CHAOS_CC_VER_LIMIT 70100
 # endif
 #elif defined(__clang__)
 # define CHAOS_CC_VER         \
   (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
 # if defined(CHAOS_DARWIN)
-#   define CHAOS_CC_VER_LIMIT 80000
+#   define CHAOS_CC_VER_LIMIT 90000
 # else
-#   define CHAOS_CC_VER_LIMIT 30300
+#   define CHAOS_CC_VER_LIMIT 50000
 # endif
 #else
 # error "Unknown Compiler."

@@ -37,8 +37,7 @@ class ThreadLocal : private UnCopyable {
   Chaos::_Tls_t tls_;
 
   static void destructor(void* data) {
-    T* obj = static_cast<T*>(data);
-    if (nullptr != obj)
+    if (T* obj = static_cast<T*>(data))
       delete obj;
   }
 public:

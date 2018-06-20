@@ -171,8 +171,7 @@ public:
   }
 
   bool try_lock(void) {
-    bool r = MutexBase::try_lock();
-    return r ? (assign_holder(), true) : false;
+    return MutexBase::try_lock() ? (assign_holder(), true) : false;
   }
 
   void unlock(void) {

@@ -68,10 +68,8 @@ struct ThreadData {
   }
 
   void run_in_thread(void) {
-    pid_t tid = CurrentThread::get_tid();
-    std::shared_ptr<pid_t> tidp = _wk_tid.lock();
-    if (tidp) {
-      *tidp = tid;
+    if (auto tidp = _wk_tid.lock()) {
+      *tidp = CurrentThread::get_tid();
       tidp.reset();
     }
 
@@ -116,8 +114,7 @@ struct ThreadData {
 };
 
 static void* start_thread(void* arg) {
-  std::unique_ptr<ThreadData> td(static_cast<ThreadData*>(arg));
-  if (td)
+  if (auto td = std::unique_ptr<ThreadData>(static_cast<ThreadData*>(arg)))
     td->run_in_thread();
   return nullptr;
 }

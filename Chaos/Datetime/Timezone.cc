@@ -150,8 +150,7 @@ public:
 };
 
 bool read_timezone_file(const char* zonefile, struct TZData* tzdata) {
-  TZFile f(zonefile);
-  if (f.is_valid()) {
+  if (TZFile f(zonefile); f.is_valid()) {
     try {
       std::string head = f.read_bytes(4);
       if (head != "TZif")

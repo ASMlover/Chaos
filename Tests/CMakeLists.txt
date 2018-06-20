@@ -26,7 +26,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 file(GLOB_RECURSE ALL_SOURCES *.cc)
-message(STATUS "`ChaosPROJ` Tests ALL_SOURCES: ${ALL_SOURCES}")
+message(STATUS "`${PROJECT_NAME}` Tests ALL_SOURCES: ${ALL_SOURCES}")
 
 add_executable(chaos.test ${ALL_SOURCES})
 target_link_libraries(chaos.test chaos)

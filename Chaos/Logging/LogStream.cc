@@ -83,7 +83,7 @@ template <int N> void FixedBuffer<N>::cookie_end(void) {
 
 template <int N>
 const char* FixedBuffer<N>::debug_string(void) {
-  return (current_ = '\0', data_);
+  return (*current_ = '\0', data_);
 }
 
 void LogStream::static_check(void) {

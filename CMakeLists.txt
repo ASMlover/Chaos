@@ -94,6 +94,8 @@ else()
     add_compile_options(-DCHAOS_USE_CPP11)
   endif()
 
+  add_definitions(
+    -Wno-format-truncation)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Werror -march=native")
   set(CMAKE_CXX_FLAGS_DEBUG "-g -ggdb -O0")
   set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")

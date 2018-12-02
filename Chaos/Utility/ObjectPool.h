@@ -37,6 +37,20 @@ template <typename Object> class ObjectPool;
 
 class ObjectPoolAccess {
 public:
+  // default BaseObject type for ObjectPool
+  template <typename DrivedObject> struct BaseObject {
+    DrivedObject* __prevobj{};
+    DrivedObject* __nextobj{};
+
+    DrivedObject*& __prev(void) {
+      return __prevobj;
+    }
+
+    DrivedObject*& __next(void) {
+      return __nextobj;
+    }
+  };
+public:
   template <typename Object>
   static Object* create(void) {
     return new Object();

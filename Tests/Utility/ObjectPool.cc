@@ -28,15 +28,11 @@
 #include <Chaos/Utility/ObjectPool.h>
 #include <Chaos/Unittest/TestHarness.h>
 
-class _Useless : private Chaos::UnCopyable {
+class _Useless
+  : private Chaos::UnCopyable
+  , public Chaos::ObjectPoolAccess::BaseObject<_Useless> {
   int id_{};
-
-  _Useless* prev_{};
-  _Useless* next_{};
 public:
-  _Useless*& __prev(void) { return prev_; }
-  _Useless*& __next(void) { return next_; }
-
   _Useless(int id)
     : id_(id) {
   }

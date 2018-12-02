@@ -81,7 +81,7 @@ CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
         std::free(parray[i]);
       end = Chaos::Timestamp::now().microsec_since_epoch();
       std::cout
-        << "Chaos::MemoryPool unitest - [system C allocator] fixed size use: "
+        << "Chaos::MemoryPool unittest - [system C allocator] fixed size use: "
         << end - beg << " microseconds" << std::endl;
     }
     {

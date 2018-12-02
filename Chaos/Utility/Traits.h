@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_UTILITY_TRAITS_H
-#define CHAOS_UTILITY_TRAITS_H
+#pragma once
 
 #include <type_traits>
 
@@ -100,5 +99,3 @@ using DisableIf_t = typename DisableIf<B, T>::type;
 #endif
 
 }
-
-#endif // CHAOS_UTILITY_TRAITS_H

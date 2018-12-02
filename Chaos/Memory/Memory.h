@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_MEMORY_MEMORY_H
-#define CHAOS_MEMORY_MEMORY_H
+#pragma once
 
 #include <Chaos/Memory/SharedCount.h>
 
@@ -695,5 +694,3 @@ inline bool operator!=(std::nullptr_t, const SharedArray<T>& p) {
 }
 
 }
-
-#endif // CHAOS_MEMORY_MEMORY_H

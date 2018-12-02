@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_CONCURRENT_ATOMIC_H
-#define CHAOS_CONCURRENT_ATOMIC_H
+#pragma once
 
 #include <cstdint>
 #include <Chaos/Base/Platform.h>
@@ -43,5 +42,3 @@ using AtomicI32 = Atomic<std::int32_t>;
 using AtomicI64 = Atomic<std::int64_t>;
 
 }
-
-#endif // CHAOS_CONCURRENT_ATOMIC_H

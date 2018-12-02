@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_UTILITY_WEAKCALLBACK_H
-#define CHAOS_UTILITY_WEAKCALLBACK_H
+#pragma once
 
 #include <functional>
 #include <memory>
@@ -64,5 +63,3 @@ inline WeakCallback<Class, Args...> make_weak_callback(
 }
 
 }
-
-#endif // CHAOS_UTILITY_WEAKCALLBACK_H

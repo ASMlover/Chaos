@@ -24,35 +24,30 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_CODECS_BASE32_H
-#define CHAOS_CODECS_BASE32_H
+#pragma once
 
 #include <cstring>
 #include <string>
 
-namespace Chaos {
+namespace Chaos::Base32 {
 
-namespace Base32 {
-  std::string encode(const char* s, std::size_t n);
-  std::string decode(const char* s, std::size_t n);
+std::string encode(const char* s, std::size_t n);
+std::string decode(const char* s, std::size_t n);
 
-  inline std::string encode(const char* s) {
-    return encode(s, std::strlen(s));
-  }
+inline std::string encode(const char* s) {
+  return encode(s, std::strlen(s));
+}
 
-  inline std::string decode(const char* s) {
-    return decode(s, std::strlen(s));
-  }
+inline std::string decode(const char* s) {
+  return decode(s, std::strlen(s));
+}
 
-  inline std::string encode(const std::string& s) {
-    return encode(s.data(), s.size());
-  }
+inline std::string encode(const std::string& s) {
+  return encode(s.data(), s.size());
+}
 
-  inline std::string decode(const std::string& s) {
-    return decode(s.data(), s.size());
-  }
+inline std::string decode(const std::string& s) {
+  return decode(s.data(), s.size());
 }
 
 }
-
-#endif // CHAOS_CODECS_BASE32_H

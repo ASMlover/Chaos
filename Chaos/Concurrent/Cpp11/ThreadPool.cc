@@ -31,7 +31,7 @@
 #include <Chaos/Concurrent/CurrentThread.h>
 #include <Chaos/Concurrent/Cpp11/ThreadPool.h>
 
-namespace Chaos { namespace Cpp11 {
+namespace Chaos::Cpp11 {
 
 ThreadPool::ThreadPool(const std::string& name)
   : name_(name) {
@@ -164,4 +164,4 @@ void ThreadPool::run_thread_callback(void) {
   }
 }
 
-}}
+}

@@ -27,14 +27,12 @@
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Concurrent/CurrentThread.h>
 
-namespace Chaos {
+namespace Chaos::CurrentThread {
 
-namespace CurrentThread {
-  static const int kMainTid = Chaos::kern_gettid();
+static const int kMainTid = Chaos::kern_gettid();
 
-  bool is_main_thread(void) {
-    return get_tid() == kMainTid;
-  }
+bool is_main_thread(void) {
+  return get_tid() == kMainTid;
 }
 
 }

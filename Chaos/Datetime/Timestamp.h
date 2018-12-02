@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_DATETIME_TIMESTAMP_H
-#define CHAOS_DATETIME_TIMESTAMP_H
+#pragma once
 
 #include <cstdint>
 #include <ctime>
@@ -103,5 +102,3 @@ inline std::uint64_t get_microsec(void) {
 }
 
 }
-
-#endif // CHAOS_DATETIME_TIMESTAMP_H

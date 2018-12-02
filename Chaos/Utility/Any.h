@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_UTILITY_ANY_H
-#define CHAOS_UTILITY_ANY_H
+#pragma once
 
 #include <typeinfo>
 #include <utility>
@@ -191,5 +190,3 @@ inline const ValueType* unsafe_any_cast(const Any* operand) {
 }
 
 }
-
-#endif // CHAOS_UTILITY_ANY_H

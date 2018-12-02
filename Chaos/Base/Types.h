@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_BASE_TYPES_H
-#define CHAOS_BASE_TYPES_H
+#pragma once
 
 #include <cstdint>
 #include <memory>
@@ -55,7 +54,7 @@
       std::fflush(stderr);\
       std::abort();\
     }\
-} while (0)
+  } while (0)
 #endif
 
 #if !defined(CHAOS_COUNTOF)
@@ -111,9 +110,6 @@ inline std::shared_ptr<Target> down_cast_ptr(const std::shared_ptr<Source>& p) {
 }
 
 template <std::ptrdiff_t N> struct Sizer { char elements[N]; };
-template <typename T, std::ptrdiff_t N>
-Sizer<N> __countof_impl(T (&array)[N]);
+template <typename T, std::ptrdiff_t N> Sizer<N> __countof_impl(T (&array)[N]);
 
 }
-
-#endif // CHAOS_BASE_TYPES_H

@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_EXCEPT_SYSTEMERROR_H
-#define CHAOS_EXCEPT_SYSTEMERROR_H
+#pragma once
 
 #include <exception>
 #include <system_error>
@@ -47,5 +46,3 @@ inline void __chaos_throw_error(int ec, const char* what) {
 }
 
 }
-
-#endif // CHAOS_EXCEPT_SYSTEMERROR_H

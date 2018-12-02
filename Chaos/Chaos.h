@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_CHAOS_H
-#define CHAOS_CHAOS_H
+#pragma once
 
 #include <Chaos/Base/Copyable.h>
 #include <Chaos/Base/UnCopyable.h>
@@ -63,5 +62,3 @@
 #include <Chaos/Utility/Any.h>
 #include <Chaos/Utility/Memory.h>
 #include <Chaos/Utility/WeakCallback.h>
-
-#endif // CHAOS_CHAOS_H

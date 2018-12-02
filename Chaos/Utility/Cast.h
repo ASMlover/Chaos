@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_UTILITY_CAST_H
-#define CHAOS_UTILITY_CAST_H
+#pragma once
 
 #include <cstddef>
 #include <memory>
@@ -125,5 +124,3 @@ inline T fast_dynamic_cast(T p) {
 # define chaos_fast_dycast  dynamic_cast
 # define chaos_fast_dypcast std::dynamic_pointer_cast
 #endif
-
-#endif // CHAOS_UTILITY_CAST_H

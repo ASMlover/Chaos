@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_UTILITY_CONTEXTREF_H
-#define CHAOS_UTILITY_CONTEXTREF_H
+#pragma once
 
 #include <memory>
 #include <Chaos/Base/Copyable.h>
@@ -286,5 +285,3 @@ inline ContextRef<T, Allocator> make_context(Args&&... args) {
 }
 
 }
-
-#endif // CHAOS_UTILITY_CONTEXTREF_H

@@ -24,19 +24,12 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_CONCURRENT_UNEXPOSED_CURRENTTHREAD_H
-#define CHAOS_CONCURRENT_UNEXPOSED_CURRENTTHREAD_H
+#pragma once
 
-namespace Chaos {
+namespace Chaos::CurrentThread::Unexposed {
 
-namespace CurrentThread {
-  // unexposed methods of CurrentThread
-  namespace Unexposed {
-    void set_cached_tid(int cached_tid);
-    void set_name(const char* name);
-  }
-}
+// unexposed methods of CurrentThread
+void set_cached_tid(int cached_tid);
+void set_name(const char* name);
 
 }
-
-#endif // CHAOS_CONCURRENT_UNEXPOSED_CURRENTTHREAD_H

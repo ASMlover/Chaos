@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_DATETIME_DATE_H
-#define CHAOS_DATETIME_DATE_H
+#pragma once
 
 #include <ctime>
 #include <string>
@@ -94,5 +93,3 @@ inline bool operator<(Date a, Date b) {
 }
 
 }
-
-#endif // CHAOS_DATETIME_DATE_H

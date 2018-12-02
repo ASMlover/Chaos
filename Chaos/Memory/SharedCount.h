@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_MEMORY_SHAREDCOUNT_H
-#define CHAOS_MEMORY_SHAREDCOUNT_H
+#pragma once
 
 #include <cstdint>
 #include <atomic>
@@ -300,5 +299,3 @@ inline SharedCount::SharedCount(const WeakCount& r)
 }
 
 }
-
-#endif // CHAOS_MEMORY_SHAREDCOUNT_H

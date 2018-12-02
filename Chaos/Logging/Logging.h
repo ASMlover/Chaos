@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_LOGGING_LOGGING_H
-#define CHAOS_LOGGING_LOGGING_H
+#pragma once
 
 #include <memory>
 #include <Chaos/Base/UnCopyable.h>
@@ -137,5 +136,3 @@ check_non_nil(Logger::SourceFile file, int lineno, const char* names, T* p) {
       Chaos::LoggingLevel::LOGGINGLEVEL_FATAL).get_stream()
 #define CHAOSLOG_SYSERR Chaos::Logger(__FILE__, __LINE__, false).get_stream()
 #define CHAOSLOG_SYSFATAL Chaos::Logger(__FILE__, __LINE__, true).get_stream()
-
-#endif // CHAOS_LOGGING_LOGGING_H

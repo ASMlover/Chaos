@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_UNITTEST_TESTHARNESS_H
-#define CHAOS_UNITTEST_TESTHARNESS_H
+#pragma once
 
 #include <sstream>
 #include <Chaos/IO/ColorIO.h>
@@ -115,5 +114,3 @@ bool _ChaosTestHarness_ignored_##Name =\
   Chaos::register_testharness(\
     #Base, #Name, &_ChaosTestHarness_##Name::_run_harness);\
 void _ChaosTestHarness_##Name::_run(void)
-
-#endif // CHAOS_UNITTEST_TESTHARNESS_H

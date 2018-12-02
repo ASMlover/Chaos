@@ -24,23 +24,18 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_CONCURRENT_CURRENTTHREAD_H
-#define CHAOS_CONCURRENT_CURRENTTHREAD_H
+#pragma once
 
 #include <cstdint>
 
-namespace Chaos {
+namespace Chaos::CurrentThread {
 
-namespace CurrentThread {
-  void cached_tid(void);
-  int get_tid(void); // get tid of current thread
-  const char* get_strftid(void); // string format tid
-  int get_strftid_length(void); // length of string format tid
-  const char* get_name(void); // get name of current thread
-  bool is_main_thread(void);
-  void sleep_microsec(std::uint64_t microsec);
-}
+void cached_tid(void);
+int get_tid(void); // get tid of current thread
+const char* get_strftid(void); // string format tid
+int get_strftid_length(void); // length of string format tid
+const char* get_name(void); // get name of current thread
+bool is_main_thread(void);
+void sleep_microsec(std::uint64_t microsec);
 
 }
-
-#endif // CHAOS_CONCURRENT_CURRENTTHREAD_H

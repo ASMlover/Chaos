@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_LOGGING_LOGSTREAM_H
-#define CHAOS_LOGGING_LOGSTREAM_H
+#pragma once
 
 #include <Chaos/Base/Types.h>
 #include <Chaos/Container/StringPiece.h>
@@ -178,5 +177,3 @@ inline LogStream& operator<<(LogStream& s, const Format& fmt) {
 }
 
 }
-
-#endif // CHAOS_LOGGING_LOGSTREAM_H

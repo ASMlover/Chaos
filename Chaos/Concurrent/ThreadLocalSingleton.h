@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_CONCURRENT_THREADLOCALSINGLETON_H
-#define CHAOS_CONCURRENT_THREADLOCALSINGLETON_H
+#pragma once
 
 #include <Chaos/Base/Platform.h>
 #include <Chaos/Base/Types.h>
@@ -98,5 +97,3 @@ template <typename T>
 typename ThreadLocalSingleton<T>::Deleter ThreadLocalSingleton<T>::deleter_;
 
 }
-
-#endif // CHAOS_CONCURRENT_THREADLOCALSINGLETON_H

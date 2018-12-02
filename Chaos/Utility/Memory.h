@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_UTILITY_MEMORY_H
-#define CHAOS_UTILITY_MEMORY_H
+#pragma once
 
 #include <memory>
 #include <Chaos/Memory/Memory.h>
@@ -94,5 +93,3 @@ template <typename T>
 struct is_smart_ptr<SharedPtr<T>> : std::true_type {};
 
 }
-
-#endif // CHAOS_UTILITY_MEMORY_H

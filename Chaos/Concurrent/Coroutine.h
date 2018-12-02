@@ -24,10 +24,9 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_CONCURRENT_COROUTINE_H
-#define CHAOS_CONCURRENT_COROUTINE_H
+#pragma once
 
-namespace Chaos { namespace Stackless {
+namespace Chaos::Stackless {
 
 class Coroutine {
   int value_{};
@@ -77,7 +76,7 @@ public:
   }
 };
 
-}}
+}
 
 #define CHAOS_CO_REENTER(c)\
   switch (Chaos::Stackless::CoroutineRef _co_value = c)\
@@ -120,5 +119,3 @@ public:
 #   define chaos_yield CHAOS_CO_YIELD(__LINE__)
 # endif
 #endif
-
-#endif // CHAOS_CONCURRENT_COROUTINE_H

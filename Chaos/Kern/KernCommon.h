@@ -24,8 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_KERN_KERNCOMMON_H
-#define CHAOS_KERN_KERNCOMMON_H
+#pragma once
 
 #include <Chaos/Base/Platform.h>
 
@@ -39,5 +38,3 @@
 #   include <Chaos/Kern/Darwin/KernCommon.h>
 # endif
 #endif
-
-#endif // CHAOS_KERN_KERNCOMMON_H

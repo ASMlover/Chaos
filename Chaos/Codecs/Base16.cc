@@ -27,42 +27,40 @@
 #include <Chaos/Base/Types.h>
 #include <Chaos/Codecs/Base16.h>
 
-namespace Chaos {
+namespace Chaos::Base16 {
 
-namespace Base16 {
-  static const char* base16_initilize(void);
+static const char* base16_initilize(void);
 
-  static char kDecode16[128] = {};
-  static const char* kEncode16 = base16_initilize();
+static char kDecode16[128] = {};
+static const char* kEncode16 = base16_initilize();
 
-  static const char* base16_initilize(void) {
-    const char* s = "0123456789ABCDEF";
-    for (int i = 0; i < 16; ++i)
-      kDecode16[static_cast<int>(s[i])] = i;
-    return s;
+static const char* base16_initilize(void) {
+  const char* s = "0123456789ABCDEF";
+  for (int i = 0; i < 16; ++i)
+    kDecode16[static_cast<int>(s[i])] = i;
+  return s;
+}
+
+std::string encode(const char* s, std::size_t n) {
+  std::string r;
+
+  const byte_t* b = reinterpret_cast<const byte_t*>(s);
+  for (std::size_t i = 0; i < n; ++i) {
+    r.push_back(kEncode16[b[i] >> 4]);
+    r.push_back(kEncode16[b[i] & 0x0F]);
   }
 
-  std::string encode(const char* s, std::size_t n) {
-    std::string r;
+  return r;
+}
 
-    const byte_t* b = reinterpret_cast<const byte_t*>(s);
-    for (std::size_t i = 0; i < n; ++i) {
-      r.push_back(kEncode16[b[i] >> 4]);
-      r.push_back(kEncode16[b[i] & 0x0F]);
-    }
+std::string decode(const char* s, std::size_t n) {
+  std::string r;
 
-    return r;
-  }
+  const byte_t* b = reinterpret_cast<const byte_t*>(s);
+  for (std::size_t i = 0; i < n; i += 2)
+    r.push_back((kDecode16[b[i]] << 4) | (kDecode16[b[i + 1]] & 0x0F));
 
-  std::string decode(const char* s, std::size_t n) {
-    std::string r;
-
-    const byte_t* b = reinterpret_cast<const byte_t*>(s);
-    for (std::size_t i = 0; i < n; i += 2)
-      r.push_back((kDecode16[b[i]] << 4) | (kDecode16[b[i + 1]] & 0x0F));
-
-    return r;
-  }
+  return r;
 }
 
 }

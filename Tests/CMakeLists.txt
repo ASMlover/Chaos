@@ -28,6 +28,8 @@
 file(GLOB_RECURSE ALL_SOURCES *.cc)
 message(STATUS "`${PROJECT_NAME}` Tests ALL_SOURCES: ${ALL_SOURCES}")
 
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+if (CMAKE_SYSTEM_NAME MATCHES "Linux")
+  set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+endif()
 add_executable(chaos.test ${ALL_SOURCES})
 target_link_libraries(chaos.test chaos)

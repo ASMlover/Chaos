@@ -50,8 +50,8 @@ static void do_test(int max_count) {
   for (int i = 0; i < 10; ++i) {
     char buf[32];
     snprintf(buf, sizeof(buf), "task#%d", i + 1);
-    pool.run([&buf] {
-      CHAOSLOG_INFO << "Chaos::ThreadPool unittest, @buf=" <<  buf;
+    pool.run([buf] {
+      CHAOSLOG_INFO << "Chaos::ThreadPool unittest, @buf=" << buf;
       Chaos::CurrentThread::sleep_microsec(1000 * 100);
     });
   }

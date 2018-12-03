@@ -62,5 +62,3 @@ public:
 };
 
 }
-
-#endif // CHAOS_CONCURRENT_POSIX_MUTEXBASE_H

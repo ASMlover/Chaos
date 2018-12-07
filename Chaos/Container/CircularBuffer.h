@@ -35,16 +35,16 @@ namespace Chaos {
 template <typename T, typename ElemType = typename T::value_type>
 class CircularBufferIterator {
 public:
-  typedef CircularBufferIterator<T, ElemType>             SelfType;
-  typedef T                                               circualr_buffer_type;
-  typedef std::random_access_iterator_tag                 iterator_category;
-  typedef typename circualr_buffer_type::value_type       value_type;
-  typedef typename circualr_buffer_type::size_type        size_type;
-  typedef typename circualr_buffer_type::pointer          pointer;
-  typedef typename circualr_buffer_type::const_pointer    const_pointer;
-  typedef typename circualr_buffer_type::reference        reference;
-  typedef typename circualr_buffer_type::const_reference  const_reference;
-  typedef typename circualr_buffer_type::difference_type  difference_type;
+  using SelfType              = CircularBufferIterator<T, ElemType>;
+  using circualr_buffer_type  = T;
+  using iterator_category     = std::random_access_iterator_tag;
+  using value_type            = typename circualr_buffer_type::value_type;
+  using size_type             = typename circualr_buffer_type::size_type;
+  using pointer               = typename circualr_buffer_type::pointer;
+  using const_pointer         = typename circualr_buffer_type::const_pointer;
+  using reference             = typename circualr_buffer_type::reference;
+  using const_reference       = typename circualr_buffer_type::const_reference;
+  using difference_type       = typename circualr_buffer_type::difference_type;
 private:
   circualr_buffer_type* buf_{};
   size_type pos_{};
@@ -150,20 +150,19 @@ public:
 template <typename T, typename Allocator = std::allocator<T>>
 class CircularBuffer {
 public:
-  typedef CircularBuffer<T, Allocator>             SelfType;
-  typedef Allocator                                allocator_type;
-  typedef typename allocator_type::value_type      value_type;
-  typedef typename allocator_type::size_type       size_type;
-  typedef typename allocator_type::pointer         pointer;
-  typedef typename allocator_type::const_pointer   const_pointer;
-  typedef typename allocator_type::reference       reference;
-  typedef typename allocator_type::const_reference const_reference;
-  typedef typename allocator_type::difference_type difference_type;
-  typedef CircularBufferIterator<SelfType>         iterator;
-  typedef CircularBufferIterator
-    <const SelfType, const value_type>             const_iterator;
-  typedef std::reverse_iterator<iterator>          reverse_iterator;
-  typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
+  using SelfType                = CircularBuffer<T, Allocator>;
+  using allocator_type          = Allocator;
+  using value_type              = typename allocator_type::value_type;
+  using size_type               = typename allocator_type::size_type;
+  using pointer                 = typename allocator_type::pointer;
+  using const_pointer           = typename allocator_type::const_pointer;
+  using reference               = typename allocator_type::reference;
+  using const_reference         = typename allocator_type::const_reference;
+  using difference_type         = typename allocator_type::difference_type;
+  using iterator                = CircularBufferIterator<SelfType>;
+  using const_iterator          = CircularBufferIterator<const SelfType, const value_type>;
+  using reverse_iterator        = std::reverse_iterator<iterator>;
+  using const_reverse_iterator  = std::reverse_iterator<const_pointer>;
 private:
   pointer buff_{};
   size_type capacity_{};

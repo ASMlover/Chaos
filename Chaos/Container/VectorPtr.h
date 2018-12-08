@@ -33,19 +33,19 @@ namespace Chaos {
 template <typename T, typename Allocator = std::allocator<T>>
 class VectorPtr {
 public:
-  typedef std::vector<T, Allocator>                 vector_type;
-  typedef T                                         value_type;
-  typedef Allocator                                 allocator_type;
-  typedef typename vector_type::size_type           size_type;
-  typedef typename vector_type::difference_type     difference_type;
-  typedef typename allocator_type::pointer          pointer;
-  typedef typename allocator_type::const_pointer    const_pointer;
-  typedef typename allocator_type::reference        reference;
-  typedef typename allocator_type::const_reference  const_reference;
-  typedef typename vector_type::iterator            iterator;
-  typedef typename vector_type::const_iterator      const_iterator;
-  typedef std::reverse_iterator<iterator>           reverse_iterator;
-  typedef std::reverse_iterator<const_iterator>     const_reverse_iterator;
+  using vector_type             = std::vector<T, Allocator>;
+  using value_type              = T;
+  using allocator_type          = Allocator;
+  using size_type               = typename vector_type::size_type;
+  using difference_type         = typename vector_type::difference_type;
+  using pointer                 = typename allocator_type::pointer;
+  using const_pointer           = typename allocator_type::const_pointer;
+  using reference               = typename allocator_type::reference;
+  using const_reference         = typename allocator_type::const_reference;
+  using iterator                = typename vector_type::iterator;
+  using const_iterator          = typename vector_type::const_iterator;
+  using reverse_iterator        = std::reverse_iterator<iterator>;
+  using const_reverse_iterator  = std::reverse_iterator<const_iterator>;
 private:
   vector_type* vec_{};
 public:
@@ -334,19 +334,19 @@ inline bool operator>=(
 template <typename T, typename Allocator = std::allocator<T>>
 class ConstVectorPtr {
 public:
-  typedef std::vector<T, Allocator>                 vector_type;
-  typedef T                                         value_type;
-  typedef Allocator                                 allocator_type;
-  typedef typename vector_type::size_type           size_type;
-  typedef typename vector_type::difference_type     difference_type;
-  typedef typename allocator_type::pointer          pointer;
-  typedef typename allocator_type::const_pointer    const_pointer;
-  typedef typename allocator_type::reference        reference;
-  typedef typename allocator_type::const_reference  const_reference;
-  typedef typename vector_type::iterator            iterator;
-  typedef typename vector_type::const_iterator      const_iterator;
-  typedef std::reverse_iterator<iterator>           reverse_iterator;
-  typedef std::reverse_iterator<const_iterator>     const_reverse_iterator;
+  using vector_type             = std::vector<T, Allocator>;
+  using value_type              = T;
+  using allocator_type          = Allocator;
+  using size_type               = typename vector_type::size_type;
+  using difference_type         = typename vector_type::difference_type;
+  using pointer                 = typename allocator_type::pointer;
+  using const_pointer           = typename allocator_type::const_pointer;
+  using reference               = typename allocator_type::reference;
+  using const_reference         = typename allocator_type::const_reference;
+  using iterator                = typename vector_type::iterator;
+  using const_iterator          = typename vector_type::const_iterator;
+  using reverse_iterator        = std::reverse_iterator<iterator>;
+  using const_reverse_iterator  = std::reverse_iterator<const_iterator>;
 private:
   const vector_type* vec_{};
 public:

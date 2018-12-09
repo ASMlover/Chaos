@@ -34,7 +34,7 @@ template <typename T>
 class IntrusivePtr {
   T* px_{};
 
-  typedef IntrusivePtr<T> SelfType;
+  using SelfType = IntrusivePtr<T>;
 public:
   IntrusivePtr(void) = default;
 

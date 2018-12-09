@@ -33,7 +33,7 @@
 namespace Chaos {
 
 struct CountedThreadUnsafe {
-  typedef std::uint32_t type;
+  using type = std::uint32_t;
 
   static std::uint32_t load(std::uint32_t counter) noexcept {
     return counter;
@@ -49,7 +49,7 @@ struct CountedThreadUnsafe {
 };
 
 struct CountedThreadSafe {
-  typedef std::atomic<std::uint32_t> type;
+  using type = std::atomic<std::uint32_t>;
 
   static std::uint32_t load(
       const std::atomic<std::uint32_t>& counter) noexcept {
@@ -78,7 +78,8 @@ void intrusive_ptr_del_ref(
 
 template <typename DerivedT, typename CounterPolicyT>
 class IntrusiveRefCounter : public Copyable {
-  typedef typename CounterPolicyT::type counter_type;
+  using counter_type = typename CounterPolicyT::type;
+
   mutable counter_type ref_counter_{};
 public:
   IntrusiveRefCounter& operator=(const IntrusiveRefCounter&) noexcept {

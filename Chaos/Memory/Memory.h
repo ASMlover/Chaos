@@ -60,7 +60,7 @@ template <typename T>
 class ScopedPtr : private UnCopyable {
   T* px_{};
 
-  typedef ScopedPtr<T> SelfType;
+  using SelfType = ScopedPtr<T>;
 public:
   ScopedPtr(void) = default;
 
@@ -146,7 +146,7 @@ template <typename T>
 class ScopedArray : private UnCopyable {
   T* px_{};
 
-  typedef ScopedArray<T> SelfType;
+  using SelfType = ScopedArray<T>;
 public:
   ScopedArray(void) = default;
 
@@ -233,7 +233,7 @@ class SharedPtr {
 
   template <typename Y> friend class SharedPtr;
   template <typename Y> friend class WeakPtr;
-  typedef SharedPtr<T> SelfType;
+  using SelfType = SharedPtr<T>;
 public:
   SharedPtr(void) = default;
   ~SharedPtr(void) = default;
@@ -436,7 +436,7 @@ class WeakPtr {
 
   template <typename Y> friend class WeakPtr;
   template <typename Y> friend class SharedPtr;
-  typedef WeakPtr<T> SelfType;
+  using SelfType = WeakPtr<T>;
 public:
   WeakPtr(void) = default;
   ~WeakPtr(void) = default;
@@ -545,7 +545,7 @@ class SharedArray {
   SharedCount pn_{};
 
   template <typename Y> friend class SharedArray;
-  typedef SharedArray<T> SelfType;
+  using SelfType = SharedArray<T>;
 public:
   SharedArray(void) = default;
   ~SharedArray(void) = default;

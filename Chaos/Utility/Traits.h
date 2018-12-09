@@ -33,28 +33,28 @@ namespace Chaos {
 // add reference `traits`
 template <typename T>
 struct AddRefImpl {
-  typedef T& type;
+  using type = T&;
 };
 
 template <typename T>
 struct AddRefImpl<T&&> {
-  typedef T&& type;
+  using type = T&&;
 };
 
 template <typename T>
 struct AddRef {
-  typedef typename AddRefImpl<T>::type type;
+  using type = typename AddRefImpl<T>::type;
 };
 
 template <typename T>
 struct AddRef<T&> {
-  typedef T& type;
+  using type = T&;
 };
 
 // disable_if `traits`
 template <bool B, typename T = void>
 struct DisableIf {
-  typedef T type;
+  using type = T;
 };
 
 template <typename T>

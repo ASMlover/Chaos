@@ -36,7 +36,7 @@ constexpr int kLargeBuffer = 4096000; // 4906 * 1000
 
 template <int N>
 class FixedBuffer : private UnCopyable {
-  typedef void (*CookieCallback)(void);
+  using CookieCallback = void (*)(void);
 
   char data_[N];
   char* current_;
@@ -114,7 +114,7 @@ public:
 
 class LogStream : private UnCopyable {
 public:
-  typedef FixedBuffer<kSmallBuffer> buffer_type;
+  using buffer_type = FixedBuffer<kSmallBuffer>;
 private:
   buffer_type buff_;
   static const int kMaxNumericSize = 32;

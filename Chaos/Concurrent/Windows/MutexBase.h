@@ -33,7 +33,7 @@
 namespace Chaos {
 
 class MutexBase : private UnCopyable {
-  typedef CRITICAL_SECTION MutexType;
+  using MutexType = CRITICAL_SECTION;
 
   mutable MutexType m_;
   int tid_{-1};

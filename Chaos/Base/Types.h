@@ -86,7 +86,7 @@ inline T* get_pointer(const std::shared_ptr<T>& p) {
 }
 
 template <typename T> struct Identity {
-  typedef T Type;
+  using Type = T;
 };
 
 template <typename T>

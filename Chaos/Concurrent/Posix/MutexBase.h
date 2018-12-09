@@ -32,7 +32,7 @@
 namespace Chaos {
 
 class MutexBase : private UnCopyable {
-  typedef pthread_mutex_t MutexType;
+  using MutexType = pthread_mutex_t;
 
   mutable MutexType m_;
 public:

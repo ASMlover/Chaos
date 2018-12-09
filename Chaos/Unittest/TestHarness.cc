@@ -41,7 +41,7 @@ struct HarnessContext {
     , closure(fn) {
   }
 };
-typedef std::vector<HarnessContext> HarnessContextVector;
+using HarnessContextVector = std::vector<HarnessContext>;
 HarnessContextVector* g_tests; // must be raw pointer for darwin
                                // (unique_ptr is invalid)
 

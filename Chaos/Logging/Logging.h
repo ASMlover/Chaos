@@ -76,8 +76,8 @@ public:
     }
   };
 
-  typedef void (*OutputCallback)(const char* buf, std::size_t len);
-  typedef void (*FlushCallback)(void);
+  using OutputCallback  = void (*)(const char* buf, std::size_t len);
+  using FlushCallback   = void (*)(void);
 public:
   Logger(SourceFile file, int lineno);
   Logger(SourceFile file, int lineno, LoggingLevel level);

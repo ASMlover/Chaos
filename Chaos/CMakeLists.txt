@@ -29,6 +29,7 @@ set(CHAOSLIB_NAME "chaos")
 
 file(GLOB CHAOS_HEADERS
   *.h
+  Base/*.h
   Codecs/*.h
   Concurrent/*.h
   Concurrent/Cpp11/*.h
@@ -40,9 +41,11 @@ file(GLOB CHAOS_HEADERS
   Logging/*.h
   Memory/*.h
   Unittest/*.h
+  Utility/*.h
   )
 file(GLOB CHAOS_SOURCES
   *.cc
+  Base/*.cc
   Codecs/*.cc
   Concurrent/*.cc
   Concurrent/Cpp11/*.cc
@@ -54,6 +57,7 @@ file(GLOB CHAOS_SOURCES
   Logging/*.cc
   Memory/*.cc
   Unittest/*.cc
+  Utility/*.cc
   )
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
   file(GLOB_RECURSE CHAOS_WINDOWS_HEADERS

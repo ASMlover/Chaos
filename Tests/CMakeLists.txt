@@ -25,11 +25,19 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB_RECURSE ALL_SOURCES *.cc)
-message(STATUS "`${PROJECT_NAME}` Tests ALL_SOURCES: ${ALL_SOURCES}")
+file(GLOB_RECURSE CHAOS_TEST_HEADERS *.h)
+file(GLOB_RECURSE CHAOS_TEST_SOURCES *.cc)
+message(STATUS "`${PROJECT_NAME}` Tests CHAOS_TEST_HEADERS: ${CHAOS_TEST_HEADERS}")
+message(STATUS "`${PROJECT_NAME}` Tests CHAOS_TEST_SOURCES: ${CHAOS_TEST_SOURCES}")
 
 if (CMAKE_SYSTEM_NAME MATCHES "Linux")
   set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 endif()
-add_executable(chaos.test ${ALL_SOURCES})
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+  set(CHAOS_TEST_ALL_FILES ${CHAOS_TEST_HEADERS} ${CHAOS_TEST_SOURCES})
+  source_group_by_dir(CHAOS_TEST_ALL_FILES)
+  add_executable(chaos.test ${CHAOS_TEST_ALL_FILES})
+else()
+  add_executable(chaos.test ${CHAOS_TEST_HEADERS} ${CHAOS_TEST_SOURCES})
+endif()
 target_link_libraries(chaos.test chaos)

@@ -27,6 +27,20 @@
 
 set(CHAOSLIB_NAME "chaos")
 
+file(GLOB CHAOS_HEADERS
+  *.h
+  Codecs/*.h
+  Concurrent/*.h
+  Concurrent/Cpp11/*.h
+  Container/*.h
+  Datetime/*.h
+  Except/*.h
+  File/*.h
+  IO/*.h
+  Logging/*.h
+  Memory/*.h
+  Unittest/*.h
+  )
 file(GLOB CHAOS_SOURCES
   *.cc
   Codecs/*.cc
@@ -42,30 +56,53 @@ file(GLOB CHAOS_SOURCES
   Unittest/*.cc
   )
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+  file(GLOB_RECURSE CHAOS_WINDOWS_HEADERS
+    Concurrent/Windows/*.h
+    IO/Windows/*.h
+    Kern/Windows/*.h
+    )
   file(GLOB_RECURSE CHAOS_WINDOWS_SOURCES
     Concurrent/Windows/*.cc
     IO/Windows/*.cc
     Kern/Windows/*.cc
     )
+  set(CHAOS_HEADERS ${CHAOS_HEADERS} ${CHAOS_WINDOWS_HEADERS})
   set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_WINDOWS_SOURCES})
 else()
+  file(GLOB_RECURSE CHAOS_POSIX_HEADERS
+    Concurrent/Posix/*.h
+    IO/Posix/*.h
+    Kern/Posix/*.h
+    )
   file(GLOB_RECURSE CHAOS_POSIX_SOURCES
     Concurrent/Posix/*.cc
     IO/Posix/*.cc
     Kern/Posix/*.cc
     )
+  set(CHAOS_HEADERS ${CHAOS_HEADERS} ${CHAOS_POSIX_HEADERS})
   set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_POSIX_SOURCES})
   if (CMAKE_SYSTEM_NAME MATCHES "Linux")
+    file(GLOB_RECURSE CHAOS_LINUX_HEADERS Concurrent/Linux/*.h)
     file(GLOB_RECURSE CHAOS_LINUX_SOURCES Concurrent/Linux/*.cc)
+    set(CHAOS_HEADERS ${CHAOS_HEADERS} ${CHAOS_LINUX_HEADERS})
     set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_LINUX_SOURCES})
   elseif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    file(GLOB_RECURSE CHAOS_DARWIN_HEADERS Concurrent/Darwin/*.h)
     file(GLOB_RECURSE CHAOS_DARWIN_SOURCES Concurrent/Darwin/*.cc)
+    set(CHAOS_HEADERS ${CHAOS_HEADERS} ${CHAOS_DARWIN_HEADERS})
     set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_DARWIN_SOURCES})
   endif()
 endif()
+message(STATUS "`${PROJECT_NAME}` CHAOS_HEADERS: ${CHAOS_HEADERS}")
 message(STATUS "`${PROJECT_NAME}` CHAOS_SOURCES: ${CHAOS_SOURCES}")
 
-add_library(chaos STATIC ${CHAOS_SOURCES})
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+  set(CHAOS_ALL_FILES ${CHAOS_HEADERS} ${CHAOS_SOURCES})
+  source_group_by_dir(CHAOS_ALL_FILES)
+  add_library(chaos STATIC ${CHAOS_ALL_FILES})
+else()
+  add_library(chaos STATIC ${CHAOS_HEADERS} ${CHAOS_SOURCES})
+endif()
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
   target_link_libraries(${CHAOSLIB_NAME} winmm.lib Dbghelp.lib)
 elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")

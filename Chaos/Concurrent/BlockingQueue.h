@@ -34,7 +34,7 @@
 namespace Chaos {
 
 template <typename T>
-class BlockingQueue : private UnCopyable {
+class BlockingQueue final : private UnCopyable {
   mutable Mutex mtx_;
   Condition non_empty_;
   std::deque<T> queue_;

@@ -38,7 +38,7 @@
 
 namespace Chaos::Cpp11 {
 
-class ThreadPool : private UnCopyable {
+class ThreadPool final : private UnCopyable {
   using TaskFunction = std::function<void (void)>;
   using ThreadEntity = std::unique_ptr<std::thread>;
 

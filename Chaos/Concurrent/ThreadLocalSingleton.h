@@ -33,7 +33,7 @@
 namespace Chaos {
 
 template <typename T>
-class ThreadLocalSingleton : private UnCopyable {
+class ThreadLocalSingleton final : private UnCopyable {
   class Deleter {
   public:
     Chaos::_Tls_t tls_;

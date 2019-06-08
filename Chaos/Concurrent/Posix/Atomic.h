@@ -31,7 +31,7 @@
 namespace Chaos {
 
 template <typename T>
-class Atomic : private UnCopyable {
+class Atomic final : private UnCopyable {
   volatile T value_{};
 
   static_assert(

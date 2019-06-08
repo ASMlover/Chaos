@@ -145,7 +145,8 @@ namespace Unexposed {
 }
 
 template <typename T>
-class Atomic : public Unexposed::ActomicImpl<sizeof(T)> , private UnCopyable {
+class Atomic final
+  : public Unexposed::ActomicImpl<sizeof(T)> , private UnCopyable {
   T value_{};
 
   static_assert(

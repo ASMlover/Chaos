@@ -32,7 +32,7 @@
 
 namespace Chaos {
 
-class CountdownLatch : private UnCopyable {
+class CountdownLatch final : private UnCopyable {
   mutable Mutex mtx_;
   Condition cond_;
   int count_;

@@ -33,7 +33,7 @@
 
 namespace Chaos {
 
-class Condition : private UnCopyable {
+class Condition final : private UnCopyable {
   Mutex& mtx_;
   pthread_cond_t cond_;
 public:

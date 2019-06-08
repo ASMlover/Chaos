@@ -47,7 +47,7 @@ struct TryToLock {};
 struct AdoptLock {};
 
 template <typename MutexType>
-class ScopedLock : private UnCopyable {
+class ScopedLock final : private UnCopyable {
   MutexType* m_{};
   bool owned_{};
 public:
@@ -145,14 +145,14 @@ public:
   }
 };
 
-class FakeMutex : private UnCopyable {
+class FakeMutex final : private UnCopyable {
 public:
   void lock(void) {}
   bool try_lock(void) { return true; }
   void unlock(void) {}
 };
 
-class Mutex : public MutexBase {
+class Mutex final : public MutexBase {
   pid_t holder_{};
   friend class UnassignScopedMutex;
 
@@ -187,7 +187,7 @@ public:
   }
 };
 
-class UnassignScopedMutex : private UnCopyable {
+class UnassignScopedMutex final : private UnCopyable {
   Mutex& owner_;
 public:
   explicit UnassignScopedMutex(Mutex& owner)
@@ -200,7 +200,7 @@ public:
   }
 };
 
-class FastMutex : private UnCopyable {
+class FastMutex final : private UnCopyable {
   volatile std::atomic_flag m_;
 public:
   FastMutex(void) {

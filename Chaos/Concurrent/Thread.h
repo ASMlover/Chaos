@@ -35,7 +35,7 @@
 
 namespace Chaos {
 
-class Thread : private UnCopyable {
+class Thread final : private UnCopyable {
   using ThreadCallback = std::function<void (void)>;
 
   bool started_{};

@@ -34,7 +34,7 @@
 namespace Chaos {
 
 template <typename T>
-class BoundedBlockingQueue : private UnCopyable {
+class BoundedBlockingQueue final : private UnCopyable {
   mutable Mutex mtx_;
   Condition non_empty_;
   Condition non_full_;

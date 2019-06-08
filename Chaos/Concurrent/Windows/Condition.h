@@ -32,7 +32,7 @@
 
 namespace Chaos {
 
-class Condition : private UnCopyable {
+class Condition final : private UnCopyable {
   Mutex& mtx_;
   CONDITION_VARIABLE cond_;
 public:

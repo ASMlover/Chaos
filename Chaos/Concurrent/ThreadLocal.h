@@ -32,7 +32,7 @@
 namespace Chaos {
 
 template <typename T>
-class ThreadLocal : private UnCopyable {
+class ThreadLocal final : private UnCopyable {
   Chaos::_Tls_t tls_;
 
   static void destructor(void* data) {

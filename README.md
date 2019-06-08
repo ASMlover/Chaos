@@ -2,7 +2,7 @@
 ***
 
 ## **What is `Chaos`?**
-  **Chaos is a basic library of C++11 components.**
+  **Chaos is a basic library of C++1z components.**
 
   * A collection of C++ class libraries.
   * Written in efficient, mordern, 100% `ANSI/ISO Standand C++`.
@@ -29,9 +29,9 @@ $ make
 $ ./bin/chaos.test
 
 # On Windows
-# Setting the building environment(VS2017), such as:
-\> %VS2017PATH%\Community\VC\Auxiliary\Build\vcvars64.bat # just for x64
-\> %VS2017PATH%\Community\VC\Auxiliary\Build\vcvars32.bat # just for x32
+# Setting the building environment(VS2019), such as:
+\> %VS2019PATH%\Community\VC\Auxiliary\Build\vcvars64.bat # just for x64
+\> %VS2019PATH%\Community\VC\Auxiliary\Build\vcvars32.bat # just for x32
 # Building Chaos using command
 \> mkdir cmake-build & cd cmake-build
 \> cmake -G "NMake Makefiles" ..
@@ -39,7 +39,7 @@ $ ./bin/chaos.test
 # Run unittests on Windows
 \> .\bin\chaos.test.exe
 
-# Building Chaos using VS2017 solution
+# Building Chaos using VS2019 solution
 \> mkdir cmake-build & cd cmake-build
 \> cmake .. # for x86
 \> cmake -A x64 .. # for x64

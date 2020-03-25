@@ -73,36 +73,6 @@ void ThreadPool::stop(void) {
     thread->join();
 }
 
-void ThreadPool::run(const TaskFunction& fn) {
-  if (threads_.empty()) {
-    fn();
-  }
-  else {
-    std::unique_lock<std::mutex> guard(mtx_);
-    while (is_full())
-      non_full_.wait(guard);
-    CHAOS_CHECK(!is_full(), "ThreadPool::run(&) - tasks should not be full");
-
-    tasks_.push_back(fn);
-    non_empty_.notify_one();
-  }
-}
-
-void ThreadPool::run(TaskFunction&& fn) {
-  if (threads_.empty()) {
-    fn();
-  }
-  else {
-    std::unique_lock<std::mutex> guard(mtx_);
-    while (is_full())
-      non_full_.wait(guard);
-    CHAOS_CHECK(!is_full(), "ThreadPool::run(&&) - tasks should not be full");
-
-    tasks_.push_back(std::move(fn));
-    non_empty_.notify_one();
-  }
-}
-
 bool ThreadPool::is_full(void) const {
   return tasks_capacity_ > 0 && tasks_.size() >= tasks_capacity_;
 }

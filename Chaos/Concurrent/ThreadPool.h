@@ -27,6 +27,7 @@
 #pragma once
 
 #include <functional>
+#include <future>
 #include <memory>
 #include <string>
 #include <deque>
@@ -63,8 +64,28 @@ public:
   std::size_t get_tasks_count(void) const;
   void start(int nthreads);
   void stop(void);
-  void run(const TaskFunction& fn);
-  void run(TaskFunction&& fn);
+
+  template <typename Fn, typename... Args> void run(Fn&& fn, Args&&... args) {
+    if (threads_.empty()) {
+      fn(std::forward<Args>(args)...);
+    }
+    else {
+      using ReturnType = typename std::invoke_result<Fn, Args...>::type;
+      auto task = std::make_shared<std::packaged_task<ReturnType ()>>(
+          std::bind(std::forward<Fn>(fn), std::forward<Args>(args)...));
+
+      {
+        ScopedLock<Mutex> guard(mtx_);
+        while (is_full())
+          non_full_.wait();
+        CHAOS_CHECK(!is_full(),
+            "ThreadPool::run(&&) - tasks should not be full");
+
+        tasks_.emplace_back([task] { (*task)(); });
+      }
+      non_empty_.notify_one();
+    }
+  }
 
   void set_thread_initializer(const TaskFunction& fn) {
     initialize_fn_ = fn;

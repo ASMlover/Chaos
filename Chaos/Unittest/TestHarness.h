@@ -26,7 +26,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #pragma once
 
+#include <functional>
 #include <sstream>
+#include <string_view>
 #include <Chaos/IO/ColorIO.h>
 
 namespace Chaos {
@@ -34,18 +36,18 @@ namespace Chaos {
 class FakeTester {};
 
 class Tester {
-  bool ok_;
-  const char* fname_;
-  int lineno_;
+  bool ok_{};
+  const char* fname_{};
+  int lineno_{};
   std::stringstream ss_;
 public:
-  Tester(const char* fname, int lineno)
+  Tester(const char* fname, int lineno) noexcept
     : ok_(true)
     , fname_(fname)
     , lineno_(lineno) {
   }
 
-  ~Tester(void) {
+  ~Tester(void) noexcept {
     if (!ok_) {
       ColorIO::fprintf(stderr, ColorIO::ColorType::COLORTYPE_FG_RED,
           "%s:%d - %s\n", fname_, lineno_, ss_.str().c_str());
@@ -95,8 +97,9 @@ public:
 #define CHAOS_CHECK_LE(a, b)  Chaos::Tester(__FILE__, __LINE__).is_le((a), (b))
 #define CHAOS_CHECK_LT(a, b)  Chaos::Tester(__FILE__, __LINE__).is_lt((a), (b))
 
+using HarnessClosure = std::function<void ()>;
 bool register_testharness(
-    const char* base, const char* name, void (*closure)(void));
+    std::string_view base, std::string_view name, HarnessClosure&& closure);
 int run_all_testharness(void);
 
 }

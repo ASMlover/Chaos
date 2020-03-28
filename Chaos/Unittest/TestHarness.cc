@@ -25,32 +25,24 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <memory>
+#include <tuple>
 #include <vector>
 #include <Chaos/Unittest/TestHarness.h>
 
 namespace Chaos {
 
-struct HarnessContext {
-  const char* base;
-  const char* name;
-  void (*closure)(void);
-
-  HarnessContext(const char* b, const char* n, void (*fn)(void))
-    : base(b)
-    , name(n)
-    , closure(fn) {
-  }
-};
+using HarnessContext =
+  std::tuple<std::string_view, std::string_view, HarnessClosure>;
 using HarnessContextVector = std::vector<HarnessContext>;
-HarnessContextVector* g_tests; // must be raw pointer for darwin
-                               // (unique_ptr is invalid)
+HarnessContextVector* g_tests{}; // must be raw pointer for darwin
+                                 // (unique_ptr is invalid)
 
 bool register_testharness(
-    const char* base, const char* name, void (*closure)(void)) {
+    std::string_view base, std::string_view name, HarnessClosure&& closure) {
   if (nullptr == g_tests)
     g_tests = new HarnessContextVector;
 
-  g_tests->push_back(HarnessContext(base, name, closure));
+  g_tests->push_back(std::make_tuple(base, name, std::move(closure)));
   return true;
 }
 
@@ -62,12 +54,14 @@ int run_all_testharness(void) {
     total_tests = static_cast<int>(g_tests->size());
 
     for (auto& hc : *g_tests) {
-      hc.closure();
+      auto [_, hc_name, hc_closure] = hc;
+
+      hc_closure();
       ++passed_tests;
       ColorIO::fprintf(stdout,
           ColorIO::ColorType::COLORTYPE_FG_GREEN,
           "********** [%s] test harness PASSED (%d/%d) **********\n",
-          hc.name,
+          hc_name.data(),
           passed_tests,
           total_tests);
     }

@@ -41,6 +41,10 @@ set(CHAOS_MINOR_VERSION "1")
 set(CHAOS_PATCH_VERSION "0")
 set(CHAOS_VERSION_STRING "${CHAOS_MAJOR_VERSION}.${CHAOS_MINOR_VERSION}.${CHAOS_PATCH_VERSION}")
 
+# include necessary submodules
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake")
+include(Common)
+
 # compile in release with debug info mode by default
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "choose build type [Debug|Release|RelWithDebInfo|MinSizeRel]" FORCE)
@@ -102,21 +106,6 @@ else()
 endif()
 string(TOUPPER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
 message(STATUS "`${PROJECT_NAME}` CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_${BUILD_TYPE}}")
-
-macro(source_group_by_dir source_files)
-  # only call for MSVC
-  set(current_dir ${CMAKE_CURRENT_SOURCE_DIR})
-  foreach(fname ${${source_files}})
-    string(REGEX REPLACE ${current_dir}/\(.*\) \\1 fpath ${fname})
-    string(REGEX REPLACE "\(.*\)/.*" \\1 group_name ${fpath})
-    string(COMPARE EQUAL ${fpath} ${group_name} nogroup)
-    string(REPLACE "/" "\\" group_name ${group_name})
-    if (nogroup)
-      set(group_name "\\")
-    endif()
-    source_group(${group_name} FILES ${fname})
-  endforeach()
-endmacro()
 
 include_directories(${PROJECT_SOURCE_DIR})
 add_subdirectory(Chaos)

@@ -66,7 +66,7 @@ namespace FileUtil {
     int err = errno_;
     if (fd_ >= 0) {
       content->clear();
-      if (filesz > 0) {
+      if (filesz != nullptr) {
         Chaos::io::_Stat_t statbuf;
         if (0 == Chaos::io::kern_fstat(fd_, &statbuf)) {
           if (Chaos::io::kern_stat_isreg(statbuf.st_mode)) {

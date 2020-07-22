@@ -47,14 +47,6 @@
 #if defined(_MSC_VER)
 # define CHAOS_CC_VER         _MSC_VER
 # define CHAOS_CC_VER_LIMIT   1910
-#elif defined(__GNUC__)
-# define CHAOS_CC_VER         \
-  (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
-# if defined(CHAOS_DARWIN)
-#   define CHAOS_CC_VER_LIMIT 50000
-# else
-#   define CHAOS_CC_VER_LIMIT 70100
-# endif
 #elif defined(__clang__)
 # define CHAOS_CC_VER         \
   (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
@@ -62,6 +54,14 @@
 #   define CHAOS_CC_VER_LIMIT 90000
 # else
 #   define CHAOS_CC_VER_LIMIT 50000
+# endif
+#elif defined(__GNUC__)
+# define CHAOS_CC_VER         \
+  (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+# if defined(CHAOS_DARWIN)
+#   define CHAOS_CC_VER_LIMIT 50000
+# else
+#   define CHAOS_CC_VER_LIMIT 70100
 # endif
 #else
 # error "Unknown Compiler."

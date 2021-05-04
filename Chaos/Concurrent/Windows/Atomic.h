@@ -147,34 +147,35 @@ namespace Unexposed {
 template <typename T>
 class Atomic final
   : public Unexposed::ActomicImpl<sizeof(T)> , private UnCopyable {
-  T value_{};
+  using AtomicBase = Unexposed::ActomicImpl<sizeof(T)>;
 
+  T value_{};
   static_assert(
       sizeof(T) == 1 || sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8,
       "Chaos::Atomic value type's size must be `1`, `2`, `4` or `8`");
 public:
   T get(void) {
-    return static_cast<T>(get_impl(&value_));
+    return static_cast<T>(AtomicBase::get_impl(&value_));
   }
 
   T set(T desired) {
-    return static_cast<T>(set_impl(&value_, desired));
+    return static_cast<T>(AtomicBase::set_impl(&value_, desired));
   }
 
   T fetch_add(T arg) {
-    return static_cast<T>(fetch_add_impl(&value_, arg));
+    return static_cast<T>(AtomicBase::fetch_add_impl(&value_, arg));
   }
 
   T fetch_sub(T arg) {
-    return static_cast<T>(fetch_sub_impl(&value_, arg));
+    return static_cast<T>(AtomicBase::fetch_sub_impl(&value_, arg));
   }
 
   T operator++(void) {
-    return static_cast<T>(increment_impl(&value_));
+    return static_cast<T>(AtomicBase::increment_impl(&value_));
   }
 
   T operator--(void) {
-    return static_cast<T>(decrement_impl(&value_));
+    return static_cast<T>(AtomicBase::decrement_impl(&value_));
   }
 
   T operator++(int) {

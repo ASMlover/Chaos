@@ -139,7 +139,8 @@ int vfprintf(std::FILE* stream,
   return vfprintf_impl(stream, color, format, ap);
 }
 
-std::ostream& set_colorful(std::ostream& stream, ColorType color) noexcept {
+static inline std::ostream& set_colorful(
+    std::ostream& stream, ColorType fcolor, ColorType bcolor) noexcept {
   static WORD wDefaultAttributes = 0;
 
   HANDLE hTerminal = INVALID_HANDLE_VALUE;
@@ -156,25 +157,42 @@ std::ostream& set_colorful(std::ostream& stream, ColorType color) noexcept {
   }
 
   WORD wAttributes;
-  if (color == ColorType::COLORTYPE_RESET)
+  if (fcolor == ColorType::COLORTYPE_RESET && bcolor == ColorType::COLORTYPE_RESET) {
     wAttributes = wDefaultAttributes;
-  else
-    wAttributes = windows_color(color);
+  }
+  else {
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    if (!::GetConsoleScreenBufferInfo(hTerminal, &info))
+      return stream;
+
+    wAttributes = info.wAttributes;
+    if (fcolor != ColorType::COLORTYPE_RESET) {
+      wAttributes &= ~(info.wAttributes & 0x0F);
+      wAttributes |= windows_color(fcolor);
+    }
+    if (bcolor != ColorType::COLORTYPE_RESET) {
+      wAttributes &= ~(info.wAttributes & 0xF0);
+      wAttributes |= windows_color(bcolor);
+    }
+  }
 
   {
     ScopedLock<Mutex> guard(g_color_mutex);
     SetConsoleTextAttribute(hTerminal, wAttributes);
   }
-
   return stream;
 }
 
+std::ostream& set_colorful(std::ostream& stream, ColorType color) noexcept {
+  return set_colorful(stream, color, ColorType::COLORTYPE_RESET);
+}
+
 std::ostream& set_foreground_colorful(std::ostream& stream, ColorType color) noexcept {
-  return set_colorful(stream, color);
+  return set_colorful(stream, color, ColorType::COLORTYPE_RESET);
 }
 
 std::ostream& set_background_colorful(std::ostream& stream, ColorType color) noexcept {
-  return set_colorful(stream, color);
+  return set_colorful(stream, ColorType::COLORTYPE_RESET, color);
 }
 
 }

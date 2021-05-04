@@ -24,6 +24,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+#include <iostream>
 #include <Chaos/IO/ColorIO.h>
 #include <Chaos/Unittest/TestHarness.h>
 
@@ -59,6 +60,13 @@ CHAOS_TEST(ColorIO, Chaos::FakeTester) {
       "Chaos::ColorIO unittest - `fprintf(" #fp ")` {%s : %s}",\
       cc::color_as_string((fc)), cc::color_as_string((bc)));\
   std::printf("\n")
+
+#define CLROF(c)\
+  std::cout << cc::Foreground::c << "Chaos::ColorIO::Foreground unittest - `" #c "`"\
+    << cc::reset << std::endl
+#define CLROB(c)\
+  std::cout << cc::Background::c << "Chaos::ColorIO::Background unittest - `" #c "`"\
+    << cc::reset << std::endl
 
   // unittest for single color
   auto color_count = static_cast<int>(cc::ColorType::COLORTYPE_COUNTER);
@@ -96,6 +104,42 @@ CHAOS_TEST(ColorIO, Chaos::FakeTester) {
     }
   }
 
+  CLROF(black);
+  CLROF(red);
+  CLROF(green);
+  CLROF(yellow);
+  CLROF(blue);
+  CLROF(magenta);
+  CLROF(cyan);
+  CLROF(white);
+  CLROF(gray);
+  CLROF(lightred);
+  CLROF(lightgreen);
+  CLROF(lightyellow);
+  CLROF(lightblue);
+  CLROF(lightmagenta);
+  CLROF(lightcyan);
+  CLROF(lightwhite);
+
+  CLROB(black);
+  CLROB(red);
+  CLROB(green);
+  CLROB(yellow);
+  CLROB(blue);
+  CLROB(magenta);
+  CLROB(cyan);
+  CLROB(white);
+  CLROB(gray);
+  CLROB(lightred);
+  CLROB(lightgreen);
+  CLROB(lightyellow);
+  CLROB(lightblue);
+  CLROB(lightmagenta);
+  CLROB(lightcyan);
+  CLROB(lightwhite);
+
+#undef CLROB
+#undef CLROF
 #undef CLRP
 #undef CLRP2
 #undef CLRP3

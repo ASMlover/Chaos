@@ -69,7 +69,7 @@ int run_all_testharness(void) {
     delete g_tests;
   }
   ColorIO::fprintf(stdout,
-      ColorIO::ColorType::COLORTYPE_FG_GREEN,
+      ColorIO::ColorType::COLORTYPE_FG_LIGHTGREEN,
       "========== PASSED (%d/%d) test harness ==========\n",
       passed_tests,
       total_tests);

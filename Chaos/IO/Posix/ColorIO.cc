@@ -37,6 +37,8 @@ static const char* posix_color(ColorType color) {
   case ColorType::COLORTYPE_INVALID:
     __chaos_throw_exception(std::logic_error("invalid color type"));
     break;
+  case ColorType::COLORTYPE_RESET:
+    return "\033[00m";
   case ColorType::COLORTYPE_FG_BLACK:
     return "\033[30m";
   case ColorType::COLORTYPE_FG_RED:
@@ -104,7 +106,7 @@ static const char* posix_color(ColorType color) {
   case ColorType::COLORTYPE_COUNTER:
     break;
   }
-  return "\033[0m";
+  return "\033[00m";
 }
 
 static int vfprintf_impl(std::FILE* stream,
@@ -112,7 +114,7 @@ static int vfprintf_impl(std::FILE* stream,
   ScopedLock<Mutex> guard(g_color_mutex);
   std::fprintf(stream, "%s", color);
   auto n = std::vfprintf(stream, format, ap);
-  std::fprintf(stream, "\033[0m");
+  std::fprintf(stream, "\033[00m");
   return n;
 }
 
@@ -127,6 +129,19 @@ int vfprintf(std::FILE* stream,
   std::snprintf(color,
       sizeof(color), "%s%s", posix_color(fcolor), posix_color(bcolor));
   return vfprintf_impl(stream, color, format, ap);
+}
+
+std::ostream& set_colorful(std::ostream& stream, ColorType color) noexcept {
+  ScopedLock<Mutex> guard(g_color_mutex);
+  return stream << posix_color(color);
+}
+
+std::ostream& set_foreground_colorful(std::ostream& stream, ColorType color) noexcept {
+  return set_colorful(stream, color);
+}
+
+std::ostream& set_background_colorful(std::ostream& stream, ColorType color) noexcept {
+  return set_colorful(stream, color);
 }
 
 }

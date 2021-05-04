@@ -30,6 +30,7 @@ namespace Chaos::ColorIO {
 
 const char* color_as_string(ColorType color) {
   switch (color) {
+  case ColorType::COLORTYPE_RESET: return "COLORTYPE_RESET";
   case ColorType::COLORTYPE_FG_BLACK: return "FOREGROUND_BLACK";
   case ColorType::COLORTYPE_FG_RED: return "FOREGROUND_RED";
   case ColorType::COLORTYPE_FG_GREEN: return "FOREGROUND_GREEN";

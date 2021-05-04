@@ -139,4 +139,42 @@ int vfprintf(std::FILE* stream,
   return vfprintf_impl(stream, color, format, ap);
 }
 
+std::ostream& set_colorful(std::ostream& stream, ColorType color) noexcept {
+  static WORD wDefaultAttributes = 0;
+
+  HANDLE hTerminal = INVALID_HANDLE_VALUE;
+  if (&stream == &std::cout)
+    hTerminal = ::GetStdHandle(STD_OUTPUT_HANDLE);
+  else if (&stream == &std::cerr)
+    hTerminal = ::GetStdHandle(STD_ERROR_HANDLE);
+
+  if (!wDefaultAttributes) {
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    if (!::GetConsoleScreenBufferInfo(hTerminal, &info))
+      return stream;
+    wDefaultAttributes = info.wAttributes;
+  }
+
+  WORD wAttributes;
+  if (color == ColorType::COLORTYPE_RESET)
+    wAttributes = wDefaultAttributes;
+  else
+    wAttributes = windows_color(color);
+
+  {
+    ScopedLock<Mutex> guard(g_color_mutex);
+    SetConsoleTextAttribute(hTerminal, wAttributes);
+  }
+
+  return stream;
+}
+
+std::ostream& set_foreground_colorful(std::ostream& stream, ColorType color) noexcept {
+  return set_colorful(stream, color);
+}
+
+std::ostream& set_background_colorful(std::ostream& stream, ColorType color) noexcept {
+  return set_colorful(stream, color);
+}
+
 }

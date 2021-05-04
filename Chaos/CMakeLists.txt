@@ -1,5 +1,13 @@
 # Copyright (c) 2017 ASMlover. All rights reserved.
 #
+#  ____     __
+# /\  _`\  /\ \
+# \ \ \/\_\\ \ \___      __      ___     ____
+#  \ \ \/_/_\ \  _ `\  /'__`\   / __`\  /',__\
+#   \ \ \L\ \\ \ \ \ \/\ \L\.\_/\ \L\ \/\__, `\
+#    \ \____/ \ \_\ \_\ \__/.\_\ \____/\/\____/
+#     \/___/   \/_/\/_/\/__/\/_/\/___/  \/___/
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -97,8 +105,8 @@ else()
     set(CHAOS_SOURCES ${CHAOS_SOURCES} ${CHAOS_DARWIN_SOURCES})
   endif()
 endif()
-message(STATUS "`${PROJECT_NAME}` CHAOS_HEADERS: ${CHAOS_HEADERS}")
-message(STATUS "`${PROJECT_NAME}` CHAOS_SOURCES: ${CHAOS_SOURCES}")
+scanning_project("${CHAOSLIB_NAME} Headers" CHAOS_HEADERS)
+scanning_project("${CHAOSLIB_NAME} Sources" CHAOS_SOURCES)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   set(CHAOS_ALL_FILES ${CHAOS_HEADERS} ${CHAOS_SOURCES})

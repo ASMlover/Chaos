@@ -1,5 +1,13 @@
 # Copyright (c) 2020 ASMlover. All rights reserved.
 #
+#  ____     __
+# /\  _`\  /\ \
+# \ \ \/\_\\ \ \___      __      ___     ____
+#  \ \ \/_/_\ \  _ `\  /'__`\   / __`\  /',__\
+#   \ \ \L\ \\ \ \ \ \/\ \L\.\_/\ \L\ \/\__, `\
+#    \ \____/ \ \_\ \_\ \__/.\_\ \____/\/\____/
+#     \/___/   \/_/\/_/\/__/\/_/\/___/  \/___/
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -39,3 +47,11 @@ macro(source_group_by_dir source_files)
     source_group(${group_name} FILES ${fname})
   endforeach()
 endmacro()
+
+function(scanning_project compiling_name source_files)
+  message(STATUS "Scanning `${compiling_name}`:")
+  foreach(_SCANNING_REALPATH IN LISTS ${source_files})
+    file(RELATIVE_PATH _SCANNING_FILE ${CMAKE_CURRENT_SOURCE_DIR} ${_SCANNING_REALPATH})
+    message(STATUS "Scanning CXX File `${compiling_name}`: ${_SCANNING_FILE}")
+  endforeach()
+endfunction()

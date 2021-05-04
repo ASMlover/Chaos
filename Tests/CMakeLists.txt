@@ -1,5 +1,13 @@
 # Copyright (c) 2016 ASMlover. All rights reserved.
 #
+#  ____     __
+# /\  _`\  /\ \
+# \ \ \/\_\\ \ \___      __      ___     ____
+#  \ \ \/_/_\ \  _ `\  /'__`\   / __`\  /',__\
+#   \ \ \L\ \\ \ \ \ \/\ \L\.\_/\ \L\ \/\__, `\
+#    \ \____/ \ \_\ \_\ \__/.\_\ \____/\/\____/
+#     \/___/   \/_/\/_/\/__/\/_/\/___/  \/___/
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -27,14 +35,13 @@
 
 file(GLOB_RECURSE CHAOS_TEST_HEADERS *.h)
 file(GLOB_RECURSE CHAOS_TEST_SOURCES *.cc)
-message(STATUS "`${PROJECT_NAME}` Tests CHAOS_TEST_HEADERS: ${CHAOS_TEST_HEADERS}")
-message(STATUS "`${PROJECT_NAME}` Tests CHAOS_TEST_SOURCES: ${CHAOS_TEST_SOURCES}")
+set(CHAOS_TEST_ALL_FILES ${CHAOS_TEST_HEADERS} ${CHAOS_TEST_SOURCES})
+scanning_project(chaos.test CHAOS_TEST_ALL_FILES)
 
 if (CMAKE_SYSTEM_NAME MATCHES "Linux")
   set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 endif()
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-  set(CHAOS_TEST_ALL_FILES ${CHAOS_TEST_HEADERS} ${CHAOS_TEST_SOURCES})
   source_group_by_dir(CHAOS_TEST_ALL_FILES)
   add_executable(chaos.test ${CHAOS_TEST_ALL_FILES})
 else()

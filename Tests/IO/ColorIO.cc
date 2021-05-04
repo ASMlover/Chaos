@@ -67,6 +67,58 @@ CHAOS_TEST(ColorIO, Chaos::FakeTester) {
 #define CLROB(c)\
   std::cout << cc::Background::c << "Chaos::ColorIO::Background unittest - `" #c "`"\
     << cc::reset << std::endl
+#define CLRFB(c)\
+  std::cout << cc::Foreground::c << cc::Background::black\
+    << "Chaos::ColorIO::Foreground unittest - with Background::black `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::red\
+    << "Chaos::ColorIO::Foreground unittest - with Background::red `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::green\
+    << "Chaos::ColorIO::Foreground unittest - with Background::green `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::yellow\
+    << "Chaos::ColorIO::Foreground unittest - with Background::yellow `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::blue\
+    << "Chaos::ColorIO::Foreground unittest - with Background::blue `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::blue\
+    << "Chaos::ColorIO::Foreground unittest - with Background::blue `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::magenta\
+    << "Chaos::ColorIO::Foreground unittest - with Background::magenta `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::cyan\
+    << "Chaos::ColorIO::Foreground unittest - with Background::cyan `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::white\
+    << "Chaos::ColorIO::Foreground unittest - with Background::white `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::gray\
+    << "Chaos::ColorIO::Foreground unittest - with Background::gray `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::lightred\
+    << "Chaos::ColorIO::Foreground unittest - with Background::lightred `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::lightgreen\
+    << "Chaos::ColorIO::Foreground unittest - with Background::lightgreen `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::lightyellow\
+    << "Chaos::ColorIO::Foreground unittest - with Background::lightyellow `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::lightblue\
+    << "Chaos::ColorIO::Foreground unittest - with Background::lightblue `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::lightmagenta\
+    << "Chaos::ColorIO::Foreground unittest - with Background::lightmagenta `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::lightcyan\
+    << "Chaos::ColorIO::Foreground unittest - with Background::lightcyan `" #c "`"\
+    << cc::reset << std::endl;\
+  std::cout << cc::Foreground::c << cc::Background::lightwhite\
+    << "Chaos::ColorIO::Foreground unittest - with Background::lightwhite `" #c "`"\
+    << cc::reset << std::endl
 
   // unittest for single color
   auto color_count = static_cast<int>(cc::ColorType::COLORTYPE_COUNTER);
@@ -104,6 +156,7 @@ CHAOS_TEST(ColorIO, Chaos::FakeTester) {
     }
   }
 
+  // unittest for foreground color stream
   CLROF(black);
   CLROF(red);
   CLROF(green);
@@ -121,6 +174,7 @@ CHAOS_TEST(ColorIO, Chaos::FakeTester) {
   CLROF(lightcyan);
   CLROF(lightwhite);
 
+  // unittest for background color stream
   CLROB(black);
   CLROB(red);
   CLROB(green);
@@ -137,6 +191,24 @@ CHAOS_TEST(ColorIO, Chaos::FakeTester) {
   CLROB(lightmagenta);
   CLROB(lightcyan);
   CLROB(lightwhite);
+
+  // unittest for color with foreground-background
+  CLRFB(black);
+  CLRFB(red);
+  CLRFB(green);
+  CLRFB(yellow);
+  CLRFB(blue);
+  CLRFB(magenta);
+  CLRFB(cyan);
+  CLRFB(white);
+  CLRFB(gray);
+  CLRFB(lightred);
+  CLRFB(lightgreen);
+  CLRFB(lightyellow);
+  CLRFB(lightblue);
+  CLRFB(lightmagenta);
+  CLRFB(lightcyan);
+  CLRFB(lightwhite);
 
 #undef CLROB
 #undef CLROF

@@ -28,7 +28,7 @@
 
 #include <cstdint>
 #include <memory>
-#include <Chaos/Base/Copyable.h>
+#include <Chaos/Base/Copyable.hh>
 #include <Chaos/Base/UnCopyable.h>
 
 #if !defined(CHAOS_UNUSED)

@@ -30,7 +30,7 @@
 #include <ctime>
 #include <string>
 #include <utility>
-#include <Chaos/Base/Copyable.h>
+#include <Chaos/Base/Copyable.hh>
 
 namespace Chaos {
 

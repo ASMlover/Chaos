@@ -28,7 +28,7 @@
 
 #include <ctime>
 #include <string>
-#include <Chaos/Base/Copyable.h>
+#include <Chaos/Base/Copyable.hh>
 
 namespace Chaos {
 

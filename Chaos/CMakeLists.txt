@@ -38,6 +38,7 @@ set(CHAOSLIB_NAME "chaos")
 file(GLOB CHAOS_HEADERS
   *.h
   Base/*.h
+  Base/*.hh
   Codecs/*.h
   Concurrent/*.h
   Concurrent/Cpp11/*.h

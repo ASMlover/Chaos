@@ -27,7 +27,7 @@
 #pragma once
 
 #include <Windows.h>
-#include <Chaos/Base/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Concurrent/Mutex.h>
 
 namespace Chaos {

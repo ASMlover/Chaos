@@ -25,7 +25,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
-#include <Chaos/Base/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Utility/Memory.h>
 #include <Chaos/Unittest/TestHarness.h>
 

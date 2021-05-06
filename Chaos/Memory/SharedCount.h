@@ -29,7 +29,7 @@
 #include <cstdint>
 #include <atomic>
 #include <algorithm>
-#include <Chaos/Base/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.hh>
 
 namespace Chaos {
 

@@ -27,7 +27,7 @@
 #include <iostream>
 #include <string>
 #include <thread>
-#include <Chaos/Base/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Concurrent/CurrentThread.h>
 #include <Chaos/Unittest/TestHarness.h>
 #include <Chaos/Utility/Singleton.h>

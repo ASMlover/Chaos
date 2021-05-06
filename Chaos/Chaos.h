@@ -35,7 +35,7 @@
 #pragma once
 
 #include <Chaos/Base/Copyable.hh>
-#include <Chaos/Base/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Base/Platform.h>
 #include <Chaos/Base/Types.h>
 #include <Chaos/Codecs/Base16.h>

@@ -27,7 +27,7 @@
 #pragma once
 
 #include <pthread.h>
-#include <Chaos/Base/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Concurrent/Mutex.h>
 #include <Chaos/Kern/KernCommon.h>
 

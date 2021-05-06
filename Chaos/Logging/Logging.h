@@ -27,7 +27,7 @@
 #pragma once
 
 #include <memory>
-#include <Chaos/Base/UnCopyable.h>
+#include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Datetime/Timestamp.h>
 #include <Chaos/Logging/LogStream.h>
 

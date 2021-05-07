@@ -29,7 +29,7 @@
 #include <atomic>
 #include <utility>
 #include <Chaos/Base/Platform.hh>
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <Chaos/Except/SystemError.h>
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Concurrent/CurrentThread.h>

@@ -26,7 +26,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #pragma once
 
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <Chaos/Container/CircularBuffer.h>
 #include <Chaos/Concurrent/Mutex.h>
 #include <Chaos/Concurrent/Condition.h>

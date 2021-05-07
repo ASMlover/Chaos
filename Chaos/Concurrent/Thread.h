@@ -30,7 +30,7 @@
 #include <functional>
 #include <memory>
 #include <string>
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <Chaos/Kern/KernCommon.h>
 
 namespace Chaos {

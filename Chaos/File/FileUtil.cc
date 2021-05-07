@@ -28,7 +28,7 @@
 #include <cstdio>
 #include <string>
 #include <Chaos/Base/Platform.hh>
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <Chaos/Logging/Logging.h>
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/File/FileUtil.h>

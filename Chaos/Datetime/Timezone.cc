@@ -29,7 +29,7 @@
 #include <algorithm>
 #include <vector>
 #include <Chaos/Base/Platform.hh>
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <Chaos/Except/SystemError.h>
 #include <Chaos/IO/ColorIO.h>
 #include <Chaos/Kern/KernCommon.h>

@@ -27,7 +27,7 @@
 #pragma once
 
 #include <Windows.h>
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <iostream>
 
 namespace Chaos {

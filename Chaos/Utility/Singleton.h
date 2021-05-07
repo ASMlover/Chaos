@@ -31,7 +31,7 @@
 #if defined(CHAOS_IMPL_WITH_STD)
 # include <mutex>
 #endif
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <Chaos/Kern/KernCommon.h>
 
 namespace Chaos {

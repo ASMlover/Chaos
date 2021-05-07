@@ -31,7 +31,7 @@
 #include <ctime>
 #include <sstream>
 #include <Chaos/Base/Platform.hh>
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Datetime/Timezone.h>
 #include <Chaos/Concurrent/CurrentThread.h>

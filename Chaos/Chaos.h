@@ -37,7 +37,7 @@
 #include <Chaos/Base/Copyable.hh>
 #include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Base/Platform.hh>
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <Chaos/Codecs/Base16.h>
 #include <Chaos/Codecs/Base32.h>
 #include <Chaos/Codecs/Base64.h>

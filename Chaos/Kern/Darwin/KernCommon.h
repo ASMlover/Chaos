@@ -33,7 +33,7 @@
 #include <unistd.h>
 #include <cstdio>
 #include <ctime>
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 
 namespace Chaos {
 

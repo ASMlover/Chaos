@@ -32,7 +32,7 @@
 #include <string>
 #include <deque>
 #include <vector>
-#include <Chaos/Base/Types.h>
+#include <Chaos/Base/Types.hh>
 #include <Chaos/Concurrent/Mutex.h>
 #include <Chaos/Concurrent/Condition.h>
 

@@ -25,7 +25,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
-#include <Chaos/Codecs/Base16.h>
+#include <Chaos/Codecs/Base16.hh>
 #include <Chaos/Unittest/TestHarness.h>
 
 CHAOS_TEST(Base16, Chaos::FakeTester) {

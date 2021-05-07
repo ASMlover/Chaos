@@ -27,7 +27,7 @@
 #include <cerrno>
 #include <cstdio>
 #include <string>
-#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Platform.hh>
 #include <Chaos/Base/Types.h>
 #include <Chaos/Logging/Logging.h>
 #include <Chaos/Kern/KernCommon.h>

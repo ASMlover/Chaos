@@ -106,7 +106,7 @@ public:
               goto _BailOutOfCoroutine;\
             else case 0:
 
-#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Platform.hh>
 
 #if !defined(chaos_reenter)
 # define chaos_reenter(c) CHAOS_CO_REENTER(c)

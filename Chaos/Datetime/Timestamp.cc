@@ -25,7 +25,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <cinttypes>
-#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Platform.hh>
 #if defined(CHAOS_WINDOWS)
 # include <Windows.h>
 #endif

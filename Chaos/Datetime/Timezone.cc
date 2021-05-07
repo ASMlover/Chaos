@@ -28,7 +28,7 @@
 #include <cstring>
 #include <algorithm>
 #include <vector>
-#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Platform.hh>
 #include <Chaos/Base/Types.h>
 #include <Chaos/Except/SystemError.h>
 #include <Chaos/IO/ColorIO.h>

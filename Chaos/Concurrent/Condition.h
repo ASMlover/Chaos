@@ -26,7 +26,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #pragma once
 
-#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Platform.hh>
 
 #if defined(CHAOS_WINDOWS)
 # include <Chaos/Concurrent/Windows/Condition.h>

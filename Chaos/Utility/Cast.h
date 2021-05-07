@@ -28,7 +28,7 @@
 
 #include <cstddef>
 #include <memory>
-#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Platform.hh>
 #include <Chaos/Utility/Traits.h>
 
 #if defined(CHAOS_ARCH64)

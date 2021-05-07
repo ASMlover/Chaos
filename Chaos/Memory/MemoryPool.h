@@ -27,7 +27,7 @@
 #pragma once
 
 #include <vector>
-#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Platform.hh>
 #include <Chaos/Base/UnCopyable.hh>
 
 namespace Chaos {

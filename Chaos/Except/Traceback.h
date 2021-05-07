@@ -26,7 +26,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #pragma once
 
-#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Platform.hh>
 #if !defined(CHAOS_LINUX)
 # error "Only support for linux"
 #endif

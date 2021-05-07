@@ -27,7 +27,7 @@
 #pragma once
 
 #include <cstdlib>
-#include <Chaos/Base/Platform.h>
+#include <Chaos/Base/Platform.hh>
 #if defined(CHAOS_IMPL_WITH_STD)
 # include <mutex>
 #endif

@@ -39,7 +39,7 @@
 #include <Chaos/Base/Platform.hh>
 #include <Chaos/Base/Types.hh>
 #include <Chaos/Codecs/Base16.hh>
-#include <Chaos/Codecs/Base32.h>
+#include <Chaos/Codecs/Base32.hh>
 #include <Chaos/Codecs/Base64.h>
 #include <Chaos/Codecs/Crc32c.h>
 #include <Chaos/Concurrent/Atomic.h>

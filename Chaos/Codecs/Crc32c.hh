@@ -1,5 +1,13 @@
 // Copyright (c) 2016 ASMlover. All rights reserved.
 //
+//  ____     __
+// /\  _`\  /\ \
+// \ \ \/\_\\ \ \___      __      ___     ____
+//  \ \ \/_/_\ \  _ `\  /'__`\   / __`\  /',__\
+//   \ \ \L\ \\ \ \ \ \/\ \L\.\_/\ \L\ \/\__, `\
+//    \ \____/ \ \_\ \_\ \__/.\_\ \____/\/\____/
+//     \/___/   \/_/\/_/\/__/\/_/\/___/  \/___/
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -24,8 +32,7 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#ifndef CHAOS_CODECS_CRC32C_H
-#define CHAOS_CODECS_CRC32C_H
+#pragma once
 
 #include <cstddef>
 #include <cstdint>
@@ -53,5 +60,3 @@ namespace Crc32c {
 }
 
 }
-
-#endif // CHAOS_CODECS_CRC32C_H

@@ -26,7 +26,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <cstdint>
 #include <cstring>
-#include <Chaos/Codecs/Crc32c.h>
+#include <Chaos/Codecs/Crc32c.hh>
 #include <Chaos/Unittest/TestHarness.h>
 
 CHAOS_TEST(Crc32c, Chaos::FakeTester) {

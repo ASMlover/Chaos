@@ -41,7 +41,7 @@
 #include <Chaos/Codecs/Base16.hh>
 #include <Chaos/Codecs/Base32.hh>
 #include <Chaos/Codecs/Base64.hh>
-#include <Chaos/Codecs/Crc32c.h>
+#include <Chaos/Codecs/Crc32c.hh>
 #include <Chaos/Concurrent/Atomic.h>
 #include <Chaos/Concurrent/BlockingQueue.h>
 #include <Chaos/Concurrent/BoundedBlockingQueue.h>

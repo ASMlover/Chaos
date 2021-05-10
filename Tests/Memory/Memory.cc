@@ -26,7 +26,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <string>
-#include <Chaos/Codecs/Base64.h>
+#include <Chaos/Codecs/Base64.hh>
 #include <Chaos/Datetime/Timestamp.h>
 #include <Chaos/Memory/Memory.h>
 #include <Chaos/Unittest/TestHarness.h>

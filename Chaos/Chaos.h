@@ -43,7 +43,7 @@
 #include <Chaos/Codecs/Base64.hh>
 #include <Chaos/Codecs/Crc32c.hh>
 #include <Chaos/Concurrent/Atomic.hh>
-#include <Chaos/Concurrent/BlockingQueue.h>
+#include <Chaos/Concurrent/BlockingQueue.hh>
 #include <Chaos/Concurrent/BoundedBlockingQueue.h>
 #include <Chaos/Concurrent/Condition.h>
 #include <Chaos/Concurrent/Coroutine.h>

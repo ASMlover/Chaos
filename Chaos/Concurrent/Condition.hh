@@ -1,5 +1,13 @@
 // Copyright (c) 2016 ASMlover. All rights reserved.
 //
+//  ____     __
+// /\  _`\  /\ \
+// \ \ \/\_\\ \ \___      __      ___     ____
+//  \ \ \/_/_\ \  _ `\  /'__`\   / __`\  /',__\
+//   \ \ \L\ \\ \ \ \ \/\ \L\.\_/\ \L\ \/\__, `\
+//    \ \____/ \ \_\ \_\ \__/.\_\ \____/\/\____/
+//     \/___/   \/_/\/_/\/__/\/_/\/___/  \/___/
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -26,41 +34,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #pragma once
 
-#include <Windows.h>
-#include <Chaos/Base/UnCopyable.hh>
-#include <Chaos/Concurrent/Mutex.h>
+#include <Chaos/Base/Platform.hh>
 
-namespace Chaos {
-
-class Condition final : private UnCopyable {
-  Mutex& mtx_;
-  CONDITION_VARIABLE cond_;
-public:
-  explicit Condition(Mutex& mtx)
-    : mtx_(mtx) {
-    InitializeConditionVariable(&cond_);
-  }
-
-  void wait(void) {
-    UnassignScopedMutex guard(mtx_);
-    Mutex::UnassignOwnerGuard owner(mtx_);
-    SleepConditionVariableCS(&cond_, mtx_.get_mutex(), INFINITE);
-  }
-
-  bool wait_for(int seconds) {
-    UnassignScopedMutex guard(mtx_);
-    Mutex::UnassignOwnerGuard owner(mtx_);
-    return TRUE == SleepConditionVariableCS(
-        &cond_, mtx_.get_mutex(), static_cast<DWORD>(seconds * 1000));
-  }
-
-  void notify_one(void) {
-    WakeConditionVariable(&cond_);
-  }
-
-  void notify_all(void) {
-    WakeAllConditionVariable(&cond_);
-  }
-};
-
-}
+#if defined(CHAOS_WINDOWS)
+# include <Chaos/Concurrent/Windows/Condition.hh>
+#else
+# include <Chaos/Concurrent/Posix/Condition.hh>
+#endif

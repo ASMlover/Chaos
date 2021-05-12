@@ -45,7 +45,7 @@
 #include <Chaos/Concurrent/Atomic.hh>
 #include <Chaos/Concurrent/BlockingQueue.hh>
 #include <Chaos/Concurrent/BoundedBlockingQueue.hh>
-#include <Chaos/Concurrent/Condition.h>
+#include <Chaos/Concurrent/Condition.hh>
 #include <Chaos/Concurrent/Coroutine.h>
 #include <Chaos/Concurrent/CountdownLatch.h>
 #include <Chaos/Concurrent/CurrentThread.h>

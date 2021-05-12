@@ -44,7 +44,7 @@
 #include <Chaos/Codecs/Crc32c.hh>
 #include <Chaos/Concurrent/Atomic.hh>
 #include <Chaos/Concurrent/BlockingQueue.hh>
-#include <Chaos/Concurrent/BoundedBlockingQueue.h>
+#include <Chaos/Concurrent/BoundedBlockingQueue.hh>
 #include <Chaos/Concurrent/Condition.h>
 #include <Chaos/Concurrent/Coroutine.h>
 #include <Chaos/Concurrent/CountdownLatch.h>

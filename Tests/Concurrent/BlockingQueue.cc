@@ -36,7 +36,7 @@
 #include <thread>
 #include <vector>
 #include <Chaos/Concurrent/BlockingQueue.hh>
-#include <Chaos/Concurrent/CountdownLatch.h>
+#include <Chaos/Concurrent/CountdownLatch.hh>
 #include <Chaos/Logging/Logging.h>
 #include <Chaos/Unittest/TestHarness.h>
 

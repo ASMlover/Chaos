@@ -47,8 +47,8 @@
 #include <Chaos/Concurrent/BoundedBlockingQueue.hh>
 #include <Chaos/Concurrent/Condition.hh>
 #include <Chaos/Concurrent/Coroutine.hh>
-#include <Chaos/Concurrent/CountdownLatch.h>
-#include <Chaos/Concurrent/CurrentThread.h>
+#include <Chaos/Concurrent/CountdownLatch.hh>
+#include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/Mutex.h>
 #include <Chaos/Concurrent/Thread.h>
 #include <Chaos/Concurrent/ThreadLocal.h>

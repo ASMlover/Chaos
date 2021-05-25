@@ -1,5 +1,13 @@
 // Copyright (c) 2017 ASMlover. All rights reserved.
 //
+//  ____     __
+// /\  _`\  /\ \
+// \ \ \/\_\\ \ \___      __      ___     ____
+//  \ \ \/_/_\ \  _ `\  /'__`\   / __`\  /',__\
+//   \ \ \L\ \\ \ \ \ \/\ \L\.\_/\ \L\ \/\__, `\
+//    \ \____/ \ \_\ \_\ \__/.\_\ \____/\/\____/
+//     \/___/   \/_/\/_/\/__/\/_/\/___/  \/___/
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -28,7 +36,7 @@
 #include <Chaos/Base/Types.hh>
 #include <Chaos/Except/Exception.h>
 #include <Chaos/IO/ColorIO.h>
-#include <Chaos/Concurrent/CurrentThread.h>
+#include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/Cpp11/ThreadPool.h>
 
 namespace Chaos::Cpp11 {

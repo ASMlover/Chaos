@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <Chaos/Unittest/TestHarness.h>
 #include <Chaos/Concurrent/ThreadPool.h>
-#include <Chaos/Concurrent/CurrentThread.h>
+#include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/CountdownLatch.hh>
 #include <Chaos/Logging/Logging.h>
 #include <iostream>

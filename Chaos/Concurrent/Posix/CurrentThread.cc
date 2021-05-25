@@ -1,5 +1,13 @@
 // Copyright (c) 2016 ASMlover. All rights reserved.
 //
+//  ____     __
+// /\  _`\  /\ \
+// \ \ \/\_\\ \ \___      __      ___     ____
+//  \ \ \/_/_\ \  _ `\  /'__`\   / __`\  /',__\
+//   \ \ \L\ \\ \ \ \ \/\ \L\.\_/\ \L\ \/\__, `\
+//    \ \____/ \ \_\ \_\ \__/.\_\ \____/\/\____/
+//     \/___/   \/_/\/_/\/__/\/_/\/___/  \/___/
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -32,8 +40,8 @@
 #endif
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Datetime/Timestamp.h>
-#include <Chaos/Concurrent/Unexposed/CurrentThread.h>
-#include <Chaos/Concurrent/CurrentThread.h>
+#include <Chaos/Concurrent/Unexposed/CurrentThread.hh>
+#include <Chaos/Concurrent/CurrentThread.hh>
 
 namespace Chaos::CurrentThread {
 

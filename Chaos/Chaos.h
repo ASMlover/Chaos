@@ -52,7 +52,7 @@
 #include <Chaos/Concurrent/Mutex.hh>
 #include <Chaos/Concurrent/Thread.hh>
 #include <Chaos/Concurrent/ThreadLocal.hh>
-#include <Chaos/Concurrent/ThreadLocalSingleton.h>
+#include <Chaos/Concurrent/ThreadLocalSingleton.hh>
 #include <Chaos/Concurrent/ThreadPool.h>
 #include <Chaos/Container/CircularBuffer.h>
 #include <Chaos/Container/StringPiece.h>

@@ -36,7 +36,7 @@
 
 #include <Chaos/Base/Types.hh>
 #include <Chaos/Container/CircularBuffer.h>
-#include <Chaos/Concurrent/Mutex.h>
+#include <Chaos/Concurrent/Mutex.hh>
 #include <Chaos/Concurrent/Condition.hh>
 
 namespace Chaos {

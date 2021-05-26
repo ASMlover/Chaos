@@ -36,7 +36,7 @@
 
 #include <Windows.h>
 #include <Chaos/Base/UnCopyable.hh>
-#include <Chaos/Concurrent/Mutex.h>
+#include <Chaos/Concurrent/Mutex.hh>
 
 namespace Chaos {
 

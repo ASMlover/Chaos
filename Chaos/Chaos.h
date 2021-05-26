@@ -49,7 +49,7 @@
 #include <Chaos/Concurrent/Coroutine.hh>
 #include <Chaos/Concurrent/CountdownLatch.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
-#include <Chaos/Concurrent/Mutex.h>
+#include <Chaos/Concurrent/Mutex.hh>
 #include <Chaos/Concurrent/Thread.h>
 #include <Chaos/Concurrent/ThreadLocal.h>
 #include <Chaos/Concurrent/ThreadLocalSingleton.h>

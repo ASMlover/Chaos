@@ -43,9 +43,9 @@
 #include <Chaos/Concurrent/CurrentThread.hh>
 
 #if defined(CHAOS_WINDOWS)
-# include <Chaos/Concurrent/Windows/MutexBase.h>
+# include <Chaos/Concurrent/Windows/MutexBase.hh>
 #else
-# include <Chaos/Concurrent/Posix/MutexBase.h>
+# include <Chaos/Concurrent/Posix/MutexBase.hh>
 #endif
 
 namespace Chaos {

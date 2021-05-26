@@ -41,7 +41,7 @@
 #include <deque>
 #include <vector>
 #include <Chaos/Base/Types.hh>
-#include <Chaos/Concurrent/Mutex.h>
+#include <Chaos/Concurrent/Mutex.hh>
 #include <Chaos/Concurrent/Condition.hh>
 
 namespace Chaos {

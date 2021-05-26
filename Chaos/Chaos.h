@@ -51,7 +51,7 @@
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/Mutex.hh>
 #include <Chaos/Concurrent/Thread.hh>
-#include <Chaos/Concurrent/ThreadLocal.h>
+#include <Chaos/Concurrent/ThreadLocal.hh>
 #include <Chaos/Concurrent/ThreadLocalSingleton.h>
 #include <Chaos/Concurrent/ThreadPool.h>
 #include <Chaos/Container/CircularBuffer.h>

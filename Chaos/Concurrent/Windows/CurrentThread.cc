@@ -39,7 +39,7 @@
 #endif
 #include <type_traits>
 #include <Chaos/Kern/KernCommon.h>
-#include <Chaos/Concurrent/Unexposed/CurrentThread.h>
+#include <Chaos/Concurrent/Unexposed/CurrentThread.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
 
 namespace Chaos::CurrentThread {

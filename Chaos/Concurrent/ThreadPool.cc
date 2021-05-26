@@ -28,7 +28,7 @@
 #include <cstdlib>
 #include <Chaos/Except/Exception.h>
 #include <Chaos/IO/ColorIO.h>
-#include <Chaos/Concurrent/Thread.h>
+#include <Chaos/Concurrent/Thread.hh>
 #include <Chaos/Concurrent/ThreadPool.h>
 
 namespace Chaos {

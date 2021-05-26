@@ -50,7 +50,7 @@
 #include <Chaos/Concurrent/CountdownLatch.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/Mutex.hh>
-#include <Chaos/Concurrent/Thread.h>
+#include <Chaos/Concurrent/Thread.hh>
 #include <Chaos/Concurrent/ThreadLocal.h>
 #include <Chaos/Concurrent/ThreadLocalSingleton.h>
 #include <Chaos/Concurrent/ThreadPool.h>

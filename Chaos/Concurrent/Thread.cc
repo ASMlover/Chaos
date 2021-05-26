@@ -39,7 +39,7 @@
 #include <Chaos/Logging/Logging.h>
 #include <Chaos/Concurrent/Unexposed/CurrentThread.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
-#include <Chaos/Concurrent/Thread.h>
+#include <Chaos/Concurrent/Thread.hh>
 
 namespace Chaos {
 

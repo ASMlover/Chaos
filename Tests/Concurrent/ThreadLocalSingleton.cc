@@ -36,7 +36,7 @@
 #include <string>
 #include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
-#include <Chaos/Concurrent/Thread.h>
+#include <Chaos/Concurrent/Thread.hh>
 #include <Chaos/Concurrent/ThreadLocalSingleton.h>
 #include <Chaos/Unittest/TestHarness.h>
 

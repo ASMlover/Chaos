@@ -33,7 +33,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <Chaos/Unittest/TestHarness.h>
-#include <Chaos/Concurrent/ThreadPool.h>
+#include <Chaos/Concurrent/ThreadPool.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/CountdownLatch.hh>
 #include <Chaos/Logging/Logging.h>

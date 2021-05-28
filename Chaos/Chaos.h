@@ -53,7 +53,7 @@
 #include <Chaos/Concurrent/Thread.hh>
 #include <Chaos/Concurrent/ThreadLocal.hh>
 #include <Chaos/Concurrent/ThreadLocalSingleton.hh>
-#include <Chaos/Concurrent/ThreadPool.h>
+#include <Chaos/Concurrent/ThreadPool.hh>
 #include <Chaos/Container/CircularBuffer.h>
 #include <Chaos/Container/StringPiece.h>
 #include <Chaos/Datetime/Date.h>

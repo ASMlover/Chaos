@@ -57,7 +57,7 @@
 #include <Chaos/Container/CircularBuffer.hh>
 #include <Chaos/Container/StringPiece.hh>
 #include <Chaos/Datetime/Date.hh>
-#include <Chaos/Datetime/Timestamp.h>
+#include <Chaos/Datetime/Timestamp.hh>
 #include <Chaos/Datetime/Timezone.h>
 #include <Chaos/Except/Exception.h>
 #include <Chaos/Except/SystemError.h>

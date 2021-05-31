@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <Chaos/Unittest/TestHarness.h>
 #include <Chaos/Concurrent/CurrentThread.hh>
-#include <Chaos/Datetime/Timestamp.h>
+#include <Chaos/Datetime/Timestamp.hh>
 #include <iostream>
 
 CHAOS_TEST(CurrentThread, Chaos::FakeTester) {

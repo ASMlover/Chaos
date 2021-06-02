@@ -42,7 +42,7 @@
 #include <Chaos/IO/ColorIO.h>
 #include <Chaos/Kern/KernCommon.h>
 #include <Chaos/Datetime/Date.hh>
-#include <Chaos/Datetime/Timezone.h>
+#include <Chaos/Datetime/Timezone.hh>
 
 namespace Chaos {
 

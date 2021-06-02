@@ -41,7 +41,7 @@
 #include <Chaos/Base/Platform.hh>
 #include <Chaos/Base/Types.hh>
 #include <Chaos/Kern/KernCommon.h>
-#include <Chaos/Datetime/Timezone.h>
+#include <Chaos/Datetime/Timezone.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Logging/Logging.h>
 

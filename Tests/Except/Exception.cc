@@ -33,7 +33,7 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #include <Chaos/Except/Exception.hh>
-#include <Chaos/Logging/Logging.h>
+#include <Chaos/Logging/Logging.hh>
 #include <Chaos/Unittest/TestHarness.h>
 
 CHAOS_TEST(Exception, Chaos::FakeTester) {

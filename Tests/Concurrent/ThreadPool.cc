@@ -36,7 +36,7 @@
 #include <Chaos/Concurrent/ThreadPool.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/CountdownLatch.hh>
-#include <Chaos/Logging/Logging.h>
+#include <Chaos/Logging/Logging.hh>
 #include <iostream>
 
 static void do_print(void) {

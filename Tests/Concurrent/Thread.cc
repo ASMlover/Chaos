@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/Thread.hh>
-#include <Chaos/Logging/Logging.h>
+#include <Chaos/Logging/Logging.hh>
 #include <Chaos/Unittest/TestHarness.h>
 
 CHAOS_TEST(Thread, Chaos::FakeTester) {

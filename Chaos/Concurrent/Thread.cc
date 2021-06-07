@@ -36,7 +36,7 @@
 #include <cstdlib>
 #include <Chaos/Except/Exception.hh>
 #include <Chaos/IO/ColorIO.hh>
-#include <Chaos/Logging/Logging.h>
+#include <Chaos/Logging/Logging.hh>
 #include <Chaos/Concurrent/Unexposed/CurrentThread.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/Thread.hh>

@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <Chaos/Base/Platform.hh>
 #include <Chaos/File/FileUtil.hh>
-#include <Chaos/Logging/Logging.h>
+#include <Chaos/Logging/Logging.hh>
 #include <Chaos/Unittest/TestHarness.h>
 
 CHAOS_TEST(FileUtil, Chaos::FakeTester) {

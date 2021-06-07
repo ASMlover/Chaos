@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <ctime>
 #include <Chaos/Datetime/Timestamp.hh>
-#include <Chaos/Logging/Logging.h>
+#include <Chaos/Logging/Logging.hh>
 #include <Chaos/Unittest/TestHarness.h>
 
 CHAOS_TEST(Timestamp, Chaos::FakeTester) {

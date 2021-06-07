@@ -63,7 +63,7 @@
 #include <Chaos/Except/SystemError.hh>
 #include <Chaos/File/FileUtil.hh>
 #include <Chaos/IO/ColorIO.hh>
-#include <Chaos/Logging/Logging.h>
+#include <Chaos/Logging/Logging.hh>
 #include <Chaos/Memory/IntrusivePtr.h>
 #include <Chaos/Memory/Memory.h>
 #include <Chaos/Memory/MemoryPool.h>

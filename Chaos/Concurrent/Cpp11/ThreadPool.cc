@@ -37,7 +37,7 @@
 #include <Chaos/Except/Exception.hh>
 #include <Chaos/IO/ColorIO.h>
 #include <Chaos/Concurrent/CurrentThread.hh>
-#include <Chaos/Concurrent/Cpp11/ThreadPool.h>
+#include <Chaos/Concurrent/Cpp11/ThreadPool.hh>
 
 namespace Chaos::Cpp11 {
 

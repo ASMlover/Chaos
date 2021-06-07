@@ -35,7 +35,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <Chaos/Except/Exception.hh>
-#include <Chaos/IO/ColorIO.h>
+#include <Chaos/IO/ColorIO.hh>
 #include <Chaos/Concurrent/Thread.hh>
 #include <Chaos/Concurrent/ThreadPool.hh>
 

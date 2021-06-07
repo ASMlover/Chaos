@@ -29,7 +29,7 @@
 #include <functional>
 #include <sstream>
 #include <string_view>
-#include <Chaos/IO/ColorIO.h>
+#include <Chaos/IO/ColorIO.hh>
 
 namespace Chaos {
 

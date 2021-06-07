@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <Chaos/Except/SystemError.hh>
 #include <Chaos/Concurrent/Mutex.hh>
-#include <Chaos/IO/ColorIO.h>
+#include <Chaos/IO/ColorIO.hh>
 
 namespace Chaos::ColorIO {
 

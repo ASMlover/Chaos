@@ -49,7 +49,7 @@
 
 #if !defined(CHAOS_CHECK)
 # include <cstdlib>
-# include <Chaos/IO/ColorIO.h>
+# include <Chaos/IO/ColorIO.hh>
 # define CHAOS_CHECK(condition, message) do {\
     if (!(condition)) {\
       Chaos::ColorIO::fprintf(stderr,\

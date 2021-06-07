@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <cstdlib>
 #include <Chaos/Base/Types.hh>
-#include <Chaos/Except/Exception.h>
+#include <Chaos/Except/Exception.hh>
 #include <Chaos/IO/ColorIO.h>
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/Cpp11/ThreadPool.h>

@@ -59,7 +59,7 @@
 #include <Chaos/Datetime/Date.hh>
 #include <Chaos/Datetime/Timestamp.hh>
 #include <Chaos/Datetime/Timezone.hh>
-#include <Chaos/Except/Exception.h>
+#include <Chaos/Except/Exception.hh>
 #include <Chaos/Except/SystemError.h>
 #include <Chaos/File/FileUtil.h>
 #include <Chaos/IO/ColorIO.h>

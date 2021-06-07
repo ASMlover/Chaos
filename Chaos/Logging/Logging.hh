@@ -37,7 +37,7 @@
 #include <memory>
 #include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Datetime/Timestamp.hh>
-#include <Chaos/Logging/LogStream.h>
+#include <Chaos/Logging/LogStream.hh>
 
 namespace Chaos {
 

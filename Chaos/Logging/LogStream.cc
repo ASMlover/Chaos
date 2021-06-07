@@ -1,5 +1,13 @@
 // Copyright (c) 2016 ASMlover. All rights reserved.
 //
+//  ____     __
+// /\  _`\  /\ \
+// \ \ \/\_\\ \ \___      __      ___     ____
+//  \ \ \/_/_\ \  _ `\  /'__`\   / __`\  /',__\
+//   \ \ \L\ \\ \ \ \ \/\ \L\.\_/\ \L\ \/\__, `\
+//    \ \____/ \ \_\ \_\ \__/.\_\ \____/\/\____/
+//     \/___/   \/_/\/_/\/__/\/_/\/___/  \/___/
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -27,7 +35,7 @@
 #include <cstdio>
 #include <algorithm>
 #include <limits>
-#include <Chaos/Logging/LogStream.h>
+#include <Chaos/Logging/LogStream.hh>
 
 namespace Chaos {
 

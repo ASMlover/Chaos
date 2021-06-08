@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <Chaos/Datetime/Timestamp.hh>
-#include <Chaos/Memory/MemoryPool.h>
+#include <Chaos/Memory/MemoryPool.hh>
 #include <Chaos/Unittest/TestHarness.h>
 
 CHAOS_TEST(MemoryPool, Chaos::FakeTester) {

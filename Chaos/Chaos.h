@@ -66,7 +66,7 @@
 #include <Chaos/Logging/Logging.hh>
 #include <Chaos/Memory/IntrusivePtr.hh>
 #include <Chaos/Memory/Memory.hh>
-#include <Chaos/Memory/MemoryPool.h>
+#include <Chaos/Memory/MemoryPool.hh>
 #include <Chaos/Utility/Any.h>
 #include <Chaos/Utility/Memory.h>
 #include <Chaos/Utility/WeakCallback.h>

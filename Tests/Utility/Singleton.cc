@@ -38,7 +38,7 @@
 #include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Unittest/TestHarness.h>
-#include <Chaos/Utility/Singleton.h>
+#include <Chaos/Utility/Singleton.hh>
 
 namespace cc = ::Chaos::CurrentThread;
 

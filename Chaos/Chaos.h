@@ -65,7 +65,7 @@
 #include <Chaos/IO/ColorIO.hh>
 #include <Chaos/Logging/Logging.hh>
 #include <Chaos/Memory/IntrusivePtr.hh>
-#include <Chaos/Memory/Memory.h>
+#include <Chaos/Memory/Memory.hh>
 #include <Chaos/Memory/MemoryPool.h>
 #include <Chaos/Utility/Any.h>
 #include <Chaos/Utility/Memory.h>

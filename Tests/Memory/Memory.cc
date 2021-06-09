@@ -37,7 +37,7 @@
 #include <Chaos/Codecs/Base64.hh>
 #include <Chaos/Datetime/Timestamp.hh>
 #include <Chaos/Memory/Memory.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 static int kNidCounter = 1;
 

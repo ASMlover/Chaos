@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <Chaos/Utility/ObjectPool.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 class _Useless
   : private Chaos::UnCopyable

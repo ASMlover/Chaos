@@ -35,7 +35,7 @@
 #include <iostream>
 #include <Chaos/Datetime/Timestamp.hh>
 #include <Chaos/Memory/MemoryPool.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 CHAOS_TEST(MemoryPool, Chaos::FakeTester) {
   static constexpr int ALLOC_COUNT = 100000;

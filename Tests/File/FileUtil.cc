@@ -35,7 +35,7 @@
 #include <Chaos/Base/Platform.hh>
 #include <Chaos/File/FileUtil.hh>
 #include <Chaos/Logging/Logging.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 CHAOS_TEST(FileUtil, Chaos::FakeTester) {
   std::string result;

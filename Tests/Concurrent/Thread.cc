@@ -35,7 +35,7 @@
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/Thread.hh>
 #include <Chaos/Logging/Logging.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 CHAOS_TEST(Thread, Chaos::FakeTester) {
   Chaos::Thread t1([] {

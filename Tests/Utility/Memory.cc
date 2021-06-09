@@ -35,7 +35,7 @@
 #include <iostream>
 #include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Utility/Memory.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 class _UtilityCase : Chaos::UnCopyable {
   int nid_{};

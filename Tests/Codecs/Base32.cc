@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <Chaos/Codecs/Base32.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 CHAOS_TEST(Base32, Chaos::FakeTester) {
   std::string s("Chaos::Base32");

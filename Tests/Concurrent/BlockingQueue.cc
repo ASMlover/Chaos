@@ -38,7 +38,7 @@
 #include <Chaos/Concurrent/BlockingQueue.hh>
 #include <Chaos/Concurrent/CountdownLatch.hh>
 #include <Chaos/Logging/Logging.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 CHAOS_TEST(BlockingQueue, Chaos::FakeTester) {
   {

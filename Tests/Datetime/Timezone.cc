@@ -35,7 +35,7 @@
 #include <ctime>
 #include <Chaos/Datetime/Timezone.hh>
 #include <Chaos/Logging/Logging.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 CHAOS_TEST(Timezone, Chaos::FakeTester) {
   {

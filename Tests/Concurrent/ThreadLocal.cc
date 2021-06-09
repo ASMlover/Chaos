@@ -38,7 +38,7 @@
 #include <Chaos/Concurrent/CurrentThread.hh>
 #include <Chaos/Concurrent/Thread.hh>
 #include <Chaos/Concurrent/ThreadLocal.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 namespace cc = ::Chaos::CurrentThread;
 

@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <Chaos/Memory/IntrusivePtr.hh>
-#include <Chaos/Unittest/TestHarness.h>
+#include <Chaos/Unittest/TestHarness.hh>
 
 class _IntrusiveDemo :
   public Chaos::IntrusiveRefCounter<_IntrusiveDemo, Chaos::CountedThreadSafe> {

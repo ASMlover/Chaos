@@ -37,7 +37,7 @@
 #if defined(CHAOS_WINDOWS)
 # include <Windows.h>
 #endif
-#include <Chaos/Kern/KernCommon.h>
+#include <Chaos/Kern/KernCommon.hh>
 #include <Chaos/Datetime/Timestamp.hh>
 
 namespace Chaos {

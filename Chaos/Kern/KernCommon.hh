@@ -1,5 +1,13 @@
 // Copyright (c) 2016 ASMlover. All rights reserved.
 //
+//  ____     __
+// /\  _`\  /\ \
+// \ \ \/\_\\ \ \___      __      ___     ____
+//  \ \ \/_/_\ \  _ `\  /'__`\   / __`\  /',__\
+//   \ \ \L\ \\ \ \ \ \/\ \L\.\_/\ \L\ \/\__, `\
+//    \ \____/ \ \_\ \_\ \__/.\_\ \____/\/\____/
+//     \/___/   \/_/\/_/\/__/\/_/\/___/  \/___/
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -29,12 +37,12 @@
 #include <Chaos/Base/Platform.hh>
 
 #if defined(CHAOS_WINDOWS)
-# include <Chaos/Kern/Windows/KernCommon.h>
+# include <Chaos/Kern/Windows/KernCommon.hh>
 #else
-# include <Chaos/Kern/Posix/KernCommon.h>
+# include <Chaos/Kern/Posix/KernCommon.hh>
 # if defined(CHAOS_LINUX)
-#   include <Chaos/Kern/Linux/KernCommon.h>
+#   include <Chaos/Kern/Linux/KernCommon.hh>
 # elif defined(CHAOS_DARWIN)
-#   include <Chaos/Kern/Darwin/KernCommon.h>
+#   include <Chaos/Kern/Darwin/KernCommon.hh>
 # endif
 #endif

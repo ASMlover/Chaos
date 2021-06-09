@@ -37,7 +37,7 @@
 #include <pthread.h>
 #include <Chaos/Base/UnCopyable.hh>
 #include <Chaos/Concurrent/Mutex.hh>
-#include <Chaos/Kern/KernCommon.h>
+#include <Chaos/Kern/KernCommon.hh>
 
 namespace Chaos {
 

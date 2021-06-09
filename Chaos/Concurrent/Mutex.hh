@@ -39,7 +39,7 @@
 #include <Chaos/Base/Platform.hh>
 #include <Chaos/Base/Types.hh>
 #include <Chaos/Except/SystemError.hh>
-#include <Chaos/Kern/KernCommon.h>
+#include <Chaos/Kern/KernCommon.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
 
 #if defined(CHAOS_WINDOWS)

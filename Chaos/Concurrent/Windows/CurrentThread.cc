@@ -38,7 +38,7 @@
 # include <thread>
 #endif
 #include <type_traits>
-#include <Chaos/Kern/KernCommon.h>
+#include <Chaos/Kern/KernCommon.hh>
 #include <Chaos/Concurrent/Unexposed/CurrentThread.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>
 

@@ -36,7 +36,7 @@
 #include <DbgHelp.h>
 #include <process.h>
 #include <Chaos/Utility/Memory.hh>
-#include <Chaos/Kern/Windows/KernCommon.h>
+#include <Chaos/Kern/Windows/KernCommon.hh>
 
 namespace Chaos {
 

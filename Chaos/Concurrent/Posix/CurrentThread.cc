@@ -38,7 +38,7 @@
 # include <chrono>
 # include <thread>
 #endif
-#include <Chaos/Kern/KernCommon.h>
+#include <Chaos/Kern/KernCommon.hh>
 #include <Chaos/Datetime/Timestamp.hh>
 #include <Chaos/Concurrent/Unexposed/CurrentThread.hh>
 #include <Chaos/Concurrent/CurrentThread.hh>

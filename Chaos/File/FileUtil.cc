@@ -38,7 +38,7 @@
 #include <Chaos/Base/Platform.hh>
 #include <Chaos/Base/Types.hh>
 #include <Chaos/Logging/Logging.hh>
-#include <Chaos/Kern/KernCommon.h>
+#include <Chaos/Kern/KernCommon.hh>
 #include <Chaos/File/FileUtil.hh>
 
 namespace Chaos {

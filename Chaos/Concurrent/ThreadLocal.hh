@@ -35,7 +35,7 @@
 #pragma once
 
 #include <Chaos/Base/UnCopyable.hh>
-#include <Chaos/Kern/KernCommon.h>
+#include <Chaos/Kern/KernCommon.hh>
 
 namespace Chaos {
 

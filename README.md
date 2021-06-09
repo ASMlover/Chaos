@@ -2,7 +2,7 @@
 ***
 
 ## **What is `Chaos`?**
-  **Chaos is a basic library of C++1z components.**
+  **Chaos is a basic library of C++2a components.**
 
   * A collection of C++ class libraries.
   * Written in efficient, mordern, 100% `ANSI/ISO Standand C++`.
@@ -24,7 +24,7 @@
 # On Linux or macOS
 $ mkdir cmake-build && cd cmake-build
 $ cmake ..
-$ make
+$ make -j
 # Run unittests on Linux or macOS
 $ ./bin/chaos.test
 
